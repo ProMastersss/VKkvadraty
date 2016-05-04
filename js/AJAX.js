@@ -1,6 +1,7 @@
 /**
  * Created by Сергей on 14.03.2016.
  */
+var progressBar, progressBarFon;
 var AJAX = {
     getKoordinaty: function (player) {
         jQuery.ajax({
@@ -14,18 +15,22 @@ var AJAX = {
                 player.kolKvadratov = player.koordinaty[player.koordinaty.length - 1] - 1;
 
                 // Инициализация функций загрузки
-                var text = game.add.text(32, 32, 'Click to start load', { fill: '#ffffff' });
+                var text = game.add.text(32, 32, '0%', { fill: '#ffffff' });
                 game.load.onLoadStart.add(loadStart, this);
                 game.load.onFileComplete.add(fileComplete, this);
                 game.load.onLoadComplete.add(loadComplete, this);
+
+                var progressBar = game.add.sprite(game.world.centerX, game.world.centerY, 'loading');
+                progressBarFon = game.add.sprite(300, 600, 'fonLoad');
+                game.world.moveDown(progressBarFon)
+                progressBar.position.set(300, 600);
+                game.load.setPreloadSprite(progressBar);
 
                 //Загружаем изображения
                 loadImage();
 
                 // Функция вызывается перед стартом загрузки
                 function loadStart() {
-
-                    text.setText("Loading ...");
 
                 }
 
@@ -40,11 +45,11 @@ var AJAX = {
                     // Отображаем на поле загруженные изображения
                     addImage();
 
-                    // Убираем фон после загрузки поля игры
-                    $('#load').fadeOut(1500);
-
                     // Задержка перед перемешиванием
                     setTimeout(player.peremeshka, 3000);
+
+                    progressBar.visible = false;
+                    progressBarFon.visible = false;
                 }
             },
         });

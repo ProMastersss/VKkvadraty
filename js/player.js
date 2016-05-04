@@ -72,8 +72,10 @@ function Player(){
         player.groupKv.forEach(function(child){
             game.add.tween(child).to({x: parseInt(player.gameKvadraty[i]), y: parseInt(player.gameKvadraty[i+1])}, 100, 'Linear', true, 0);
             game.add.tween(child).to({width: player.widHeiKvadratov[i], height: player.widHeiKvadratov[i+1]}, 100, 'Linear', true, 0);
-            i+=2;
+            i += 2;
+            child.inputEnabled = true; // Включаем обработку нажатий
         }, this);
+        
     }
 }
 
@@ -84,6 +86,8 @@ function loadImage(){
     }
     game.load.image("razmetka", player.pathLevel + "razmetka.png");
     game.load.image("success", player.pathLevel + "success.jpg");
+    // Загрузка подсказок
+    game.load.image("time", "img/help/time2.png");
 
     game.load.start();
 }
@@ -98,7 +102,6 @@ function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадр
     for(var i = 0; i<player.kolKvadratov; i++) {
         var kv = game.add.sprite(player.koordinaty[i*2], player.koordinaty[i*2+1], "kv" + (i+1));
         game.world.moveDown(kv);
-        kv.inputEnabled = true; // Включаем обработку нажатий
         kv.events.onInputDown.add(selectedSquares); // Добавляем обработчик нажатий
         player.groupKv.add(kv);
         player.widHeiKvadratov[i*2] = kv.width;
@@ -106,6 +109,11 @@ function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадр
     }
     playGroup.add(player.groupKv);
     playGroup.add(game.add.sprite(-80, -65, "ramka"));
+    //Загрузка подсказок
+    playGroup.add(game.add.button(890, -165, "time", actionHelpTime, this));
+    playGroup.add(game.add.button(1020, -165, "time", actionHelpTime, this));
+    playGroup.add(game.add.button(1150, -165, "time", actionHelpTime, this));
+    listLevelsGroup.visible = false;
     // Рандомим квадраты по полю
     player.initGameKvadraty();
 }

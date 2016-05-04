@@ -91,8 +91,10 @@
                 //Диалоговое окно
                 game.load.image("dialog", "img/dialog.png");
 
-                // Загрузка подсказок
-                game.load.image("time", "img/help/time2.png");
+                // Загрузка "Загрузка"
+                game.load.image("loading", "img/load.png");
+                game.load.image("fonLoad", "img/fonLoad.png");
+
             }
 
             //Функция создания
@@ -103,9 +105,6 @@
                 settingGroupAnim.hidden = true;
                 settingGroup.position.set(1610, 820);
                 game.add.sprite(0, 0, "fon");
-                //Загрузка уровня
-                //game.add.sprite(180, 135, "ramka");
-                //game.add.sprite(260, 200, "gameplay");
 
                 // Загрузка списка уровней
                 game.number = 1; // С какого уровня при анимации рисовать на оранжевых квадратах
@@ -159,10 +158,6 @@
                 //Загрузка кнопок "Вперед", "Назад"
                 listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
                 listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
-                //Загрузка подсказок
-                listLevelsGroup.add(game.add.button(1150, 35, "time", actionHelpTime, this));
-                listLevelsGroup.add(game.add.button(1280, 35, "time", actionHelpTime, this));
-                listLevelsGroup.add(game.add.button(1410, 35, "time", actionHelpTime, this));
                 listLevelsGroup.position.set(1800, 0);
 
                 // Загрузка основного экрана
