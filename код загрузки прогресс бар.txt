@@ -1,0 +1,8 @@
+game.load.image("load", "img/load.png");
+                var progress = game.add.text(this.game.world.centerX, this.game.world.centerY - 30, '0%', { fill: 'white' });
+                progress.anchor.set(0.5, 0.5);
+                var progressBar = game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'load');
+                progressBar.anchor.setTo(0.5, 0.5);*/
+                game.load.setPreloadSprite(progressBar);
+                var fileComplete = function (progress, cacheKey, success, totalLoaded, totalFiles) { setTimeout(function () { progress.text = progress + "%"; }, 3000) };
+                game.load.onFileComplete.add(fileComplete, this);

@@ -1,0 +1,272 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        body {
+            margin: 0;
+            background-color: black;
+        }
+    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>Phaser - Making your first game, part 1</title>
+    <link href="css/jquery-ui.css" rel="stylesheet">
+    <script type="text/javascript" src="js/phaser.js"></script>
+    <script type="text/javascript" src="js/player.js"></script>
+    <script type="text/javascript" src="js/AJAX.js"></script>
+    <script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
+</head>
+<body>
+    <!-- ui-dialog -->
+    <div id="dialog" title="Урааааа!!!!">
+        <p>Вы собрали картинку! Поздравляем! :)</p>
+    </div>
+
+    <!-- Загрузка -->
+    <!--<div id="load" style="position:  absolute; background: url(assets/animload.gif) fixed no-repeat center center; width:800px; height: 640px; z-index: 100; top: 0; left: 0;"></div>-->
+    <script src="js/jquery-ui.js"></script>
+    <script>
+        (function (d) {
+            var wf = d.createElement('script'), s = d.scripts[0];
+            wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
+            s.parentNode.insertBefore(wf, s);
+        })(document);
+
+        WebFontConfig = {
+            active: function () { createText() },
+            custom: {
+                families: ['EtoMoiFont'],
+                urls: ['css/shrift.css']
+            },
+        };
+    </script>
+    <script type="text/javascript">
+        var player = new Player();
+        var game;
+
+        var mainDisplayGroup, listLevelsGroup, playGroup; // Основные группы переходов
+
+        var settingGroup; // Группа настрое
+        var settingGroupAnim; //Группа для анимации открытия настроек
+        var levelsGroup, levelsGroup2;
+
+        var buttonFullScreen; // Кнопка НА весь экран
+        var rulesGroup; // Окно с правилами
+
+        function createText() {
+            // Создание игры
+            game = new Phaser.Game(1800, 1300, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+            //Функция предзагрузки
+            function preload() {
+                //Делаем адаптивный экран
+                game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+                game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+                game.scale.refresh();
+
+                //Загружаем изображения
+                game.load.image("fon", "img/fon.jpg");
+                game.load.image("gameplay", "assets/Level1/success.jpg");
+                game.load.image("ramka", "img/ramkaPolya.png");
+                game.load.image("setting", "img/icon/setting.png");
+                game.load.image("settingFon", "img/fonSetting.jpg");
+                game.load.image("music", "img/icon/music.png");
+                game.load.image("sound", "img/icon/sound.png");
+                game.load.image("back", "img/icon/back.png");
+                game.load.image("money", "img/coins.png");
+
+                //Загрузка блоков уровней
+                game.load.image("levels", "img/level/lvl.png");
+                game.load.image("zamok", "img/level/close.png");
+                game.load.image("nextLevel", "img/icon/next.png");
+                game.load.image("backLevel", "img/icon/return.png");
+
+                // Кнопки основного экрана
+                game.load.image("playButton", "img/play.png");
+                game.load.image("levelsButton", "img/levels.png");
+                game.load.image("rulesButton", "img/rules.png");
+                game.load.image("fullScreen", "img/fullScreen.png");
+                game.load.image("outFullScreen", "img/outFullScreen.png");
+
+                //Диалоговое окно
+                game.load.image("dialog", "img/dialog.png");
+
+                // Загрузка подсказок
+                game.load.image("time", "img/help/time2.png");
+            }
+
+            //Функция создания
+            function create() {
+                settingGroup = game.add.group(); // Группа настрое
+                settingGroupAnim = game.add.group(); //Группа для анимации открытия настроек
+                levelsGroup = game.add.group(), levelsGroup2 = game.add.group();
+                settingGroupAnim.hidden = true;
+                settingGroup.position.set(1610, 820);
+                game.add.sprite(0, 0, "fon");
+                //Загрузка уровня
+                //game.add.sprite(180, 135, "ramka");
+                //game.add.sprite(260, 200, "gameplay");
+
+                // Загрузка списка уровней
+                game.number = 1; // С какого уровня при анимации рисовать на оранжевых квадратах
+                game.naFone = 1; // levelsGroup или levelsGroup2 на фоне(на виду)
+                loadingListLevels(levelsGroup, 300, 200, 1);
+                loadingListLevels(levelsGroup2, 1800, 200, 21);
+                game.number = 21;
+
+                //Загрузка настроек
+                settingGroupAnim.add(game.add.button(0, 0, "music", actionMusicClick, this));
+                settingGroupAnim.add(game.add.button(0, 140, "sound", actionSoundClick, this));
+                settingGroupAnim.position.set(0, 330);
+                settingGroup.add(settingGroupAnim);
+                settingGroup.add(game.add.sprite(-20, 342, "settingFon"));
+                var but = game.add.button(0, 280, "setting", actionSettingClick, settingGroupAnim);
+                but.onInputOver.add(over, but);
+                but.onInputOut.add(out, but);
+                settingGroup.add(but);
+                game.world.bringToTop(settingGroup);
+
+                // Спрайт табло с монетами
+                var money = game.add.sprite(10, -250, "money");
+                money.width = 700;
+                money.height = 700;
+
+                // Отображение текста с монетами
+                var t = game.add.text(300, 60, "12345", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
+
+                // Добавляем кнопку "FullScreen"
+                buttonFullScreen = game.add.button(1650, 50, 'fullScreen', actionFullScreen, this);
+                buttonFullScreen.fullScreen = false;
+                buttonFullScreen.width = 100;
+                buttonFullScreen.height = 100;
+
+                //Добавляем окно с правилами
+                rulesGroup = game.add.group();
+                rulesGroup.add(game.add.sprite(0, 0, "dialog"));
+                rulesGroup.add(game.add.text(720, 150, "Правила", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
+                rulesGroup.add(game.add.text(350, 350, "Описание", { font: "bold 40px EtoMoiFont", fill: "#000" }));
+                var backRules = game.add.button(50, 1100, "back", actionBackClickRules, backRules);
+                rulesGroup.add(backRules);
+                rulesGroup.scale.set(0, 0);
+                rulesGroup.visible = false;
+
+                // Добавляем в основную группу listLevelsGroup
+                listLevelsGroup = game.add.group();
+                listLevelsGroup.add(levelsGroup);
+                listLevelsGroup.add(levelsGroup2);
+                // Кнопка назад
+                listLevelsGroup.add(game.add.button(50, 1100, "back", actionBackClick, this));
+                //Загрузка кнопок "Вперед", "Назад"
+                listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
+                listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
+                //Загрузка подсказок
+                listLevelsGroup.add(game.add.button(1150, 35, "time", actionHelpTime, this));
+                listLevelsGroup.add(game.add.button(1280, 35, "time", actionHelpTime, this));
+                listLevelsGroup.add(game.add.button(1410, 35, "time", actionHelpTime, this));
+                listLevelsGroup.position.set(1800, 0);
+
+                // Загрузка основного экрана
+                mainDisplayGroup = game.add.group();
+                mainDisplayGroup.add(game.add.button(660, 400, "playButton", actionButtonPlay, this));
+                mainDisplayGroup.add(game.add.button(660, 550, "levelsButton", actionButtonLevels, this));
+                mainDisplayGroup.add(game.add.button(660, 700, "rulesButton", actionButtonRules, this));
+            }
+
+            //Функция обновления (каждый шаг)
+            function update() {
+
+            }
+
+            function over() {
+                this.alpha = 0.7;
+            }
+            function out() {
+                this.alpha = 1;
+            }
+        } //Вызывается после загрузки шрифта
+
+        //Функция отображения группы списка уровней
+        function loadingListLevels(group, pos_x, pos_y, number) {
+            var x = 0;
+            var y = 0;
+            for (var i = 1; i < 21; i++) {
+                var temp = game.add.button(x, y, "levels", upLevels, this);
+                var style = { font: "80px EtoMoiFont", fill: "#ffffff", wordWrap: true, wordWrapWidth: temp.width, align: "center" };
+                var text = game.add.text(Math.floor(temp.x + temp.width / 2), Math.floor(temp.y + temp.height / 2), number++, style);
+
+                if (number > 35) { // Уровень игрока
+                    temp.loadTexture("zamok", 0);
+                    text.visible = false;
+                } else {
+                    text.visible = true;
+                }
+
+                text.stroke = '#000000';
+                text.strokeThickness = 5;
+                text.setShadow(1, 1, 'rgba(0, 0, 0, 1)', 2);
+                text.anchor.set(0.5);
+                group.add(temp);
+                group.add(text);
+
+                if (x == 920) {
+                    y += 230;
+                    x = 0;
+                } else x += 230;
+            }
+            group.position.add(pos_x, pos_y);
+            game.world.bringToTop(group);
+        }
+
+        // Функция анимации прокрутки списка уровней
+        function animaciaLevels(pos_x, change_x1, change_x2) {
+            if (game.naFone == 1) {
+                textChange(levelsGroup2, pos_x, 200);
+                game.add.tween(levelsGroup).to({ x: change_x1 }, 150, 'Linear', true);
+                game.add.tween(levelsGroup2).to({ x: change_x2 }, 150, 'Linear', true);
+                game.naFone = 2;
+            } else {
+                textChange(levelsGroup, pos_x, 200);
+                game.add.tween(levelsGroup2).to({ x: change_x1 }, 150, 'Linear', true);
+                game.add.tween(levelsGroup).to({ x: change_x2 }, 150, 'Linear', true);
+                game.naFone = 1;
+            }
+
+            function textChange(g, x, y) {
+                for (var i = 0; i < 40; i += 2) {
+                    if (game.number > 35) // открытый уровень
+                    {
+                        g.getChildAt(i).loadTexture("zamok", 0);
+                        g.getChildAt(i + 1).visible = false;
+                    } else {
+                        g.getChildAt(i + 1).text = game.number;
+                        g.getChildAt(i + 1).visible = true;
+                        g.getChildAt(i).loadTexture("levels", 0);
+                    }
+                    game.number++;
+                }
+                g.position.set(x, y);
+            }
+        }
+
+        $("#dialog").dialog({
+            autoOpen: false,
+            width: 400,
+            buttons: [
+                {
+                    text: "Ok",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        });
+    </script>
+    <script type="text/javascript" src="js/buttons.js"></script>
+</body>
+</html>
