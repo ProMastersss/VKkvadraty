@@ -67,7 +67,7 @@
                 game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
                 game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
                 game.scale.refresh();
-
+                
                 //Загружаем изображения
                 game.load.image("fon", "img/fon.jpg");
                 game.load.image("gameplay", "assets/Level1/success.jpg");
@@ -204,7 +204,7 @@
                 var temp = game.add.button(x, y, "levels", upLevels, this);
                 var style = { font: "80px EtoMoiFont", fill: "#ffffff", wordWrap: true, wordWrapWidth: temp.width, align: "center" };
                 var text = game.add.text(Math.floor(temp.x + temp.width / 2), Math.floor(temp.y + temp.height / 2), number++, style);
-
+            
                 if (number > 35) { // Уровень игрока
                     temp.loadTexture("zamok", 0);
                     text.visible = false;

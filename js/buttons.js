@@ -76,8 +76,14 @@ function actionBackClick() {
 
 // Нажатие на оранжевом блоке(уровне), который далее нужно пройти
 function upLevels() {
-	//Получаем координаты квдратов с сервера
-    AJAX.getKoordinaty(player);
+    if (!this.secondClick) {
+        this.secondClick = true;
+        //Получаем координаты квдратов с сервера
+        AJAX.getKoordinaty(player);
+    }
+    game.time.events.add(300, function () {
+        this.secondClick = false;
+    });
 }
 
 // Клик по кнопке со стрелочкой назад, для прокрутки списка назад
