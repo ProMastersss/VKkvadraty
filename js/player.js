@@ -11,6 +11,7 @@ function Player(){
     this.groupKv = null; // группа игрового поля
     this.urlLoadLevel = 'http://vkkvadraty/loadLevel.php';
     this.pathLevel = "assets/Level" + this.level + "/";
+    this.buttonBack = null; // Хранит кнопку "Назад" игрового поля
     this.initGameKvadraty = function(){
         for(var i = 0; i<this.kolKvadratov*2; i++)
             this.gameKvadraty[i] = this.koordinaty[i];
@@ -75,7 +76,7 @@ function Player(){
             i += 2;
             child.inputEnabled = true; // Включаем обработку нажатий
         }, this);
-        
+        player.buttonBack.visible = true;
     }
 }
 
@@ -96,7 +97,7 @@ function loadImage(){
 function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадратов ?????????????*/
     player.groupKv = game.add.group();
     playGroup = game.add.group();
-    playGroup.position.set(260, 200);
+    playGroup.position.set(2030, 200);
     playGroup.add(game.add.sprite(0, 0, "razmetka"));
     //game.world.moveDown();
     for(var i = 0; i<player.kolKvadratov; i++) {
@@ -109,11 +110,20 @@ function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадр
     }
     playGroup.add(player.groupKv);
     playGroup.add(game.add.sprite(-80, -65, "ramka"));
+    player.buttonBack = game.add.button(-210, 900, "back", actionButtonBackPlay, this);
+    player.buttonBack.visible = false;
+    playGroup.add(player.buttonBack);
     //Загрузка подсказок
     playGroup.add(game.add.button(890, -165, "time", actionHelpTime, this));
     playGroup.add(game.add.button(1020, -165, "time", actionHelpTime, this));
     playGroup.add(game.add.button(1150, -165, "time", actionHelpTime, this));
-    listLevelsGroup.visible = false;
+
+    // Скрываем группу с уровнями
+    game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
+    game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
+    game.add.tween(listLevelsGroup).to({visible: false}, 200, 'Linear', true, 0);
+    game.add.tween(playGroup).to({x: 260}, 200, 'Linear', true, 0);
+    
     // Рандомим квадраты по полю
     player.initGameKvadraty();
 }
@@ -160,7 +170,7 @@ function selectedSquares(th){
 
                 // Проверка на собранную картинку
                 if(player.proverka()){
-                    game.add.sprite(0, 0, "success");
+                    playGroup.add(game.add.sprite(0, 0, "success"));
                     player.groupKv.destroy();
                     $('#dialog').dialog('open');
                 }

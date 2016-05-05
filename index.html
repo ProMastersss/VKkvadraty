@@ -43,7 +43,7 @@
     <script type="text/javascript">
         var player = new Player();
         var game;
-
+        
         var mainDisplayGroup, listLevelsGroup, playGroup; // Основные группы переходов
 
         var settingGroup; // Группа настрое
@@ -52,6 +52,10 @@
 
         var buttonFullScreen; // Кнопка НА весь экран
         var rulesGroup; // Окно с правилами
+
+        var progressBar, progressBarFon;
+
+        var buttonBackPlay;
 
         function createText() {
             // Создание игры
@@ -160,6 +164,18 @@
                 listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
                 listLevelsGroup.position.set(1800, 0);
 
+                // Инициализация функций загрузки
+                game.load.onLoadStart.add(loadStart, this);
+                game.load.onFileComplete.add(fileComplete, this);
+                game.load.onLoadComplete.add(loadComplete, this);
+
+                progressBar = game.add.sprite(game.world.centerX, game.world.centerY, 'loading');
+                progressBarFon = game.add.sprite(300, 600, 'fonLoad');
+                progressBarFon.visible = false;
+                game.world.moveDown(progressBarFon)
+                progressBar.position.set(300, 600);
+                game.load.setPreloadSprite(progressBar);
+
                 // Загрузка основного экрана
                 mainDisplayGroup = game.add.group();
                 mainDisplayGroup.add(game.add.button(660, 400, "playButton", actionButtonPlay, this));
@@ -261,6 +277,29 @@
                 }
             ]
         });
+
+        // Функция вызывается перед стартом загрузки
+        function loadStart() {
+            progressBarFon.visible = true;
+            progressBar.visible = true;
+        }
+
+        // Функция выполняется во время загрузки и показывает процент
+        function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
+            //text.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
+        }
+
+        // Функция вызывается после окончания загрузки
+        function loadComplete() {
+            // Отображаем на поле загруженные изображения
+            addImage();
+            
+            // Задержка перед перемешиванием
+            setTimeout(player.peremeshka, 3000);
+
+            progressBar.visible = false;
+            progressBarFon.visible = false;
+        }
     </script>
     <script type="text/javascript" src="js/buttons.js"></script>
 </body>
