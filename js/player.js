@@ -12,6 +12,8 @@ function Player(){
     this.urlLoadLevel = 'http://vkkvadraty/loadLevel.php';
     this.pathLevel = "assets/Level" + this.level + "/";
     this.buttonBack = null; // Хранит кнопку "Назад" игрового поля
+    this.secondClick = null; // Для двойного нажатия
+    this.maxLevel = 1; // Уровень, который открыт
     this.initGameKvadraty = function(){
         for(var i = 0; i<this.kolKvadratov*2; i++)
             this.gameKvadraty[i] = this.koordinaty[i];
