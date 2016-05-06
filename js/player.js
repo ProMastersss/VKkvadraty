@@ -83,7 +83,7 @@ function Player(){
 }
 
 //Загружает изображения в память
-function loadImage(){
+function loadImage() {
     for(var i = 1; i<=player.kolKvadratov; i++) {
         game.load.image("kv" + i, player.pathLevel + "image" + i + ".png");
     }
@@ -119,13 +119,8 @@ function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадр
     playGroup.add(game.add.button(890, -165, "time", actionHelpTime, this));
     playGroup.add(game.add.button(1020, -165, "time", actionHelpTime, this));
     playGroup.add(game.add.button(1150, -165, "time", actionHelpTime, this));
-
-    // Скрываем группу с уровнями
-    game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
-    game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
-    game.add.tween(listLevelsGroup).to({visible: false}, 200, 'Linear', true, 0);
-    game.add.tween(playGroup).to({x: 260}, 200, 'Linear', true, 0);
     
+    game.add.tween(playGroup).to({ x: 260 }, 200, 'Linear', true, 0);
     // Рандомим квадраты по полю
     player.initGameKvadraty();
 }

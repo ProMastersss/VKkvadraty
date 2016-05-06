@@ -78,6 +78,11 @@ function actionBackClick() {
 function upLevels() {
     if (!player.secondClick) {
         player.secondClick = true;
+
+        // Скрываем группу с уровнями
+        game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
+        game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
+        game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
         //Получаем координаты квдратов с сервера
         //player.level = parseInt(this.text);
         AJAX.getKoordinaty(player);
@@ -101,10 +106,11 @@ function actionButtonBackPlay() {
     game.add.tween(listLevelsGroup).to({ visible: true }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup.scale).to({ x: 1, y: 1 }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
-    for (var i = 1; i < player.kolKvadratov; i++)
-        game.load.cache.removeImage("kv" + i);
-    game.load.cache.removeImage("razmetka");
     playGroup.destroy();
+    for (var i = 1; i <= player.kolKvadratov; i++){
+		game.load.cache.removeImage("kv" + i);	
+	}
+    game.load.cache.removeImage("razmetka");
 }
 
 // Клик по кнопке со стрелочкой вперед, для прокрутки списка вперед

@@ -13,6 +13,11 @@ var AJAX = {
                 player.koordinaty = JSON.parse(data);
                 player.kolKvadratov = player.koordinaty[player.koordinaty.length - 1] - 1;
 
+                progressBarFon.visible = true;
+                progressBar.visible = true;
+                game.world.bringToTop(progressBarFon);
+                game.world.bringToTop(progressBar);
+
                 //Загружаем изображения
                 loadImage();
             },
