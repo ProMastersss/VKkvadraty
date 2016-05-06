@@ -153,12 +153,13 @@ function selectedSquares(th){
                 // Меняем местами квадраты
                 var x1 = player.selectKvadratov[0].x, y1 = player.selectKvadratov[0].y;
                 var w1 = player.selectKvadratov[0].width, h1 = player.selectKvadratov[0].height;
+                console.log(player.selectKvadratov[0].width, player.selectKvadratov[1].width);
 
-                game.add.tween(player.selectKvadratov[0]).to({x: parseInt(player.selectKvadratov[1].x), y: parseInt(player.selectKvadratov[1].y)}, 300, 'Linear', true, 0);
-                game.add.tween(player.selectKvadratov[0]).to({width: parseInt(player.selectKvadratov[1].width), height: parseInt(player.selectKvadratov[1].height)}, 300, 'Linear', true, 0);
+                game.add.tween(player.selectKvadratov[0]).to({x: Number(player.selectKvadratov[1].x), y: Number(player.selectKvadratov[1].y)}, 300, 'Linear', true, 0);
+                game.add.tween(player.selectKvadratov[0]).to({ width: Number(player.selectKvadratov[1].width), height: Number(player.selectKvadratov[1].height) }, 300, 'Linear', true, 0);
 
-                game.add.tween(player.selectKvadratov[1]).to({x: parseInt(x1), y: parseInt(y1)}, 300, 'Linear', true, 0);
-                game.add.tween(player.selectKvadratov[1]).to({width: parseInt(w1), height: parseInt(h1)}, 300, 'Linear', true, 0);
+                game.add.tween(player.selectKvadratov[1]).to({ x: Number(x1), y: Number(y1) }, 300, 'Linear', true, 0);
+                game.add.tween(player.selectKvadratov[1]).to({ width: Number(w1), height: Number(h1) }, 300, 'Linear', true, 0);
 
                 player.selectKvadratov[0].alpha = 1;
                 player.selectKvadratov[1].alpha = 1;
