@@ -1,7 +1,7 @@
 <?php
 	header("Access-Control-Allow-Origin: *");
 	
-	$f = fopen("assets/Level1/Level1.txt", "r");
+	$f = fopen("assets/Level".$_POST['level']."/Level".$_POST['level'].".txt", "r");
 	$str = ""; 
 	$str = fgets($f);
     fclose($f);
@@ -10,7 +10,7 @@
     $mas = explode(",", $str);
     
     //Считаем колличество файлов изображений
-	$path = 'assets/Level1'; // название папки
+	$path = 'assets/Level'.$_POST['level']; // название папки
 	$dir = opendir ($path); // открываем директорию
 	$i = 0; // создаём переменную для цикла
 	while (false !== ($file = readdir($dir))) {
