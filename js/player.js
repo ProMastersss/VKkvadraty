@@ -209,5 +209,8 @@ function moveAnimKvadraty(kv1, kv2) {
         playGroup.add(game.add.sprite(0, 0, "success"));
         player.groupKv.destroy();
         $('#dialog').dialog('open');
+        buttonHelpTime.visible = false;
+        buttonHelpMove.visible = false;
+        buttonHelpShow.visible = false;
     }
 }

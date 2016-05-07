@@ -1,6 +1,6 @@
 ﻿// Нажатие по подсказке "Время"
 function actionHelpTime() {
-
+    console.log("Работает сука");
 }
 
 // Нажатие по подсказке "Переместить"
@@ -23,7 +23,12 @@ function actionHelpMove() {
 
 // Нажатие по подсказке "Показать"
 function actionHelpShow() {
-
+    var succes = game.add.sprite(0, 0, "success");
+    playGroup.add(succes);
+    game.time.events.add(5000, function () {
+        succes.visible = false;
+        playGroup.removeChild(succes);
+    });
 }
 
 // Нажатие по кнопки "FullScreen"
