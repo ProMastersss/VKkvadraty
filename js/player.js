@@ -83,6 +83,13 @@ function Player(){
         buttonHelpTime.visible = true;
         buttonHelpMove.visible = true;
         buttonHelpShow.visible = true;
+
+        // Добавляем время
+        var timer = game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
+        playGroup.timer = timer;
+        playGroup.timeLevel = 1 * 60;
+        playGroup.textTimer = game.add.text(600, -130, "1:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
+        playGroup.add(playGroup.textTimer);
     }
 }
 
@@ -135,6 +142,19 @@ function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадр
     player.initGameKvadraty();
 }
 
+// Функция обновления времени уровня
+function updateTimer() {
+    if (playGroup.timeLevel-- == 0) {
+        playGroup.timer.timer.stop();
+        $('#dialog').dialog("option", "title", "Неудача");;
+        $('#dialog p').text('Время вышло :(');
+        $('#dialog').dialog('open');
+    } else {
+        playGroup.textTimer.text = parseInt(playGroup.timeLevel / 60) + ":";
+        playGroup.textTimer.text += playGroup.timeLevel % 60 < 10 ? "0" + playGroup.timeLevel % 60 : playGroup.timeLevel % 60;
+    }
+}
+
 // Функция обработки нажатия по квадрату
 function selectedSquares(th){
     switch(th.alpha) {
@@ -155,33 +175,11 @@ function selectedSquares(th){
                 th.alpha = 0.7;
                 
                 moveAnimKvadraty(player.selectKvadratov[0], player.selectKvadratov[1]);
-                /*// Перемещаю на передний план два выбранных квадрата
-                player.groupKv.bringToTop(player.selectKvadratov[0]);
-                player.groupKv.bringToTop(player.selectKvadratov[1]);
-
-                player.peremestitMestami(player.selectKvadratov[0].x, player.selectKvadratov[0].y, player.selectKvadratov[1].x, player.selectKvadratov[1].y);
-
-                // Меняем местами квадраты
-                var x1 = player.selectKvadratov[0].x, y1 = player.selectKvadratov[0].y;
-                var w1 = player.selectKvadratov[0].width, h1 = player.selectKvadratov[0].height;
-
-                game.add.tween(player.selectKvadratov[0]).to({x: Number(player.selectKvadratov[1].x), y: Number(player.selectKvadratov[1].y)}, 300, 'Linear', true, 0);
-                game.add.tween(player.selectKvadratov[0]).to({ width: Number(player.selectKvadratov[1].width), height: Number(player.selectKvadratov[1].height) }, 300, 'Linear', true, 0);
-
-                game.add.tween(player.selectKvadratov[1]).to({ x: Number(x1), y: Number(y1) }, 300, 'Linear', true, 0);
-                game.add.tween(player.selectKvadratov[1]).to({ width: Number(w1), height: Number(h1) }, 300, 'Linear', true, 0);*/
 
                 player.selectKvadratov[0].alpha = 1;
                 player.selectKvadratov[1].alpha = 1;
                 player.selectKvadratov[0] = 0;
                 player.selectKvadratov[1] = 0;
-
-                /*// Проверка на собранную картинку
-                if(player.proverka()){
-                    playGroup.add(game.add.sprite(0, 0, "success"));
-                    player.groupKv.destroy();
-                    $('#dialog').dialog('open');
-                }*/
             }
         }
     }
@@ -212,5 +210,6 @@ function moveAnimKvadraty(kv1, kv2) {
         buttonHelpTime.visible = false;
         buttonHelpMove.visible = false;
         buttonHelpShow.visible = false;
+        playGroup.timer.timer.stop();
     }
 }

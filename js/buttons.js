@@ -1,6 +1,6 @@
 ﻿// Нажатие по подсказке "Время"
 function actionHelpTime() {
-    console.log("Работает сука");
+    playGroup.timeLevel += 60;
 }
 
 // Нажатие по подсказке "Переместить"
