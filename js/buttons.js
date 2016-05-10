@@ -45,7 +45,52 @@ function actionFullScreen() {
 
 // Нажатие по кнопки "Играть"
 function actionButtonPlay() {
+    // Показать рейтинг игроков
+    mainDisplayGroup.visible = false;
+    progressBar.visible = true;
+    progressBarFon.visible = true;
+    var load = new Phaser.Loader(game);
+    load.onLoadStart.add(loadStartReiting, this);
+    load.onLoadComplete.add(loadCompleteReiting, this);
+    load.start();
 
+    function loadStartReiting() {
+
+    }
+
+    function loadCompleteReiting() {
+        progressBar.visible = false;
+        progressBarFon.visible = false;
+        reitingGroup = game.add.group();
+        game.input.mouse.mouseWheelCallback = kolesoMouse;
+        reitingGroup.add(game.add.sprite(0, 0, "dialog"));
+        reitingGroup.add(game.add.text(720, 150, "Рейтинг", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
+        var backRules = game.add.button(50, 1100, "back", actionBackClickReiting, this);
+        reitingGroup.add(backRules);
+        reitingGroup.scale.set(0, 0);
+        reitingGroup.visible = false;
+        game.world.bringToTop(reitingGroup);
+        reitingGroup.position.set(game.world.width / 2, game.world.height / 2);
+        reitingGroup.alpha = 0;
+        reitingGroup.visible = true;
+        game.add.tween(reitingGroup.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+        game.add.tween(reitingGroup).to({ x: 0, y: 0, alpha: 1 }, 500, 'Linear', true, 0);
+
+        function actionBackClickReiting() {
+            mainDisplayGroup.visible = true;
+            game.add.tween(reitingGroup.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+            game.add.tween(reitingGroup).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0 }, 500, 'Linear', true, 0);
+            game.add.tween(reitingGroup).to({ visible: false }, 200, 'Linear', true, 0);
+            setInterval(1000, function () { reitingGroup.destroy() });
+        }
+
+        function kolesoMouse(event) {
+            switch (game.input.mouse.wheelDelta) {
+                case Phaser.Mouse.WHEEL_UP: console.log("Вверх"); break;
+                case Phaser.Mouse.WHEEL_DOWN: console.log("Вниз"); break;
+            }
+        }
+    }
 }
 
 // Нажатие по кнопки "Уровни"
@@ -53,6 +98,11 @@ function actionButtonLevels() {
     // Анимация перехода
     game.add.tween(mainDisplayGroup).to({ x: -1800 }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup).to({ x: 0 }, 200, 'Linear', true, 0);
+    if (game.naFone == 1) {
+        levelsGroup2.visible = true;
+    } else {
+        levelsGroup.visible = true;
+    }
 }
 
 // Нажатие по кнопки "Правила"
@@ -100,6 +150,11 @@ function actionBackClick() {
     // Анимация перехода
     game.add.tween(mainDisplayGroup).to({ x: 0 }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup).to({ x: 1800 }, 200, 'Linear', true, 0);
+    if (game.naFone == 1) {
+        levelsGroup2.visible = false;
+    } else {
+        levelsGroup.visible = false;
+    }
 }
 
 // Нажатие на оранжевом блоке(уровне), который далее нужно пройти
