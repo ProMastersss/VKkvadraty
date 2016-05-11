@@ -65,6 +65,20 @@ function actionButtonPlay() {
         game.input.mouse.mouseWheelCallback = kolesoMouse;
         reitingGroup.add(game.add.sprite(0, 0, "dialog"));
         reitingGroup.add(game.add.text(720, 150, "Рейтинг", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
+        // Добавление строк в рейтинг
+        var textGroup = game.add.group();
+        textGroup.visibleStroki = 0;
+        for (var i = 0; i < 50; i++) {
+            textGroup.add(game.add.text(0, 100 * i, "Текст" + i, { font: "bold 80px EtoMoiFont", fill: "#000" }));
+            if (i > 7)
+                textGroup.children[i].visible = false;
+        }
+        textGroup.position.set(350, 350);
+        reitingGroup.add(textGroup);
+
+        // Результат игрока
+        reitingGroup.add(game.add.text(350, 1150, "Текст игрока", { font: "bold 80px EtoMoiFont", fill: "#f00" }));
+
         var backRules = game.add.button(50, 1100, "back", actionBackClickReiting, this);
         reitingGroup.add(backRules);
         reitingGroup.scale.set(0, 0);
@@ -85,9 +99,25 @@ function actionButtonPlay() {
         }
 
         function kolesoMouse(event) {
+            var kolStrok = 8; // Количество видимых строк
             switch (game.input.mouse.wheelDelta) {
-                case Phaser.Mouse.WHEEL_UP: console.log("Вверх"); break;
-                case Phaser.Mouse.WHEEL_DOWN: console.log("Вниз"); break;
+                case Phaser.Mouse.WHEEL_UP: {
+                    if (textGroup.visibleStroki > 0) {
+                        textGroup.y += 100;
+                        textGroup.children[textGroup.visibleStroki-1].visible = true;
+                        textGroup.children[textGroup.visibleStroki + kolStrok - 1].visible = false;
+                        textGroup.visibleStroki--;
+                    }
+                }; break;
+
+                case Phaser.Mouse.WHEEL_DOWN: {
+                    if (textGroup.visibleStroki+kolStrok-1 < 49) { // < всего - 1
+                        textGroup.y -= 100;
+                        textGroup.children[textGroup.visibleStroki].visible = false;
+                        textGroup.children[textGroup.visibleStroki + kolStrok].visible = true;
+                        textGroup.visibleStroki++;
+                    }
+                }; break;
             }
         }
     }
