@@ -90,6 +90,14 @@ function Player(){
         playGroup.timeLevel = 1 * 60;
         playGroup.textTimer = game.add.text(600, -130, "1:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
         playGroup.add(playGroup.textTimer);
+
+        // Добавляем прогресс бар для уровня
+        playGroup.add(game.add.sprite(-190, 0, "progresLevelFon"));
+        playGroup.progres = game.add.sprite(-190, 0, "progresLevel");
+        playGroup.progres.crop(new Phaser.Rectangle(0, 0, playGroup.progres.width, 0), true);
+        playGroup.add(playGroup.progres);
+        playGroup.textProgres = game.add.text(-220, 770, "0%\nЗавершено", { font: "bold 40px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" });
+        playGroup.add(playGroup.textProgres);
     }
 }
 
@@ -102,6 +110,10 @@ function loadImage() {
     game.load.image("success", player.pathLevel + "success.jpg");
     // Загрузка подсказок
     game.load.image("time", "img/help/time2.png");
+
+    //Загрузка прогресс бара для уровня
+    game.load.image("progresLevel", "img/progresLevel.png");
+    game.load.image("progresLevelFon", "img/progresLevelFon.png");
 
     game.load.start();
 }
@@ -201,6 +213,18 @@ function moveAnimKvadraty(kv1, kv2) {
 
     game.add.tween(kv2).to({ x: Number(x1), y: Number(y1) }, 300, 'Linear', true, 0);
     game.add.tween(kv2).to({ width: Number(w1), height: Number(h1) }, 300, 'Linear', true, 0);
+
+    // Прогресс бар
+    var totalProgres = 0;
+    for (var i = 0; i < player.kolKvadratov*2-1; i += 2) {
+        if (player.gameKvadraty[i] == player.koordinaty[i] && player.gameKvadraty[i + 1] == player.koordinaty[i + 1])
+            totalProgres++;
+    }
+    playGroup.textProgres.setText(parseInt(totalProgres / player.kolKvadratov * 100) + "%\nЗавершено");
+    playGroup.progres.cropRect.setTo(0, 791 - parseInt(791 / player.kolKvadratov * totalProgres), playGroup.progres.width, parseInt(791 / player.kolKvadratov * totalProgres));
+    playGroup.progres.y = 791 - parseInt(791 / player.kolKvadratov * totalProgres);
+    playGroup.progres.updateCrop();
+    //console.log(playGroup.progres.cropRect, playGroup.progres.height);
 
     // Проверка на собранную картинку
     if (player.proverka()) {

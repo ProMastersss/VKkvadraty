@@ -9,7 +9,7 @@ function actionHelpMove() {
     while (player.gameKvadraty[index] == player.koordinaty[index] && player.gameKvadraty[index + 1] == player.koordinaty[index + 1]) {
         index = (player.getRandomInt(0, player.kolKvadratov - 1)) * 2;
     }
-    //player.peremestitMestami(player.gameKvadraty[index], player.gameKvadraty[index + 1], player.koordinaty[index], player.koordinaty[index+1]);
+
     var kv1, kv2;
     player.groupKv.forEach(function (child) {
         if (child.x == player.gameKvadraty[index] && child.y == player.gameKvadraty[index + 1])
