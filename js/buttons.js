@@ -45,6 +45,23 @@ function actionFullScreen() {
 
 // Нажатие по кнопки "Играть"
 function actionButtonPlay() {
+    
+}
+
+// Нажатие по кнопки "Уровни"
+function actionButtonLevels() {
+    // Анимация перехода
+    game.add.tween(mainDisplayGroup).to({ x: -1800 }, 200, 'Linear', true, 0);
+    game.add.tween(listLevelsGroup).to({ x: 0 }, 200, 'Linear', true, 0);
+    if (game.naFone == 1) {
+        levelsGroup2.visible = true;
+    } else {
+        levelsGroup.visible = true;
+    }
+}
+
+// Нажатие по кнопке "Рейтинг"
+function actionButtonReiting() {
     // Показать рейтинг игроков
     mainDisplayGroup.visible = false;
     progressBar.visible = true;
@@ -104,14 +121,14 @@ function actionButtonPlay() {
                 case Phaser.Mouse.WHEEL_UP: {
                     if (textGroup.visibleStroki > 0) {
                         textGroup.y += 100;
-                        textGroup.children[textGroup.visibleStroki-1].visible = true;
+                        textGroup.children[textGroup.visibleStroki - 1].visible = true;
                         textGroup.children[textGroup.visibleStroki + kolStrok - 1].visible = false;
                         textGroup.visibleStroki--;
                     }
                 }; break;
 
                 case Phaser.Mouse.WHEEL_DOWN: {
-                    if (textGroup.visibleStroki+kolStrok-1 < 49) { // < всего - 1
+                    if (textGroup.visibleStroki + kolStrok - 1 < 49) { // < всего - 1
                         textGroup.y -= 100;
                         textGroup.children[textGroup.visibleStroki].visible = false;
                         textGroup.children[textGroup.visibleStroki + kolStrok].visible = true;
@@ -120,18 +137,6 @@ function actionButtonPlay() {
                 }; break;
             }
         }
-    }
-}
-
-// Нажатие по кнопки "Уровни"
-function actionButtonLevels() {
-    // Анимация перехода
-    game.add.tween(mainDisplayGroup).to({ x: -1800 }, 200, 'Linear', true, 0);
-    game.add.tween(listLevelsGroup).to({ x: 0 }, 200, 'Linear', true, 0);
-    if (game.naFone == 1) {
-        levelsGroup2.visible = true;
-    } else {
-        levelsGroup.visible = true;
     }
 }
 

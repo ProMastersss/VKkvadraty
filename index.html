@@ -92,6 +92,7 @@
                 game.load.image("playButton", "img/play.png");
                 game.load.image("levelsButton", "img/levels.png");
                 game.load.image("rulesButton", "img/rules.png");
+                game.load.image("reitingButton", "img/reiting.png");
                 game.load.image("fullScreen", "img/fullScreen.png");
                 game.load.image("outFullScreen", "img/outFullScreen.png");
 
@@ -181,9 +182,10 @@
 
                 // Загрузка основного экрана
                 mainDisplayGroup = game.add.group();
-                mainDisplayGroup.add(game.add.button(660, 400, "playButton", actionButtonPlay, this));
-                mainDisplayGroup.add(game.add.button(660, 550, "levelsButton", actionButtonLevels, this));
-                mainDisplayGroup.add(game.add.button(660, 700, "rulesButton", actionButtonRules, this));
+                mainDisplayGroup.add(game.add.button(660, 350, "playButton", actionButtonPlay, this));
+                mainDisplayGroup.add(game.add.button(660, 500, "levelsButton", actionButtonLevels, this));
+                mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
+                mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
             }
 
             //Функция обновления (каждый шаг)
