@@ -220,6 +220,7 @@ function backLevels() {
 
 // Кнопка "назад" из игрового поля
 function actionButtonBackPlay() {
+	playGroup.timer.timer.stop();
     game.add.tween(playGroup).to({ x: 2030 }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup).to({ visible: true }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup.scale).to({ x: 1, y: 1 }, 200, 'Linear', true, 0);
