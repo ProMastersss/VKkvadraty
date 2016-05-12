@@ -112,7 +112,7 @@ function actionButtonReiting() {
             game.add.tween(reitingGroup.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
             game.add.tween(reitingGroup).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0 }, 500, 'Linear', true, 0);
             game.add.tween(reitingGroup).to({ visible: false }, 200, 'Linear', true, 0);
-            setInterval(1000, function () { reitingGroup.destroy() });
+            setTimeout(function () { reitingGroup.destroy() }, 1000);
         }
 
         function kolesoMouse(event) {
@@ -205,9 +205,9 @@ function upLevels() {
         //player.level = parseInt(this.text);
         AJAX.getKoordinaty(player);
     }
-    game.time.events.add(300, function () {
+    setTimeout(function () {
         player.secondClick = false;
-    });
+    }, 300);
 }   
 
 // Клик по кнопке со стрелочкой назад, для прокрутки списка назад

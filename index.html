@@ -63,9 +63,13 @@
         function createText() {
             // Создание игры
             game = new Phaser.Game(1800, 1300, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
+            
             //Функция предзагрузки
             function preload() {
+                // Загрузка "Загрузка"
+                game.load.image("loading", "img/load.png");
+                game.load.image("fonLoad", "img/fonLoad.png");
+
                 //Делаем адаптивный экран
                 game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
                 game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -98,15 +102,11 @@
 
                 //Диалоговое окно
                 game.load.image("dialog", "img/dialog.png");
-
-                // Загрузка "Загрузка"
-                game.load.image("loading", "img/load.png");
-                game.load.image("fonLoad", "img/fonLoad.png");
-
+              
             }
 
             //Функция создания
-            function create() {
+            function create(){
                 settingGroup = game.add.group(); // Группа настрое
                 settingGroupAnim = game.add.group(); //Группа для анимации открытия настроек
                 levelsGroup = game.add.group(), levelsGroup2 = game.add.group();

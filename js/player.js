@@ -87,6 +87,7 @@ function Player(){
         // Добавляем время
         var timer = game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
         playGroup.timer = timer;
+        playGroup.timer.timer.start();
         playGroup.timeLevel = 1 * 60;
         playGroup.textTimer = game.add.text(600, -130, "1:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
         playGroup.add(playGroup.textTimer);
