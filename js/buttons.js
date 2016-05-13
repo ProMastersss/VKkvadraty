@@ -1,10 +1,20 @@
 ﻿// Нажатие по подсказке "Время"
 function actionHelpTime() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     playGroup.timeLevel += 60;
 }
 
 // Нажатие по подсказке "Переместить"
 function actionHelpMove() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     var index = (player.getRandomInt(0, player.kolKvadratov - 1)) * 2;
     while (player.gameKvadraty[index] == player.koordinaty[index] && player.gameKvadraty[index + 1] == player.koordinaty[index + 1]) {
         index = (player.getRandomInt(0, player.kolKvadratov - 1)) * 2;
@@ -23,6 +33,11 @@ function actionHelpMove() {
 
 // Нажатие по подсказке "Показать"
 function actionHelpShow() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     var succes = game.add.sprite(0, 0, "success");
     playGroup.add(succes);
     game.time.events.add(5000, function () {
@@ -33,6 +48,11 @@ function actionHelpShow() {
 
 // Нажатие по кнопки "FullScreen"
 function actionFullScreen() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     if (buttonFullScreen.fullScreen) {
         game.scale.stopFullScreen();
         buttonFullScreen.loadTexture("fullScreen", 0);
@@ -45,11 +65,20 @@ function actionFullScreen() {
 
 // Нажатие по кнопки "Играть"
 function actionButtonPlay() {
-    
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
 }
 
 // Нажатие по кнопки "Уровни"
 function actionButtonLevels() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     // Анимация перехода
     game.add.tween(mainDisplayGroup).to({ x: -1800 }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup).to({ x: 0 }, 200, 'Linear', true, 0);
@@ -62,6 +91,11 @@ function actionButtonLevels() {
 
 // Нажатие по кнопке "Рейтинг"
 function actionButtonReiting() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     // Показать рейтинг игроков
     mainDisplayGroup.visible = false;
     progressBar.visible = true;
@@ -108,6 +142,11 @@ function actionButtonReiting() {
         game.add.tween(reitingGroup).to({ x: 0, y: 0, alpha: 1 }, 500, 'Linear', true, 0);
 
         function actionBackClickReiting() {
+            if (player.sound) {
+                var click = game.add.audio("click");
+                click.play();
+            }
+
             mainDisplayGroup.visible = true;
             game.add.tween(reitingGroup.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
             game.add.tween(reitingGroup).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0 }, 500, 'Linear', true, 0);
@@ -142,6 +181,11 @@ function actionButtonReiting() {
 
 // Нажатие по кнопки "Правила"
 function actionButtonRules() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     mainDisplayGroup.visible = false;
     game.world.bringToTop(rulesGroup);
     rulesGroup.position.set(game.world.width / 2, game.world.height / 2);
@@ -153,6 +197,11 @@ function actionButtonRules() {
 
 // Кнопка "Назад" в группе rulesGroup
 function actionBackClickRules() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     mainDisplayGroup.visible = true;
     game.add.tween(rulesGroup.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
     game.add.tween(rulesGroup).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0 }, 500, 'Linear', true, 0);
@@ -161,6 +210,11 @@ function actionBackClickRules() {
 
 // Клик по кнопке "Настройи", анимация показа настроек
 function actionSettingClick() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     if (this.hidden) {
         game.add.tween(this).to({ y: 0 }, 200, 'Linear', true, 0);
         this.hidden = false;
@@ -172,16 +226,21 @@ function actionSettingClick() {
 
 // Клик по кнопке "Музыки"
 function actionMusicClick() {
-
+    player.music = !player.music;
 }
 
 // Клик по кнопке "Звук"
 function actionSoundClick() {
-
+    player.sound = !player.sound;
 }
 
 // Клик по кнопке "Назад", вернуть на предыдущий экран
 function actionBackClick() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     // Анимация перехода
     game.add.tween(mainDisplayGroup).to({ x: 0 }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup).to({ x: 1800 }, 200, 'Linear', true, 0);
@@ -194,6 +253,11 @@ function actionBackClick() {
 
 // Нажатие на оранжевом блоке(уровне), который далее нужно пройти
 function upLevels() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     if (!player.secondClick) {
         player.secondClick = true;
 
@@ -212,6 +276,11 @@ function upLevels() {
 
 // Клик по кнопке со стрелочкой назад, для прокрутки списка назад
 function backLevels() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     if (game.number - 40 > 0) {
         game.number -= 40;
         animaciaLevels(-1200, 1800, 300);
@@ -220,6 +289,11 @@ function backLevels() {
 
 // Кнопка "назад" из игрового поля
 function actionButtonBackPlay() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
 	playGroup.timer.timer.stop();
     game.add.tween(playGroup).to({ x: 2030 }, 200, 'Linear', true, 0);
     game.add.tween(listLevelsGroup).to({ visible: true }, 200, 'Linear', true, 0);
@@ -234,6 +308,11 @@ function actionButtonBackPlay() {
 
 // Клик по кнопке со стрелочкой вперед, для прокрутки списка вперед
 function nextLevels() {
+    if (player.sound) {
+        var click = game.add.audio("click");
+        click.play();
+    }
+
     animaciaLevels(1800, -1200, 300);
 }
 

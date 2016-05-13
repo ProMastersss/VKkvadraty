@@ -14,6 +14,8 @@ function Player(){
     this.buttonBack = null; // Хранит кнопку "Назад" игрового поля
     this.secondClick = null; // Для двойного нажатия
     this.maxLevel = 1; // Уровень, который открыт
+    this.sound = true; // включен звук
+    this.music = true; // Включена музыка
     this.initGameKvadraty = function(){
         for(var i = 0; i<this.kolKvadratov*2; i++)
             this.gameKvadraty[i] = this.koordinaty[i];
@@ -229,6 +231,9 @@ function moveAnimKvadraty(kv1, kv2) {
 
     // Проверка на собранную картинку
     if (player.proverka()) {
+        var win = game.add.audio("win");
+        win.play();
+
         playGroup.add(game.add.sprite(0, 0, "success"));
         player.groupKv.destroy();
         $('#dialog').dialog('open');
