@@ -24,10 +24,6 @@
     <script type="text/javascript" src="js/jquery.elastislide.js"></script>
 </head>
 <body>
-    <!-- ui-dialog -->
-    <div id="dialog" title="Урааааа!!!!">
-        <p>Вы собрали картинку! Поздравляем! :)</p>
-    </div>
     <div id="game" style="max-width: 810px; max-height: 585px; margin-bottom: 5px;"></div>
     <!--Слайдер друзей-->
     <div class="container demo-4">
@@ -70,7 +66,9 @@
     <!-- Загрузка -->
     <!--<div id="load" style="position:  absolute; background: url(assets/animload.gif) fixed no-repeat center center; width:800px; height: 640px; z-index: 100; top: 0; left: 0;"></div>-->
     <script src="js/jquery-ui.js"></script>
+    <script src="//vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
     <script>
+        var player;
         (function (d) {
             var wf = d.createElement('script'), s = d.scripts[0];
             wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
@@ -78,7 +76,29 @@
         })(document);
 
         WebFontConfig = {
-            active: function () { createText() },
+            active: function () {
+                VK.init(function () {
+                    // API initialization succeeded 
+                    // узнаём flashVars, переданные приложению GET запросом. Сохраняем их в переменную flashVars
+                    var parts = document.location.search.substr(1).split("&");
+                    var flashVars = {}, curr;
+                    for (i = 0; i < parts.length; i++) {
+                        curr = parts[i].split('=');
+                        // записываем в массив flashVars значения. Например: flashVars['viewer_id'] = 1;
+                        flashVars[curr[0]] = curr[1];
+                    }
+
+                    // получаем viewer_id из полученных переменных
+                    var viewer_id = flashVars['viewer_id'];
+                    player = new Player();
+                    AJAX.getDataUser(player, viewer_id);
+
+                }, function () {
+                    // API initialization failed 
+                    // Can reload page here 
+                }, '5.52');
+                createText()
+            },
             custom: {
                 families: ['EtoMoiFont'],
                 urls: ['css/shrift.css']
@@ -86,7 +106,6 @@
         };
     </script>
     <script type="text/javascript">
-        var player = new Player();
         var game;
         
         var mainDisplayGroup, listLevelsGroup, playGroup; // Основные группы переходов
@@ -235,6 +254,46 @@
                 mainDisplayGroup.add(game.add.button(660, 500, "levelsButton", actionButtonLevels, this));
                 mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
                 mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
+                
+                // Отобразить диалог дней прихода
+                var groupDialogDays = game.add.group();
+                var fon = game.add.sprite(0, 0, "dialog");
+                fon.width = 1200;
+                fon.height = 1000;
+                groupDialogDays.add(fon);
+                
+                var vremya = new Date();
+                if(player.days == 0){
+                	player.days++;
+                	player.timesDays = vremya.getTime();
+                	groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                }
+            
+                if(vremya - player.timesDays >= 86400000 && vremya - player.timesDays < 2*86400000){
+                	if(player.days < 5)
+                		player.days++;
+                	player.timesDays = vremya.getTime();
+                	groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                }
+                var button = game.add.button(400, 640, "playButton", actionOk, this);
+                button.scale.set(0.8, 0.8);
+                groupDialogDays.add(button);
+                game.world.bringToTop(groupDialogDays);
+                groupDialogDays.scale.set(0, 0);
+                groupDialogDays.position.set(game.world.width / 2, game.world.height / 2);
+        		groupDialogDays.alpha = 0;
+                
+                game.add.tween(groupDialogDays.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+        		game.add.tween(groupDialogDays).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
+        		
+                function actionOk(){
+				     if (player.sound) {
+				         var click = game.add.audio("click");
+				         click.play();
+				     }
+                	 game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+        			 game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+                }
             }
 
             //Функция обновления (каждый шаг)
@@ -311,25 +370,6 @@
                 g.position.set(x, y);
             }
         }
-
-        $("#dialog").dialog({
-            autoOpen: false,
-            width: 400,
-            buttons: [
-                {
-                    text: "Ok",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
-                },
-                {
-                    text: "Cancel",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
-                }
-            ]
-        });
 
         // Функция вызывается перед стартом загрузки
         function loadStart() {

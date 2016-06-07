@@ -23,5 +23,35 @@ var AJAX = {
             },
         });
     },
+
+    getDataUser: function (player, id) {
+        jQuery.ajax({
+            url: player.urlUser,
+            async: true,
+            crossDomain: true,
+            data: { uid: id },
+            type: "POST",
+            success: function (data, textStatus, jqXHR) {
+                data = JSON.parse(data);
+                player.level = data.level;
+                player.money = data.money;
+                player.days = data.days;
+                player.timesDays = data.times;
+            },
+        });
+    },
+
+    saveData: function (player) {
+        jQuery.ajax({
+            url: player.urlSave,
+            async: true,
+            crossDomain: true,
+            data: { id: player.id, money: player.money, days: player.days, times: player.timesDays},
+            type: "POST",
+            success: function (data, textStatus, jqXHR) {
+                console.log(data);
+            },
+        });
+    },
 }
 

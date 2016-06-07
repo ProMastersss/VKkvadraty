@@ -2,14 +2,20 @@
 function Player(){
     this.name = "";
     this.famele = "";
+    this.uid = 0; //ID пользователя
     this.level = 1;
+    this.money = 0; // Монеты
+    this.days = 0; // Дни пользователя в игре
+    this.timesDays = 0; // Время для подсчета прошедших дней
     this.selectKvadratov = [0, 0]; // [ID 1 квадрата, ID 2 квадрата]
     this.gameKvadraty = []; // Координаты квадратов на поле
     this.widHeiKvadratov = [];
     this.koordinaty = [];
     this.kolKvadratov = 0;
     this.groupKv = null; // группа игрового поля
-    this.urlLoadLevel = 'http://vkkvadraty/loadLevel.php';
+    this.urlLoadLevel = 'https://game-vk.tk/loadLevel.php';
+    this.urlUser = 'https://game-vk.tk/user.php';
+    this.urlSave = 'https://game-vk.tk/save.php';
     this.pathLevel = "assets/Level" + this.level + "/";
     this.buttonBack = null; // Хранит кнопку "Назад" игрового поля
     this.secondClick = null; // Для двойного нажатия
@@ -161,9 +167,37 @@ function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадр
 function updateTimer() {
     if (playGroup.timeLevel-- == 0) {
         playGroup.timer.timer.stop();
-        $('#dialog').dialog("option", "title", "Неудача");;
-        $('#dialog p').text('Время вышло :(');
-        $('#dialog').dialog('open');
+        
+        var groupDialog = game.add.group();
+                var fon = game.add.sprite(0, 0, "dialog");
+                fon.width = 1200;
+                fon.height = 1000;
+                groupDialog.add(fon);
+                groupDialog.add(game.add.text(330, 350, "Увы, время вышло :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                var button = game.add.button(400, 640, "playButton", actionOk, this);
+                button.scale.set(0.8, 0.8);
+                groupDialog.add(button);
+                game.world.bringToTop(groupDialog);
+                groupDialog.scale.set(0, 0);
+                groupDialog.position.set(game.world.width / 2, game.world.height / 2);
+        		groupDialog.alpha = 0;
+                
+                game.add.tween(groupDialog.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+        		game.add.tween(groupDialog).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
+        		player.groupKv.forEach(function(child){
+		            child.inputEnabled = false; // Включаем обработку нажатий
+		        }, this);
+        		
+                function actionOk(){
+				     if (player.sound) {
+				         var click = game.add.audio("click");
+				         click.play();
+				     }
+                	 game.add.tween(groupDialog.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+        			 game.add.tween(groupDialog).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+        			 actionButtonBackPlay();
+                }
+        
     } else {
         playGroup.textTimer.text = parseInt(playGroup.timeLevel / 60) + ":";
         playGroup.textTimer.text += playGroup.timeLevel % 60 < 10 ? "0" + playGroup.timeLevel % 60 : playGroup.timeLevel % 60;
@@ -236,7 +270,32 @@ function moveAnimKvadraty(kv1, kv2) {
 
         playGroup.add(game.add.sprite(0, 0, "success"));
         player.groupKv.destroy();
-        $('#dialog').dialog('open');
+       var groupDialog = game.add.group();
+                var fon = game.add.sprite(0, 0, "dialog");
+                fon.width = 1200;
+                fon.height = 1000;
+                groupDialog.add(fon);
+                groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку и прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                var button = game.add.button(400, 640, "playButton", actionOk, this);
+                button.scale.set(0.8, 0.8);
+                groupDialog.add(button);
+                game.world.bringToTop(groupDialog);
+                groupDialog.scale.set(0, 0);
+                groupDialog.position.set(game.world.width / 2, game.world.height / 2);
+        		groupDialog.alpha = 0;
+                
+                game.add.tween(groupDialog.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+        		game.add.tween(groupDialog).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
+        		
+                function actionOk(){
+				     if (player.sound) {
+				         var click = game.add.audio("click");
+				         click.play();
+				     }
+                	 game.add.tween(groupDialog.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+        			 game.add.tween(groupDialog).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+        			 actionButtonBackPlay();
+                }
         buttonHelpTime.visible = false;
         buttonHelpMove.visible = false;
         buttonHelpShow.visible = false;
