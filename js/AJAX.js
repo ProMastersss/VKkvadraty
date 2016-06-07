@@ -41,12 +41,27 @@ var AJAX = {
         });
     },
 
-    saveData: function (player) {
+    saveData: function (p) {
+    	console.log(p);
         jQuery.ajax({
-            url: player.urlSave,
+            url: p.urlSave,
             async: true,
             crossDomain: true,
-            data: { id: player.id, money: player.money, days: player.days, times: player.timesDays},
+            data: { id: p.uid, level: p.level, money: p.money, days: p.days},
+            type: "POST",
+            success: function (data, textStatus, jqXHR) {
+                console.log(data);
+            },
+        });
+    },
+    
+    saveTimes: function (p) {
+    	console.log(p);
+        jQuery.ajax({
+            url: p.urlSaveTimes,
+            async: true,
+            crossDomain: true,
+            data: { id: p.uid, times: p.timesDays},
             type: "POST",
             success: function (data, textStatus, jqXHR) {
                 console.log(data);

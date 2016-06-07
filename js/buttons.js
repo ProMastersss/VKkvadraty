@@ -6,6 +6,9 @@ function actionHelpTime() {
     }
 
     playGroup.timeLevel += 60;
+    
+    // Сохранение данных
+    AJAX.saveData(player);
 }
 
 // Нажатие по подсказке "Переместить"
@@ -29,6 +32,9 @@ function actionHelpMove() {
     }, this, true);
     
     moveAnimKvadraty(kv1, kv2);
+    
+	// Сохранение данных
+    AJAX.saveData(player);
 }
 
 // Нажатие по подсказке "Показать"
@@ -44,6 +50,9 @@ function actionHelpShow() {
         succes.visible = false;
         playGroup.removeChild(succes);
     });
+    
+    // Сохранение данных
+    AJAX.saveData(player);
 }
 
 // Нажатие по кнопки "FullScreen"
@@ -257,7 +266,9 @@ function upLevels() {
         var click = game.add.audio("click");
         click.play();
     }
-
+	// Сохранение данных
+    AJAX.saveData(player);
+    
     if (!player.secondClick) {
         player.secondClick = true;
 
@@ -266,7 +277,6 @@ function upLevels() {
         game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
         game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
         //Получаем координаты квдратов с сервера
-        //player.level = parseInt(this.text);
         AJAX.getKoordinaty(player);
     }
     setTimeout(function () {

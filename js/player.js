@@ -16,6 +16,7 @@ function Player(){
     this.urlLoadLevel = 'https://game-vk.tk/loadLevel.php';
     this.urlUser = 'https://game-vk.tk/user.php';
     this.urlSave = 'https://game-vk.tk/save.php';
+    this.urlSaveTimes = 'https://game-vk.tk/saveTimes.php';
     this.pathLevel = "assets/Level" + this.level + "/";
     this.buttonBack = null; // Хранит кнопку "Назад" игрового поля
     this.secondClick = null; // Для двойного нажатия
@@ -168,12 +169,15 @@ function updateTimer() {
     if (playGroup.timeLevel-- == 0) {
         playGroup.timer.timer.stop();
         
+        // Сохранение данных
+        AJAX.saveData(player);
+        
         var groupDialog = game.add.group();
                 var fon = game.add.sprite(0, 0, "dialog");
                 fon.width = 1200;
                 fon.height = 1000;
                 groupDialog.add(fon);
-                groupDialog.add(game.add.text(330, 350, "Увы, время вышло :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                groupDialog.add(game.add.text(330, 350, "Увы, время вышло :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
                 var button = game.add.button(400, 640, "playButton", actionOk, this);
                 button.scale.set(0.8, 0.8);
                 groupDialog.add(button);
@@ -267,7 +271,10 @@ function moveAnimKvadraty(kv1, kv2) {
     if (player.proverka()) {
         var win = game.add.audio("win");
         win.play();
-
+		
+		// Сохранение данных
+        AJAX.saveData(player);
+		
         playGroup.add(game.add.sprite(0, 0, "success"));
         player.groupKv.destroy();
        var groupDialog = game.add.group();
@@ -275,7 +282,7 @@ function moveAnimKvadraty(kv1, kv2) {
                 fon.width = 1200;
                 fon.height = 1000;
                 groupDialog.add(fon);
-                groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку и прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
                 var button = game.add.button(400, 640, "playButton", actionOk, this);
                 button.scale.set(0.8, 0.8);
                 groupDialog.add(button);

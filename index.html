@@ -92,6 +92,7 @@
                     var viewer_id = flashVars['viewer_id'];
                     player = new Player();
                     AJAX.getDataUser(player, viewer_id);
+                    player.uid = viewer_id;
 
                 }, function () {
                     // API initialization failed 
@@ -255,6 +256,11 @@
                 mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
                 mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
                 
+                // Отключаем нажатие кнопок
+                for(var i = 0; i<4; i++){
+                	mainDisplayGroup.children[i].inputEnabled = false;
+                }
+                
                 // Отобразить диалог дней прихода
                 var groupDialogDays = game.add.group();
                 var fon = game.add.sprite(0, 0, "dialog");
@@ -262,19 +268,26 @@
                 fon.height = 1000;
                 groupDialogDays.add(fon);
                 
+                // Подсчет дней в игре
                 var vremya = new Date();
-                if(player.days == 0){
-                	player.days++;
+            	if(vremya - player.timesDays > 2*86400000){
+                	player.days = 1;
                 	player.timesDays = vremya.getTime();
-                	groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
-                }
-            
-                if(vremya - player.timesDays >= 86400000 && vremya - player.timesDays < 2*86400000){
+                	AJAX.saveTimes(player);
+                } 
+                
+                if(vremya - player.timesDays >= 86400000 && vremya - player.timesDays <= 2*86400000){
                 	if(player.days < 5)
                 		player.days++;
                 	player.timesDays = vremya.getTime();
-                	groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                	AJAX.saveTimes(player);
                 }
+                
+                groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+                if( vremya - player.timesDays > 2*86400000){
+                	player.days = 1;
+                }
+                
                 var button = game.add.button(400, 640, "playButton", actionOk, this);
                 button.scale.set(0.8, 0.8);
                 groupDialogDays.add(button);
@@ -291,9 +304,16 @@
 				         var click = game.add.audio("click");
 				         click.play();
 				     }
+				     // Включаем нажатие кнопок
+				     for(var i = 0; i<4; i++){
+		                 mainDisplayGroup.children[i].inputEnabled = true;
+		             }
                 	 game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
         			 game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
                 }
+                
+                // Сохранение данных
+                AJAX.saveData(player);
             }
 
             //Функция обновления (каждый шаг)
