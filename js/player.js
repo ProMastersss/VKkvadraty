@@ -168,9 +168,7 @@ function addImage(){ /*????????? ДОБАВИТЬ ГРУППУ для квадр
 function updateTimer() {
     if (playGroup.timeLevel-- == 0) {
         playGroup.timer.timer.stop();
-        
-        // Сохранение данных
-        AJAX.saveData(player);
+        player.buttonBack.visible = false;
         
         var groupDialog = game.add.group();
                 var fon = game.add.sprite(0, 0, "dialog");
@@ -178,8 +176,8 @@ function updateTimer() {
                 fon.height = 1000;
                 groupDialog.add(fon);
                 groupDialog.add(game.add.text(330, 350, "Увы, время вышло :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
-                var button = game.add.button(400, 640, "playButton", actionOk, this);
-                button.scale.set(0.8, 0.8);
+                var button = game.add.button(850, 700, "okey", actionOk, this);
+                button.scale.set(0.6, 0.6);
                 groupDialog.add(button);
                 game.world.bringToTop(groupDialog);
                 groupDialog.scale.set(0, 0);
@@ -199,6 +197,7 @@ function updateTimer() {
 				     }
                 	 game.add.tween(groupDialog.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
         			 game.add.tween(groupDialog).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+        			 player.buttonBack.visible = true;
         			 actionButtonBackPlay();
                 }
         
@@ -265,15 +264,15 @@ function moveAnimKvadraty(kv1, kv2) {
     playGroup.progres.cropRect.setTo(0, 791 - parseInt(791 / player.kolKvadratov * totalProgres), playGroup.progres.width, parseInt(791 / player.kolKvadratov * totalProgres));
     playGroup.progres.y = 791 - parseInt(791 / player.kolKvadratov * totalProgres);
     playGroup.progres.updateCrop();
-    //console.log(playGroup.progres.cropRect, playGroup.progres.height);
+    
+    console.log(buttonBackPlay);
 
     // Проверка на собранную картинку
     if (player.proverka()) {
         var win = game.add.audio("win");
         win.play();
 		
-		// Сохранение данных
-        AJAX.saveData(player);
+		player.buttonBack.visible = false;
 		
         playGroup.add(game.add.sprite(0, 0, "success"));
         player.groupKv.destroy();
@@ -283,8 +282,8 @@ function moveAnimKvadraty(kv1, kv2) {
                 fon.height = 1000;
                 groupDialog.add(fon);
                 groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
-                var button = game.add.button(400, 640, "playButton", actionOk, this);
-                button.scale.set(0.8, 0.8);
+                var button = game.add.button(850, 700, "okey", actionOk, this);
+                button.scale.set(0.6, 0.6);
                 groupDialog.add(button);
                 game.world.bringToTop(groupDialog);
                 groupDialog.scale.set(0, 0);
@@ -301,6 +300,7 @@ function moveAnimKvadraty(kv1, kv2) {
 				     }
                 	 game.add.tween(groupDialog.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
         			 game.add.tween(groupDialog).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+        			 player.buttonBack.visible = true;
         			 actionButtonBackPlay();
                 }
         buttonHelpTime.visible = false;

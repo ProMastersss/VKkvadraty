@@ -10,8 +10,8 @@ mysql_select_db($db); /*Подключение к базе данных на с�
 $id = $_POST['id'];
 $level = $_POST['level'];
 $money = $_POST['money'];
-$days = $_POST['days'];
-if(mysql_query("UPDATE `users` SET `level`='$level', `money`='$money', `days`='$days' WHERE `id`='$id'"))
-	echo true;
-else echo false;
+
+if(mysql_query("UPDATE `users` SET `level`='$level', `money`='$money' WHERE `id`='$id'"))
+	echo "Сохранены данные";
+else echo "Ошибка сохранения данных";
 ?>

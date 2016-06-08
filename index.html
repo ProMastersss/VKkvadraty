@@ -98,7 +98,6 @@
                     // API initialization failed 
                     // Can reload page here 
                 }, '5.52');
-                createText()
             },
             custom: {
                 families: ['EtoMoiFont'],
@@ -167,6 +166,8 @@
 
                 //Диалоговое окно
                 game.load.image("dialog", "img/dialog.png");
+                game.load.image("plus", "img/plus.png");
+                game.load.image("okey", "img/ok.png");
 
                 // Загрузка звуков и музыки
                 game.load.audio("click", "sound/click.mp3");
@@ -267,29 +268,26 @@
                 fon.width = 1200;
                 fon.height = 1000;
                 groupDialogDays.add(fon);
-                
+
                 // Подсчет дней в игре
                 var vremya = new Date();
-            	if(vremya - player.timesDays > 2*86400000){
+            	if((vremya.getTime() - player.timesDays) > 172800000){
                 	player.days = 1;
                 	player.timesDays = vremya.getTime();
                 	AJAX.saveTimes(player);
                 } 
-                
-                if(vremya - player.timesDays >= 86400000 && vremya - player.timesDays <= 2*86400000){
+
+                if(vremya.getTime() - player.timesDays >= 86400000 && vremya.getTime() - player.timesDays <= 2*86400000 || player.timesDays == 0){
                 	if(player.days < 5)
                 		player.days++;
                 	player.timesDays = vremya.getTime();
                 	AJAX.saveTimes(player);
                 }
-                
+              
                 groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
-                if( vremya - player.timesDays > 2*86400000){
-                	player.days = 1;
-                }
                 
-                var button = game.add.button(400, 640, "playButton", actionOk, this);
-                button.scale.set(0.8, 0.8);
+                var button = game.add.button(850, 700, "okey", actionOk, this);
+                button.scale.set(0.6, 0.6);
                 groupDialogDays.add(button);
                 game.world.bringToTop(groupDialogDays);
                 groupDialogDays.scale.set(0, 0);
@@ -311,9 +309,6 @@
                 	 game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
         			 game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
                 }
-                
-                // Сохранение данных
-                AJAX.saveData(player);
             }
 
             //Функция обновления (каждый шаг)

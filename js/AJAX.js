@@ -24,25 +24,27 @@ var AJAX = {
         });
     },
 
-    getDataUser: function (player, id) {
+    getDataUser: function (p, id) {
         jQuery.ajax({
-            url: player.urlUser,
+            url: p.urlUser,
             async: true,
             crossDomain: true,
             data: { uid: id },
             type: "POST",
             success: function (data, textStatus, jqXHR) {
                 data = JSON.parse(data);
-                player.level = data.level;
-                player.money = data.money;
-                player.days = data.days;
-                player.timesDays = data.times;
+                console.log(data);
+                p.level = parseInt(data.level);
+                p.money = parseInt(data.money);
+                p.days = parseInt(data.days);
+                p.timesDays = parseInt(data.times);
+                createText();
             },
         });
     },
 
     saveData: function (p) {
-    	console.log(p);
+    	console.log(p, "Сохранение");
         jQuery.ajax({
             url: p.urlSave,
             async: true,
@@ -56,12 +58,12 @@ var AJAX = {
     },
     
     saveTimes: function (p) {
-    	console.log(p);
+    	console.log(p, "Сохранение времени");
         jQuery.ajax({
             url: p.urlSaveTimes,
             async: true,
             crossDomain: true,
-            data: { id: p.uid, times: p.timesDays},
+            data: { id: p.uid, times: p.timesDays, days: p.days},
             type: "POST",
             success: function (data, textStatus, jqXHR) {
                 console.log(data);

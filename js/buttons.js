@@ -314,6 +314,9 @@ function actionButtonBackPlay() {
 		game.load.cache.removeImage("kv" + i);	
 	}
     game.load.cache.removeImage("razmetka");
+    
+     // Сохранение данных
+    AJAX.saveData(player);
 }
 
 // Клик по кнопке со стрелочкой вперед, для прокрутки списка вперед
