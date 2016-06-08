@@ -123,6 +123,7 @@
         var buttonBackPlay;
 
         var buttonHelpTime, buttonHelpMove, buttonHelpShow;
+        var muzica;
 
         function createText() {
             // Создание игры
@@ -173,6 +174,7 @@
                 game.load.audio("click", "sound/click.mp3");
                 game.load.audio("win", "sound/win.mp3");
                 game.load.audio("overButton", "sound/overButton.mp3");
+                game.load.audio("muzica", "sound/muzica.mp3");
             }
 
             //Функция создания
@@ -309,6 +311,10 @@
                 	 game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
         			 game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
                 }
+                
+                // Запускаем музыку
+                muzica = game.add.audio("muzica");
+                actionMusicClick();
             }
 
             //Функция обновления (каждый шаг)

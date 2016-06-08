@@ -22,7 +22,7 @@ function Player(){
     this.secondClick = null; // Для двойного нажатия
     this.maxLevel = 1; // Уровень, который открыт
     this.sound = true; // включен звук
-    this.music = true; // Включена музыка
+    this.music = false; // Включена музыка
     this.initGameKvadraty = function(){
         for(var i = 0; i<this.kolKvadratov*2; i++)
             this.gameKvadraty[i] = this.koordinaty[i];
