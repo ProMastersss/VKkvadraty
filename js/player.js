@@ -264,8 +264,6 @@ function moveAnimKvadraty(kv1, kv2) {
     playGroup.progres.cropRect.setTo(0, 791 - parseInt(791 / player.kolKvadratov * totalProgres), playGroup.progres.width, parseInt(791 / player.kolKvadratov * totalProgres));
     playGroup.progres.y = 791 - parseInt(791 / player.kolKvadratov * totalProgres);
     playGroup.progres.updateCrop();
-    
-    console.log(buttonBackPlay);
 
     // Проверка на собранную картинку
     if (player.proverka()) {

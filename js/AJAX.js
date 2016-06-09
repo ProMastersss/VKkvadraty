@@ -33,7 +33,6 @@ var AJAX = {
             type: "POST",
             success: function (data, textStatus, jqXHR) {
                 data = JSON.parse(data);
-                console.log(data);
                 p.level = parseInt(data.level);
                 p.money = parseInt(data.money);
                 p.days = parseInt(data.days);
@@ -44,7 +43,6 @@ var AJAX = {
     },
 
     saveData: function (p) {
-    	console.log(p, "Сохранение");
         jQuery.ajax({
             url: p.urlSave,
             async: true,
@@ -52,13 +50,12 @@ var AJAX = {
             data: { id: p.uid, level: p.level, money: p.money, days: p.days},
             type: "POST",
             success: function (data, textStatus, jqXHR) {
-                console.log(data);
+                
             },
         });
     },
     
     saveTimes: function (p) {
-    	console.log(p, "Сохранение времени");
         jQuery.ajax({
             url: p.urlSaveTimes,
             async: true,
@@ -66,7 +63,7 @@ var AJAX = {
             data: { id: p.uid, times: p.timesDays, days: p.days},
             type: "POST",
             success: function (data, textStatus, jqXHR) {
-                console.log(data);
+            	
             },
         });
     },

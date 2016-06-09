@@ -236,7 +236,6 @@ function actionSettingClick() {
 // Клик по кнопке "Музыки"
 function actionMusicClick() {
     player.music = !player.music;
-    console.log("В музыке");
     // Музыка
     if (player.music) {
         muzica.play();
