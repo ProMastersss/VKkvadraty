@@ -24,6 +24,7 @@
     <script type="text/javascript" src="js/jquery.elastislide.js"></script>
 </head>
 <body>
+	<div id="loadGame" style="max-width: 810px; max-height: 717px; height: 717px; background-image: url(/img/nachaloZagruzki.png);"></div>
     <div id="game" style="max-width: 810px; max-height: 585px; margin-bottom: 5px;"></div>
     <!--Слайдер друзей-->
     <div class="container demo-4">
@@ -315,6 +316,8 @@
                 // Запускаем музыку
                 muzica = game.add.audio("muzica");
                 actionMusicClick();
+                
+                $('#loadGame').slideUp("slow");
             }
 
             //Функция обновления (каждый шаг)
