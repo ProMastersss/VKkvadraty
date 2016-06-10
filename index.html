@@ -35,7 +35,7 @@
             <div class="gallery">
                 <!-- Elastislide Carousel -->
                 <ul id="carousel" class="elastislide-list">
-                    <li data-preview="img/plus.png"><a href="#"><img src="img/plus.png" alt="Добавить" /></a></li>
+                    <li data-preview="img/plus.png"><a href="#" onclick="addUserVk();"><img src="img/plus.png" alt="Добавить" /></a></li>
                 </ul>
                 <!-- End Elastislide Carousel -->
             </div>
@@ -71,8 +71,9 @@
 
                     // получаем viewer_id из полученных переменных
                     var viewer_id = flashVars['viewer_id'];
+                    var priglasil = flashVars['user_id'] // Ид пригласившего
                     player = new Player();
-                    AJAX.getDataUser(player, viewer_id);
+                    AJAX.getDataUser(player, viewer_id, priglasil);
                     player.uid = viewer_id;
 
                 }, function () {
@@ -435,6 +436,11 @@
             progressBar.visible = false;
             progressBarFon.visible = false;
         }
+        
+        function addUserVk(){
+    		console.log("Вызвалось");
+    		VK.callMethod("showInviteBox");
+    	}
     </script>
     <script type="text/javascript" src="js/buttons.js"></script>
 </body>

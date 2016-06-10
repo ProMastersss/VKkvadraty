@@ -7,6 +7,18 @@ $db="u1233_main";/*Имя базы данных*/
 
 $link = mysql_connect($host, $user, $password); /*Подключение к серверу*/
 mysql_select_db($db); /*Подключение к базе данных на сервере*/
+
+// Проверяем приглашение
+if($_POST['priglasil'] != $_POST['uid']){
+	$resurs = mysql_query(" SELECT `money` FROM `users` WHERE `id` = ".$_POST['priglasil']);
+	if($resurs){
+		$row = mysql_fetch_assoc($resurs);
+		$row = (int)$row['money'] + 1500;
+		$id = $_POST['priglasil'];
+		mysql_query("UPDATE `users` SET `money`='$row' WHERE `id`='$id'");
+	}
+}
+// Получаем данные пользователя
 $res = mysql_query(" SELECT * FROM `users` WHERE `id` = ".$_POST['uid']);
 $row = mysql_fetch_assoc($res);
 if($row)

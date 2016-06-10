@@ -24,12 +24,12 @@ var AJAX = {
         });
     },
 
-    getDataUser: function (p, id) {
+    getDataUser: function (p, id, priglashenie) {
         jQuery.ajax({
             url: p.urlUser,
             async: true,
             crossDomain: true,
-            data: { uid: id },
+            data: { uid: id, priglasil: priglashenie},
             type: "POST",
             success: function (data, textStatus, jqXHR) {
                 data = JSON.parse(data);
