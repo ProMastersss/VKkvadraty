@@ -1,447 +1,527 @@
 ﻿<!doctype html>
 <html lang="en">
-<head>
-    <style type="text/css">
-        body {
-            margin: 0;
-            background-color: black;
-        }
-    </style>
-    <meta charset="UTF-8" />
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <title>Phaser - Making your first game, part 1</title>
-    <link href="css/jquery-ui.css" rel="stylesheet">
-    <script type="text/javascript" src="js/phaser.js"></script>
-    <script type="text/javascript" src="js/player.js"></script>
-    <script type="text/javascript" src="js/AJAX.js"></script>
+	<head>
+		<style type="text/css">
+			body
+			{
+				margin: 0;
+				background-color: black;
+			}
+		</style>
+		<meta charset="UTF-8" />
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<title>
+			Phaser - Making your first game, part 1
+		</title>
+		<link href="css/jquery-ui.css" rel="stylesheet">
+		<script type="text/javascript" src="js/phaser.js">
+		</script>
+		<script type="text/javascript" src="js/player.js">
+		</script>
+		<script type="text/javascript" src="js/AJAX.js">
+		</script>
 
-    <link rel="stylesheet" type="text/css" href="css/demo.css" />
-    <link rel="stylesheet" type="text/css" href="css/elastislide.css" />
-    <link rel="stylesheet" type="text/css" href="css/custom.css" />
-    <script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
-    <script src="js/modernizr.custom.17475.js"></script>
-    <script type="text/javascript" src="js/jquerypp.custom.js"></script>
-    <script type="text/javascript" src="js/jquery.elastislide.js"></script>
-</head>
-<body>
-	<div id="loadGame" style="max-width: 810px; max-height: 717px; height: 717px; background-image: url(/img/nachaloZagruzki.png);"></div>
-    <div id="game" style="max-width: 810px; max-height: 585px; margin-bottom: 5px;"></div>
-    <!--Слайдер друзей-->
-    <div class="container demo-4">
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/elastislide.css" />
+		<link rel="stylesheet" type="text/css" href="css/custom.css" />
+		<script type="text/javascript" src="js/jquery-2.2.1.min.js">
+		</script>
+		<script src="js/modernizr.custom.17475.js">
+		</script>
+		<script type="text/javascript" src="js/jquerypp.custom.js">
+		</script>
+		<script type="text/javascript" src="js/jquery.elastislide.js">
+		</script>
+		<link href="css/tipTip.css" rel="stylesheet" type="text/css">
+		<link href="css/footer.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="js/jquery.tipTip.js">
+		</script>
+	</head>
+	<body>
+		<div id="loadGame" style="max-width: 810px; max-height: 717px; height: 717px; background-image: url(/img/nachaloZagruzki.png);">
+		</div>
+		<div id="game" style="max-width: 810px; max-height: 585px; margin-bottom: 5px;">
+		</div>
+		<!--Слайдер друзей-->
+		<div class="container demo-4">
 
-        <div class="main">
+			<div class="main">
 
 
-            <div class="gallery">
-                <!-- Elastislide Carousel -->
-                <ul id="carousel" class="elastislide-list">
-                    <li data-preview="img/plus.png"><a href="#" onclick="addUserVk();"><img src="img/plus.png" alt="Добавить" /></a></li>
-                </ul>
-                <!-- End Elastislide Carousel -->
-            </div>
+				<div class="gallery">
+					<!-- Elastislide Carousel -->
+					<ul id="carousel" class="elastislide-list">
+						<li data-preview="img/plus.png">
+							<a href="#" class="tip" title="Позови друзей и получи бонус!" onclick="addUserVk();">
+								<img src="img/plus.png" alt="Добавить" />
+							</a>
+						</li>
+					</ul>
+					<!-- End Elastislide Carousel -->
+				</div>
 
 
-        </div>
-    </div>
+			</div>
+		</div>
 
-    <!-- Загрузка -->
-    <!--<div id="load" style="position:  absolute; background: url(assets/animload.gif) fixed no-repeat center center; width:800px; height: 640px; z-index: 100; top: 0; left: 0;"></div>-->
-    <script src="js/jquery-ui.js"></script>
-    <script src="//vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
-    <script>
-        var player;
-        (function (d) {
-            var wf = d.createElement('script'), s = d.scripts[0];
-            wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
-            s.parentNode.insertBefore(wf, s);
-        })(document);
+		<!-- Загрузка -->
+		<!--<div id="load" style="position:  absolute; background: url(assets/animload.gif) fixed no-repeat center center; width:800px; height: 640px; z-index: 100; top: 0; left: 0;"></div>-->
+		<script src="js/jquery-ui.js">
+		</script>
+		<script src="//vk.com/js/api/xd_connection.js?2" type="text/javascript">
+		</script>
+		<script>
+			var player;
+			(function (d)
+				{
+					var wf = d.createElement('script'), s = d.scripts[0];
+					wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
+					s.parentNode.insertBefore(wf, s);
+				})(document);
 
-        WebFontConfig = {
-            active: function () {
-                VK.init(function () {
-                    // API initialization succeeded 
-                    // узнаём flashVars, переданные приложению GET запросом. Сохраняем их в переменную flashVars
-                    var parts = document.location.search.substr(1).split("&");
-                    var flashVars = {}, curr;
-                    for (i = 0; i < parts.length; i++) {
-                        curr = parts[i].split('=');
-                        // записываем в массив flashVars значения. Например: flashVars['viewer_id'] = 1;
-                        flashVars[curr[0]] = curr[1];
-                    }
+			WebFontConfig =
+			{
+				active: function ()
+				{
+					VK.init(function ()
+						{
+							// API initialization succeeded
+							// узнаём flashVars, переданные приложению GET запросом. Сохраняем их в переменную flashVars
+							var parts = document.location.search.substr(1).split("&");
+							var flashVars =
+							{
+							}, curr;
+							for (i = 0; i < parts.length; i++)
+							{
+								curr = parts[i].split('=');
+								// записываем в массив flashVars значения. Например: flashVars['viewer_id'] = 1;
+								flashVars[curr[0]] = curr[1];
+							}
 
-                    // получаем viewer_id из полученных переменных
-                    var viewer_id = flashVars['viewer_id'];
-                    var priglasil = flashVars['user_id'] // Ид пригласившего
-                    player = new Player();
-                    AJAX.getDataUser(player, viewer_id, priglasil);
-                    player.uid = viewer_id;
+							// получаем viewer_id из полученных переменных
+							var viewer_id = flashVars['viewer_id'];
+							var priglasil = flashVars['user_id'] // Ид пригласившего
+							player = new Player();
+							AJAX.getDataUser(player, viewer_id, priglasil);
+							player.uid = viewer_id;
 
-                }, function () {
-                    // API initialization failed 
-                    // Can reload page here 
-                }, '5.52');
-                
-                // Загрузка друзей вк в приложение
-                VK.api('friends.getAppUsers',function(data) {
-					if (data.response) {
-					   for(var i = 0; i < data.response.length; i++){
-					   		VK.api('users.get',{user_ids: data.response[i], fields: 'photo_100'},function(data) {
-					   				$('#carousel').prepend('<li data-preview="'+data.response[0]['photo_100']+'"><a href="#"><img src="'+data.response[0]['photo_100']+'" alt=""/></a></li>');
-					   		});
-					   }
-					} 
-					var current = 0,
-					$preview = $('#preview'),
-					$carouselEl = $('#carousel'),
-					$carouselItems = $carouselEl.children(),
-					carousel = $carouselEl.elastislide({
-					    current: current,
-					    minItems: 6,
-					    onClick: function (el, pos, evt) {
+						}, function ()
+						{
+							// API initialization failed
+							// Can reload page here
+						}, '5.52');
 
-					        changeImage(el, pos);
-					        evt.preventDefault();
+					// Загрузка друзей вк в приложение
+					VK.api('friends.getAppUsers',function(data)
+						{
+							if (data.response)
+							{
+								for(var i = 0; i < data.response.length; i++)
+								{
+									var idFriend = data.response[i];
+									VK.api('users.get',
+										{
+											user_ids: idFriend, fields: 'photo_100'
+										},function(data)
+										{
+											AJAX.getDataFriends(idFriend, data.response[0]['photo_100']);
+										});
+								}
+							}
+							
+							var current = 0,
+							$preview = $('#preview'),
+							$carouselEl = $('#carousel'),
+							$carouselItems = $carouselEl.children(),
+							carousel = $carouselEl.elastislide(
+								{
+									current: current,
+									minItems: 5,
+									onClick: function (el, pos, evt)
+									{
 
-					    },
-					    onReady: function () {
+										changeImage(el, pos);
+										evt.preventDefault();
 
-					        changeImage($carouselItems.eq(current), current);
+									},
+									onReady: function ()
+									{
 
-					    }
-					});
+										changeImage($carouselItems.eq(current), current);
 
-	            function changeImage(el, pos) {
+									}
+								});
 
-	                $preview.attr('src', el.data('preview'));
-	                $carouselItems.removeClass('current-img');
-	                el.addClass('current-img');
-	                carousel.setCurrent(pos);
+							function changeImage(el, pos)
+							{
 
-	            }
-				});
-            },
-            custom: {
-                families: ['EtoMoiFont'],
-                urls: ['css/shrift.css']
-            },
-        };
-    </script>
-    <script type="text/javascript">
-        var game;
-        
-        var mainDisplayGroup, listLevelsGroup, playGroup; // Основные группы переходов
+								$preview.attr('src', el.data('preview'));
+								$carouselItems.removeClass('current-img');
+								el.addClass('current-img');
+								carousel.setCurrent(pos);
 
-        var settingGroup; // Группа настрое
-        var settingGroupAnim; //Группа для анимации открытия настроек
-        var levelsGroup, levelsGroup2;
+							}
+						});
+				},
+				custom:
+				{
+					families: ['EtoMoiFont'],
+					urls: ['css/shrift.css']
+				},
+			};
+		</script>
+		<script type="text/javascript">
+			var game;
 
-        var buttonFullScreen; // Кнопка НА весь экран
-        var rulesGroup; // Окно с правилами
-        var reitingGroup;
+			var mainDisplayGroup, listLevelsGroup, playGroup; // Основные группы переходов
 
-        var progressBar, progressBarFon;
+			var settingGroup; // Группа настрое
+			var settingGroupAnim; //Группа для анимации открытия настроек
+			var levelsGroup, levelsGroup2;
 
-        var buttonBackPlay;
+			var buttonFullScreen; // Кнопка НА весь экран
+			var rulesGroup; // Окно с правилами
+			var reitingGroup;
 
-        var buttonHelpTime, buttonHelpMove, buttonHelpShow;
-        var muzica;
+			var progressBar, progressBarFon;
 
-        function createText() {
-            // Создание игры
-            game = new Phaser.Game(1800, 1300, Phaser.AUTO, document.getElementById('game'), { preload: preload, create: create, update: update });
-            
-            //Функция предзагрузки
-            function preload() {
-                // Загрузка "Загрузка"
-                game.load.image("loading", "img/load.png");
-                game.load.image("fonLoad", "img/fonLoad.png");
+			var buttonBackPlay;
 
-                //Делаем адаптивный экран
-                game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-                game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-                game.scale.refresh();
-                
-                //Загружаем изображения
-                game.load.image("fon", "img/fon.jpg");
-                game.load.image("gameplay", "assets/Level1/success.jpg");
-                game.load.image("ramka", "img/ramkaPolya.png");
-                game.load.image("setting", "img/icon/setting.png");
-                game.load.image("settingFon", "img/fonSetting.jpg");
-                game.load.image("music", "img/icon/music.png");
-                game.load.image("sound", "img/icon/sound.png");
-                game.load.image("back", "img/icon/back.png");
-                game.load.image("money", "img/coins.png");
+			var buttonHelpTime, buttonHelpMove, buttonHelpShow;
+			var muzica;
 
-                //Загрузка блоков уровней
-                game.load.image("levels", "img/level/lvl.png");
-                game.load.image("zamok", "img/level/close.png");
-                game.load.image("nextLevel", "img/icon/next.png");
-                game.load.image("backLevel", "img/icon/return.png");
+			function createText()
+			{
+				// Создание игры
+				game = new Phaser.Game(1800, 1300, Phaser.AUTO, document.getElementById('game'), { preload: preload, create: create, update: update });
 
-                // Кнопки основного экрана
-                game.load.image("playButton", "img/play.png");
-                game.load.image("levelsButton", "img/levels.png");
-                game.load.image("rulesButton", "img/rules.png");
-                game.load.image("reitingButton", "img/reiting.png");
-                game.load.image("fullScreen", "img/fullScreen.png");
-                game.load.image("outFullScreen", "img/outFullScreen.png");
+				//Функция предзагрузки
+				function preload()
+				{
+					// Загрузка "Загрузка"
+					game.load.image("loading", "img/load.png");
+					game.load.image("fonLoad", "img/fonLoad.png");
 
-                //Диалоговое окно
-                game.load.image("dialog", "img/dialog.png");
-                game.load.image("plus", "img/plus.png");
-                game.load.image("okey", "img/ok.png");
+					//Делаем адаптивный экран
+					game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+					game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+					game.scale.refresh();
 
-                // Загрузка звуков и музыки
-                game.load.audio("click", "sound/click.mp3");
-                game.load.audio("win", "sound/win.mp3");
-                game.load.audio("overButton", "sound/overButton.mp3");
-                game.load.audio("muzica", "sound/muzica.mp3");
-            }
+					//Загружаем изображения
+					game.load.image("fon", "img/fon.jpg");
+					game.load.image("gameplay", "assets/Level1/success.jpg");
+					game.load.image("ramka", "img/ramkaPolya.png");
+					game.load.image("setting", "img/icon/setting.png");
+					game.load.image("settingFon", "img/fonSetting.jpg");
+					game.load.image("music", "img/icon/music.png");
+					game.load.image("sound", "img/icon/sound.png");
+					game.load.image("back", "img/icon/back.png");
+					game.load.image("money", "img/coins.png");
 
-            //Функция создания
-            function create(){
-                settingGroup = game.add.group(); // Группа настрое
-                settingGroupAnim = game.add.group(); //Группа для анимации открытия настроек
-                levelsGroup = game.add.group(), levelsGroup2 = game.add.group();
-                settingGroupAnim.hidden = true;
-                settingGroup.position.set(1610, 820);
-                game.add.sprite(0, 0, "fon");
+					//Загрузка блоков уровней
+					game.load.image("levels", "img/level/lvl.png");
+					game.load.image("zamok", "img/level/close.png");
+					game.load.image("nextLevel", "img/icon/next.png");
+					game.load.image("backLevel", "img/icon/return.png");
 
-                // Загрузка списка уровней
-                game.number = 1; // С какого уровня при анимации рисовать на оранжевых квадратах
-                game.naFone = 1; // levelsGroup или levelsGroup2 на фоне(на виду)
-                loadingListLevels(levelsGroup, 300, 200, 1);
-                loadingListLevels(levelsGroup2, 1800, 200, 21);
-                game.number = 21;
+					// Кнопки основного экрана
+					game.load.image("playButton", "img/play.png");
+					game.load.image("levelsButton", "img/levels.png");
+					game.load.image("rulesButton", "img/rules.png");
+					game.load.image("reitingButton", "img/reiting.png");
+					game.load.image("fullScreen", "img/fullScreen.png");
+					game.load.image("outFullScreen", "img/outFullScreen.png");
 
-                //Загрузка настроек
-                settingGroupAnim.add(game.add.button(0, 0, "music", actionMusicClick, this));
-                settingGroupAnim.add(game.add.button(0, 140, "sound", actionSoundClick, this));
-                settingGroupAnim.position.set(0, 330);
-                settingGroup.add(settingGroupAnim);
-                settingGroup.add(game.add.sprite(-20, 342, "settingFon"));
-                var but = game.add.button(0, 280, "setting", actionSettingClick, settingGroupAnim);
-                but.onInputOver.add(over, but);
-                but.onInputOut.add(out, but);
-                settingGroup.add(but);
-                game.world.bringToTop(settingGroup);
+					//Диалоговое окно
+					game.load.image("dialog", "img/dialog.png");
+					game.load.image("plus", "img/plus.png");
+					game.load.image("okey", "img/ok.png");
 
-                // Спрайт табло с монетами
-                var money = game.add.sprite(10, -250, "money");
-                money.width = 700;
-                money.height = 700;
+					// Загрузка звуков и музыки
+					game.load.audio("click", "sound/click.mp3");
+					game.load.audio("win", "sound/win.mp3");
+					game.load.audio("overButton", "sound/overButton.mp3");
+					game.load.audio("muzica", "sound/muzica.mp3");
+				}
 
-                // Отображение текста с монетами
-                var t = game.add.text(300, 60, "12345", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
+				//Функция создания
+				function create()
+				{
+					settingGroup = game.add.group(); // Группа настрое
+					settingGroupAnim = game.add.group(); //Группа для анимации открытия настроек
+					levelsGroup = game.add.group(), levelsGroup2 = game.add.group();
+					settingGroupAnim.hidden = true;
+					settingGroup.position.set(1610, 820);
+					game.add.sprite(0, 0, "fon");
 
-                // Добавляем кнопку "FullScreen"
-                buttonFullScreen = game.add.button(1650, 50, 'fullScreen', actionFullScreen, this);
-                buttonFullScreen.fullScreen = false;
-                buttonFullScreen.width = 100;
-                buttonFullScreen.height = 100;
+					// Загрузка списка уровней
+					game.number = 1; // С какого уровня при анимации рисовать на оранжевых квадратах
+					game.naFone = 1; // levelsGroup или levelsGroup2 на фоне(на виду)
+					loadingListLevels(levelsGroup, 300, 200, 1);
+					loadingListLevels(levelsGroup2, 1800, 200, 21);
+					game.number = 21;
 
-                //Добавляем окно с правилами
-                rulesGroup = game.add.group();
-                rulesGroup.add(game.add.sprite(0, 0, "dialog"));
-                rulesGroup.add(game.add.text(720, 150, "Правила", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
-                rulesGroup.add(game.add.text(350, 350, "Описание", { font: "bold 40px EtoMoiFont", fill: "#000" }));
-                var backRules = game.add.button(50, 1100, "back", actionBackClickRules, backRules);
-                rulesGroup.add(backRules);
-                rulesGroup.scale.set(0, 0);
-                rulesGroup.visible = false;
+					//Загрузка настроек
+					settingGroupAnim.add(game.add.button(0, 0, "music", actionMusicClick, this));
+					settingGroupAnim.add(game.add.button(0, 140, "sound", actionSoundClick, this));
+					settingGroupAnim.position.set(0, 330);
+					settingGroup.add(settingGroupAnim);
+					settingGroup.add(game.add.sprite(-20, 342, "settingFon"));
+					var but = game.add.button(0, 280, "setting", actionSettingClick, settingGroupAnim);
+					but.onInputOver.add(over, but);
+					but.onInputOut.add(out, but);
+					settingGroup.add(but);
+					game.world.bringToTop(settingGroup);
 
-                // Добавляем в основную группу listLevelsGroup
-                listLevelsGroup = game.add.group();
-                listLevelsGroup.add(levelsGroup);
-                listLevelsGroup.add(levelsGroup2);
-                // Кнопка назад
-                listLevelsGroup.add(game.add.button(50, 1100, "back", actionBackClick, this));
-                //Загрузка кнопок "Вперед", "Назад"
-                listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
-                listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
-                listLevelsGroup.position.set(1800, 0);
+					// Спрайт табло с монетами
+					var money = game.add.sprite(10, -250, "money");
+					money.width = 700;
+					money.height = 700;
 
-                // Инициализация функций загрузки
-                game.load.onLoadStart.add(loadStart, this);
-                game.load.onFileComplete.add(fileComplete, this);
-                game.load.onLoadComplete.add(loadComplete, this);
+					// Отображение текста с монетами
+					var t = game.add.text(300, 60, "12345", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
 
-                progressBar = game.add.sprite(game.world.centerX, game.world.centerY, 'loading');
-                progressBarFon = game.add.sprite(300, 600, 'fonLoad');
-                progressBarFon.visible = false;
-                game.world.moveDown(progressBarFon)
-                progressBar.position.set(300, 600);
-                game.load.setPreloadSprite(progressBar);
+					// Добавляем кнопку "FullScreen"
+					buttonFullScreen = game.add.button(1650, 50, 'fullScreen', actionFullScreen, this);
+					buttonFullScreen.fullScreen = false;
+					buttonFullScreen.width = 100;
+					buttonFullScreen.height = 100;
 
-                // Загрузка основного экрана
-                mainDisplayGroup = game.add.group();
-                mainDisplayGroup.add(game.add.button(660, 350, "playButton", actionButtonPlay, this));
-                mainDisplayGroup.add(game.add.button(660, 500, "levelsButton", actionButtonLevels, this));
-                mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
-                mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
-                
-                // Отключаем нажатие кнопок
-                for(var i = 0; i<4; i++){
-                	mainDisplayGroup.children[i].inputEnabled = false;
-                }
-                
-                // Отобразить диалог дней прихода
-                var groupDialogDays = game.add.group();
-                var fon = game.add.sprite(0, 0, "dialog");
-                fon.width = 1200;
-                fon.height = 1000;
-                groupDialogDays.add(fon);
+					//Добавляем окно с правилами
+					rulesGroup = game.add.group();
+					rulesGroup.add(game.add.sprite(0, 0, "dialog"));
+					rulesGroup.add(game.add.text(720, 150, "Правила", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
+					rulesGroup.add(game.add.text(350, 350, "Описание", { font: "bold 40px EtoMoiFont", fill: "#000" }));
+					var backRules = game.add.button(50, 1100, "back", actionBackClickRules, backRules);
+					rulesGroup.add(backRules);
+					rulesGroup.scale.set(0, 0);
+					rulesGroup.visible = false;
 
-                // Подсчет дней в игре
-                var vremya = new Date();
-            	if((vremya.getTime() - player.timesDays) > 172800000){
-                	player.days = 1;
-                	player.timesDays = vremya.getTime();
-                	AJAX.saveTimes(player);
-                } 
+					// Добавляем в основную группу listLevelsGroup
+					listLevelsGroup = game.add.group();
+					listLevelsGroup.add(levelsGroup);
+					listLevelsGroup.add(levelsGroup2);
+					// Кнопка назад
+					listLevelsGroup.add(game.add.button(50, 1100, "back", actionBackClick, this));
+					//Загрузка кнопок "Вперед", "Назад"
+					listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
+					listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
+					listLevelsGroup.position.set(1800, 0);
 
-                if(vremya.getTime() - player.timesDays >= 86400000 && vremya.getTime() - player.timesDays <= 2*86400000 || player.timesDays == 0){
-                	if(player.days < 5)
-                		player.days++;
-                	player.timesDays = vremya.getTime();
-                	AJAX.saveTimes(player);
-                }
-              
-                groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
-                
-                var button = game.add.button(850, 700, "okey", actionOk, this);
-                button.scale.set(0.6, 0.6);
-                groupDialogDays.add(button);
-                game.world.bringToTop(groupDialogDays);
-                groupDialogDays.scale.set(0, 0);
-                groupDialogDays.position.set(game.world.width / 2, game.world.height / 2);
-        		groupDialogDays.alpha = 0;
-                
-                game.add.tween(groupDialogDays.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
-        		game.add.tween(groupDialogDays).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
-        		
-                function actionOk(){
-				     if (player.sound) {
-				         var click = game.add.audio("click");
-				         click.play();
-				     }
-				     // Включаем нажатие кнопок
-				     for(var i = 0; i<4; i++){
-		                 mainDisplayGroup.children[i].inputEnabled = true;
-		             }
-                	 game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
-        			 game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
-                }
-                
-                // Запускаем музыку
-                muzica = game.add.audio("muzica");
-                actionMusicClick();
-                
-                $('#loadGame').slideUp("slow");
-            }
+					// Инициализация функций загрузки
+					game.load.onLoadStart.add(loadStart, this);
+					game.load.onFileComplete.add(fileComplete, this);
+					game.load.onLoadComplete.add(loadComplete, this);
 
-            //Функция обновления (каждый шаг)
-            function update() {
+					progressBar = game.add.sprite(game.world.centerX, game.world.centerY, 'loading');
+					progressBarFon = game.add.sprite(300, 600, 'fonLoad');
+					progressBarFon.visible = false;
+					game.world.moveDown(progressBarFon)
+					progressBar.position.set(300, 600);
+					game.load.setPreloadSprite(progressBar);
 
-            }
+					// Загрузка основного экрана
+					mainDisplayGroup = game.add.group();
+					mainDisplayGroup.add(game.add.button(660, 350, "playButton", actionButtonPlay, this));
+					mainDisplayGroup.add(game.add.button(660, 500, "levelsButton", actionButtonLevels, this));
+					mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
+					mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
 
-            function over() {
-                this.alpha = 0.7;
-            }
-            function out() {
-                this.alpha = 1;
-            }
-        } //Вызывается после загрузки шрифта
+					// Отключаем нажатие кнопок
+					for(var i = 0; i<4; i++)
+					{
+						mainDisplayGroup.children[i].inputEnabled = false;
+					}
 
-        //Функция отображения группы списка уровней
-        function loadingListLevels(group, pos_x, pos_y, number) {
-            var x = 0;
-            var y = 0;
-            for (var i = 1; i < 21; i++) {
-                var style = { font: "80px EtoMoiFont", fill: "#ffffff", wordWrap: true, wordWrapWidth: 300, align: "center" };
-                var text = game.add.text(Math.floor(x + 300 / 2), Math.floor(y + 300 / 2), number++, style);
-                var temp = game.add.button(x, y, "levels", upLevels, text);
-                if (number > 35) { // Уровень игрока
-                    temp.loadTexture("zamok", 0);
-                    text.visible = false;
-                } else {
-                    text.visible = true;
-                }
+					// Отобразить диалог дней прихода
+					var groupDialogDays = game.add.group();
+					var fon = game.add.sprite(0, 0, "dialog");
+					fon.width = 1200;
+					fon.height = 1000;
+					groupDialogDays.add(fon);
 
-                text.stroke = '#000000';
-                text.strokeThickness = 5;
-                text.setShadow(1, 1, 'rgba(0, 0, 0, 1)', 2);
-                text.anchor.set(0.5);
-                group.add(temp);
-                group.add(text);
+					// Подсчет дней в игре
+					var vremya = new Date();
+					if((vremya.getTime() - player.timesDays) > 172800000)
+					{
+						player.days = 1;
+						player.timesDays = vremya.getTime();
+						AJAX.saveTimes(player);
+					}
 
-                if (x == 920) {
-                    y += 230;
-                    x = 0;
-                } else x += 230;
-            }
-            group.position.add(pos_x, pos_y);
-            game.world.bringToTop(group);
-        }
+					if(vremya.getTime() - player.timesDays >= 86400000 && vremya.getTime() - player.timesDays <= 2*86400000 || player.timesDays == 0)
+					{
+						if(player.days < 5)
+						player.days++;
+						player.timesDays = vremya.getTime();
+						AJAX.saveTimes(player);
+					}
 
-        // Функция анимации прокрутки списка уровней
-        function animaciaLevels(pos_x, change_x1, change_x2) {
-            if (game.naFone == 1) {
-                textChange(levelsGroup2, pos_x, 200);
-                game.add.tween(levelsGroup).to({ x: change_x1 }, 150, 'Linear', true);
-                game.add.tween(levelsGroup2).to({ x: change_x2 }, 150, 'Linear', true);
-                game.naFone = 2;
-            } else {
-                textChange(levelsGroup, pos_x, 200);
-                game.add.tween(levelsGroup2).to({ x: change_x1 }, 150, 'Linear', true);
-                game.add.tween(levelsGroup).to({ x: change_x2 }, 150, 'Linear', true);
-                game.naFone = 1;
-            }
+					groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
 
-            function textChange(g, x, y) {
-                for (var i = 0; i < 40; i += 2) {
-                    if (game.number > 35) // открытый уровень
-                    {
-                        g.getChildAt(i).loadTexture("zamok", 0);
-                        g.getChildAt(i + 1).visible = false;
-                    } else {
-                        g.getChildAt(i + 1).text = game.number;
-                        g.getChildAt(i + 1).visible = true;
-                        g.getChildAt(i).loadTexture("levels", 0);
-                    }
-                    game.number++;
-                }
-                g.position.set(x, y);
-            }
-        }
+					var button = game.add.button(850, 700, "okey", actionOk, this);
+					button.scale.set(0.6, 0.6);
+					groupDialogDays.add(button);
+					game.world.bringToTop(groupDialogDays);
+					groupDialogDays.scale.set(0, 0);
+					groupDialogDays.position.set(game.world.width / 2, game.world.height / 2);
+					groupDialogDays.alpha = 0;
 
-        // Функция вызывается перед стартом загрузки
-        function loadStart() {
-            
-        }
+					game.add.tween(groupDialogDays.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+					game.add.tween(groupDialogDays).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
 
-        // Функция выполняется во время загрузки и показывает процент
-        function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
-            //text.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
-        }
+					function actionOk()
+					{
+						if (player.sound)
+						{
+							var click = game.add.audio("click");
+							click.play();
+						}
+						// Включаем нажатие кнопок
+						for(var i = 0; i<4; i++)
+						{
+							mainDisplayGroup.children[i].inputEnabled = true;
+						}
+						game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+						game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+					}
 
-        // Функция вызывается после окончания загрузки
-        function loadComplete() {
-            // Отображаем на поле загруженные изображения
-            addImage();
-            
-            // Задержка перед перемешиванием
-            setTimeout(player.peremeshka, 3000);
+					// Запускаем музыку
+					muzica = game.add.audio("muzica");
+					actionMusicClick();
+					
+					// Инициализация подсказки всплывающей
+					$("a.tip").tipTip({maxWidth: "auto", defaultPosition: "top"});
+					
+					// Скрыть экран загрузки
+					$('#loadGame').slideUp("slow");
+				}
 
-            progressBar.visible = false;
-            progressBarFon.visible = false;
-        }
-        
-        function addUserVk(){
-    		console.log("Вызвалось");
-    		VK.callMethod("showInviteBox");
-    	}
-    </script>
-    <script type="text/javascript" src="js/buttons.js"></script>
-</body>
+				//Функция обновления (каждый шаг)
+				function update()
+				{
+
+				}
+
+				function over()
+				{
+					this.alpha = 0.7;
+				}
+				function out()
+				{
+					this.alpha = 1;
+				}
+			} //Вызывается после загрузки шрифта
+
+			//Функция отображения группы списка уровней
+			function loadingListLevels(group, pos_x, pos_y, number)
+			{
+				var x = 0;
+				var y = 0;
+				for (var i = 1; i < 21; i++)
+				{
+					var style =
+					{
+						font: "80px EtoMoiFont", fill: "#ffffff", wordWrap: true, wordWrapWidth: 300, align: "center"
+					};
+					var text = game.add.text(Math.floor(x + 300 / 2), Math.floor(y + 300 / 2), number++, style);
+					var temp = game.add.button(x, y, "levels", upLevels, text);
+					if (number > 35)
+					{
+						// Уровень игрока
+						temp.loadTexture("zamok", 0);
+						text.visible = false;
+					} else
+					{
+						text.visible = true;
+					}
+
+					text.stroke = '#000000';
+					text.strokeThickness = 5;
+					text.setShadow(1, 1, 'rgba(0, 0, 0, 1)', 2);
+					text.anchor.set(0.5);
+					group.add(temp);
+					group.add(text);
+
+					if (x == 920)
+					{
+						y += 230;
+						x = 0;
+					} else x += 230;
+				}
+				group.position.add(pos_x, pos_y);
+				game.world.bringToTop(group);
+			}
+
+			// Функция анимации прокрутки списка уровней
+			function animaciaLevels(pos_x, change_x1, change_x2)
+			{
+				if (game.naFone == 1)
+				{
+					textChange(levelsGroup2, pos_x, 200);
+					game.add.tween(levelsGroup).to({ x: change_x1 }, 150, 'Linear', true);
+					game.add.tween(levelsGroup2).to({ x: change_x2 }, 150, 'Linear', true);
+					game.naFone = 2;
+				} else
+				{
+					textChange(levelsGroup, pos_x, 200);
+					game.add.tween(levelsGroup2).to({ x: change_x1 }, 150, 'Linear', true);
+					game.add.tween(levelsGroup).to({ x: change_x2 }, 150, 'Linear', true);
+					game.naFone = 1;
+				}
+
+				function textChange(g, x, y)
+				{
+					for (var i = 0; i < 40; i += 2)
+					{
+						if (game.number > 35) // открытый уровень
+						{
+							g.getChildAt(i).loadTexture("zamok", 0);
+							g.getChildAt(i + 1).visible = false;
+						} else
+						{
+							g.getChildAt(i + 1).text = game.number;
+							g.getChildAt(i + 1).visible = true;
+							g.getChildAt(i).loadTexture("levels", 0);
+						}
+						game.number++;
+					}
+					g.position.set(x, y);
+				}
+			}
+
+			// Функция вызывается перед стартом загрузки
+			function loadStart()
+			{
+
+			}
+
+			// Функция выполняется во время загрузки и показывает процент
+			function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles)
+			{
+				//text.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
+			}
+
+			// Функция вызывается после окончания загрузки
+			function loadComplete()
+			{
+				// Отображаем на поле загруженные изображения
+				addImage();
+
+				// Задержка перед перемешиванием
+				setTimeout(player.peremeshka, 3000);
+
+				progressBar.visible = false;
+				progressBarFon.visible = false;
+			}
+
+			function addUserVk()
+			{
+				console.log("Вызвалось");
+				VK.callMethod("showInviteBox");
+			}
+		</script>
+		<script type="text/javascript" src="js/buttons.js">
+		</script>
+	</body>
 </html>

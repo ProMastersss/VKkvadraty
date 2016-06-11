@@ -67,5 +67,20 @@ var AJAX = {
             },
         });
     },
+    
+    getDataFriends: function (uid, foto) {
+        jQuery.ajax({
+            url: 'https://game-vk.tk/getDataFriends.php',
+            async: true,
+            crossDomain: true,
+            data: { id: uid},
+            type: "POST",
+            success: function (data, textStatus, jqXHR) {
+            	data = JSON.parse(data);
+            	var html = $('#carousel').html();
+				$('#carousel').html('<li class="current-img" data-preview="'+foto+'"><a href="#" class="tip" title="Уровень '+data.level+'; Монет '+data.money+'"><img src="'+foto+'"/></a></li>' + html);
+            },
+        });
+    },
 }
 
