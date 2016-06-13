@@ -113,5 +113,83 @@ var AJAX =
 				},
 			});
 	},
+
+	getReyting: function (textGroup, textLoading, textGroupFIO)
+	{
+		jQuery.ajax(
+			{
+				url: 'https://game-vk.tk/reyting.php',
+				async: true,
+				crossDomain: true,
+				data:
+				{
+					id: player.uid
+				},
+				type: "POST",
+				success: function (data, textStatus, jqXHR)
+				{
+					data = JSON.parse(data);
+					var ids = "";
+					var p = 0;
+					forEach(data, function(key, value){console.log(value); if(value.id) {ids += value.id + ", "; p++;}});
+
+					ids = ids.substr(0, ids.length - 2);
+					VK.api("users.get",
+						{
+							user_ids: ids, fields: "photo_100"
+						}, function(data)
+						{
+							textGroup.visibleStroki = 0;
+							
+							var loader = new Phaser.Loader(game);
+							loader.onLoadStart.add(function()
+								{
+									console.log("Тут");
+									for (var i = 0; i < p; i++)
+									{
+										game.load.image("img" + i, data.response[i]['photo_100']);
+									}
+									loader.start();
+								}, this);
+
+							game.load.onLoadComplete.add(function()
+								{
+									console.log("Тут");
+									for (var i = 0; i < p; i++)
+									{
+										textGroupFIO.add(game.add.text(150, 100 * i, "50.Бобриков А.", { font: "bold 70px EtoMoiFont", fill: "#000" }));
+										textGroupFIO.add(game.add.sprite(-150, 100 * i, "img" + i));
+										textGroup.add(game.add.text(700, 100 * i, "Уровень 1000\nМонет 100000", { font: "bold 40px EtoMoiFont", fill: "#000" }));
+										if (i > 7)
+										{
+											textGroup.children[i].visible = false;
+											textGroupFIO.children[i].visible = false;
+										}
+									}
+									textGroup.position.set(350, 350);
+									textGroupFIO.position.set(350, 350);
+									reitingGroup.add(textGroup);
+									reitingGroup.add(textGroupFIO);
+
+									// Результат игрока
+									reitingGroup.add(game.add.text(350, 1150, "Текст игрока", { font: "bold 80px EtoMoiFont", fill: "#f00" }));
+
+									textLoading.destroy();
+								}, this);
+						});
+				},
+			});
+	},
+}
+
+function forEach(data, callback)
+{
+	for(var key in data)
+	{
+		if(data.hasOwnProperty(key))
+		{
+			callback(key, data[key]);
+		}
+	}
 }
 
