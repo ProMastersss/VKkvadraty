@@ -194,7 +194,7 @@ function actionButtonReiting()
 	function downStrelka(){
 		var kolStrok = 8; // Количество видимых строк
 		
-		if (textGroup.visibleStroki + kolStrok - 1 < 49)
+		if (textGroup.visibleStroki + kolStrok - 1 < textGroup.vsegoStrok - 1)
 		{
 			// < всего - 1
 			textGroup.y -= 100;

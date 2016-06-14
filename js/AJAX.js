@@ -126,12 +126,12 @@ var AJAX =
 					id: player.uid
 				},
 				type: "POST",
-				success: function (data, textStatus, jqXHR)
+				success: function (data_serv, textStatus, jqXHR)
 				{
-					data = JSON.parse(data);
+					data_serv = JSON.parse(data_serv);
 					var ids = "";
 					var p = 0;
-					forEach(data, function(key, value){console.log(value); if(value.id) {ids += value.id + ", "; p++;}});
+					forEach(data_serv, function(key, value){if(value.id) {ids += value.id + ", "; p++;}});
 
 					ids = ids.substr(0, ids.length - 2);
 					VK.api("users.get",
@@ -140,26 +140,18 @@ var AJAX =
 						}, function(data)
 						{
 							textGroup.visibleStroki = 0;
-							
+							console.log(data.response);
 							var loader = new Phaser.Loader(game);
-							loader.onLoadStart.add(function()
+							loader.crossOrigin = 'anonymous';
+							loader.onLoadComplete.add(function()
 								{
-									console.log("Тут");
 									for (var i = 0; i < p; i++)
 									{
-										game.load.image("img" + i, data.response[i]['photo_100']);
-									}
-									loader.start();
-								}, this);
-
-							game.load.onLoadComplete.add(function()
-								{
-									console.log("Тут");
-									for (var i = 0; i < p; i++)
-									{
-										textGroupFIO.add(game.add.text(150, 100 * i, "50.Бобриков А.", { font: "bold 70px EtoMoiFont", fill: "#000" }));
-										textGroupFIO.add(game.add.sprite(-150, 100 * i, "img" + i));
-										textGroup.add(game.add.text(700, 100 * i, "Уровень 1000\nМонет 100000", { font: "bold 40px EtoMoiFont", fill: "#000" }));
+										textGroupFIO.add(game.add.text(110, 100 * i, (i+1)+"."+data.response[i]['last_name']+" "+data.response[i]['first_name'][0]+".", { font: "bold 70px EtoMoiFont", fill: "#000" }));
+										var img = game.add.sprite(0, 100 * i, "img" + i);
+										img.scale.set(0.9, 0.9);
+										textGroupFIO.add(img);
+										textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\nМонет "+data_serv[i+1]['money'], { font: "bold 40px EtoMoiFont", fill: "#000" }));
 										if (i > 7)
 										{
 											textGroup.children[i].visible = false;
@@ -168,14 +160,23 @@ var AJAX =
 									}
 									textGroup.position.set(350, 350);
 									textGroupFIO.position.set(350, 350);
+									textGroup.vsegoStrok = p;
 									reitingGroup.add(textGroup);
 									reitingGroup.add(textGroupFIO);
 
 									// Результат игрока
-									reitingGroup.add(game.add.text(350, 1150, "Текст игрока", { font: "bold 80px EtoMoiFont", fill: "#f00" }));
+									reitingGroup.add(game.add.text(350, 1150, "Ваша позиция: "+data_serv[p+1]['position']+".", { font: "bold 60px EtoMoiFont", fill: "#f00" }));
+									reitingGroup.add(game.add.text(1050, 1150, "Уровень "+player.level+"\nМонет "+player.money, { font: "bold 40px EtoMoiFont", fill: "#000" }));
 
 									textLoading.destroy();
 								}, this);
+
+							for (var i = 0; i < p; i++)
+							{
+								loader.image("img" + i, data.response[i]['photo_100']);
+							}
+							loader.start();
+
 						});
 				},
 			});
