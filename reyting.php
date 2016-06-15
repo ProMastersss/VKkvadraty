@@ -8,7 +8,7 @@ $db            = "u1233_main";/*Имя базы данных*/
 $link          = mysql_connect($host, $user, $password); /*Подключение к серверу*/
 mysql_select_db($db); /*Подключение к базе данных на сервере*/
 
-$res           = mysql_query("SELECT `id`, `level`, `money` FROM `users` ORDER BY `money`, `level` DESC");
+$res           = mysql_query("SELECT `id`, `level`, `money` FROM `users` ORDER BY `level` DESC, `money` DESC");
 $k             = 1; //Счетчик позиций
 $user_position = 0;
 while(($row = mysql_fetch_assoc($res)) && $k <= 50)

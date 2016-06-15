@@ -134,7 +134,10 @@ function loadImage(level)
 	game.load.image("success", player.pathLevel +level+ "/success.jpg");
 	// Загрузка подсказок
 	game.load.image("time", "img/help/time2.png");
-
+	game.load.image("progress", "img/help/progress.png");
+	game.load.image("move", "img/help/move.png");
+	game.load.image("show", "img/help/show.png");
+	
 	//Загрузка прогресс бара для уровня
 	game.load.image("progresLevel", "img/progresLevel.png");
 	game.load.image("progresLevelFon", "img/progresLevelFon.png");
@@ -173,14 +176,14 @@ function addImage()
 	buttonHelpTime.groupTipTool = game.add.group();
 	buttonHelpTime.groupTipTool.position.set(1015, 160);
 	
-	buttonHelpMove = game.add.button(1020, -165, "time", actionHelpMove, this);
+	buttonHelpMove = game.add.button(1020, -165, "move", actionHelpMove, this);
 	buttonHelpMove.visible = false;
 	buttonHelpMove.events.onInputOver.add(actionHelpMoveOver, buttonHelpMove);
 	buttonHelpMove.events.onInputOut.add(actionHelpMoveOut, buttonHelpMove);
 	buttonHelpMove.groupTipTool = game.add.group();
 	buttonHelpMove.groupTipTool.position.set(1145, 160);
 	
-	buttonHelpShow = game.add.button(1150, -165, "time", actionHelpShow, this, actionHelpShowOver, actionHelpShowOut);
+	buttonHelpShow = game.add.button(1150, -165, "show", actionHelpShow, this, actionHelpShowOver, actionHelpShowOut);
 	buttonHelpShow.visible = false;
 	buttonHelpShow.events.onInputOver.add(actionHelpShowOver, buttonHelpShow);
 	buttonHelpShow.events.onInputOut.add(actionHelpShowOut, buttonHelpShow);
@@ -210,8 +213,8 @@ function updateTimer()
 		fon.height = 1000;
 		groupDialog.add(fon);
 		groupDialog.add(game.add.text(330, 350, "Увы, время вышло :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
-		var button = game.add.button(850, 700, "okey", actionOk, this);
-		button.scale.set(0.6, 0.6);
+		var button = game.add.button(540, 640, "okey", actionOk, this);
+		button.scale.set(0.5, 0.5);
 		groupDialog.add(button);
 		game.world.bringToTop(groupDialog);
 		groupDialog.scale.set(0, 0);
@@ -325,8 +328,8 @@ function moveAnimKvadraty(kv1, kv2)
 		fon.height = 1000;
 		groupDialog.add(fon);
 		groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
-		var button = game.add.button(850, 700, "okey", actionOk, this);
-		button.scale.set(0.6, 0.6);
+		var button = game.add.button(540, 640, "okey", actionOk, this);
+		button.scale.set(0.5, 0.5);
 		groupDialog.add(button);
 		game.world.bringToTop(groupDialog);
 		groupDialog.scale.set(0, 0);
@@ -351,6 +354,13 @@ function moveAnimKvadraty(kv1, kv2)
 		buttonHelpTime.visible = false;
 		buttonHelpMove.visible = false;
 		buttonHelpShow.visible = false;
+		
+		// Активность друзей в ВК
+		VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
+		
+		// Сохранение данных
+		AJAX.saveData(player);
+		
 		playGroup.timer.timer.stop();
 	}
 }

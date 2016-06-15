@@ -178,7 +178,7 @@
 			var levelsGroup, levelsGroup2;
 
 			var buttonFullScreen; // Кнопка НА весь экран
-			var rulesGroup; // Окно с правилами
+			var rulesGroup, magazGroup; // Окно с правилами
 			var reitingGroup;
 
 			var progressBar, progressBarFon;
@@ -226,7 +226,7 @@
 					game.load.image("down", "img/icon/down.png");
 
 					// Кнопки основного экрана
-					game.load.image("playButton", "img/play.png");
+					game.load.image("magazButton", "img/magaz.png");
 					game.load.image("levelsButton", "img/levels.png");
 					game.load.image("rulesButton", "img/rules.png");
 					game.load.image("reitingButton", "img/reiting.png");
@@ -281,7 +281,7 @@
 					money.height = 700;
 
 					// Отображение текста с монетами
-					var t = game.add.text(300, 60, "12345", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
+					var t = game.add.text(300, 60, player.money, { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
 
 					// Добавляем кнопку "FullScreen"
 					buttonFullScreen = game.add.button(1650, 50, 'fullScreen', actionFullScreen, this);
@@ -298,6 +298,16 @@
 					rulesGroup.add(backRules);
 					rulesGroup.scale.set(0, 0);
 					rulesGroup.visible = false;
+					
+					//Добавляем окно Магазин
+					magazGroup = game.add.group();
+					magazGroup.add(game.add.sprite(0, 0, "dialog"));
+					magazGroup.add(game.add.text(750, 150, "Магаз", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
+					magazGroup.add(game.add.text(350, 350, "Цены", { font: "bold 40px EtoMoiFont", fill: "#000" }));
+					var backMagaz = game.add.button(50, 1100, "back", actionBackClickMagaz, backMagaz);
+					magazGroup.add(backMagaz);
+					magazGroup.scale.set(0, 0);
+					magazGroup.visible = false;
 
 					// Добавляем в основную группу listLevelsGroup
 					listLevelsGroup = game.add.group();
@@ -324,8 +334,8 @@
 
 					// Загрузка основного экрана
 					mainDisplayGroup = game.add.group();
-					mainDisplayGroup.add(game.add.button(660, 350, "playButton", actionButtonPlay, this));
-					mainDisplayGroup.add(game.add.button(660, 500, "levelsButton", actionButtonLevels, this));
+					mainDisplayGroup.add(game.add.button(660, 500, "magazButton", actionButtonMagaz, this));
+					mainDisplayGroup.add(game.add.button(660, 350, "levelsButton", actionButtonLevels, this));
 					mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
 					mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
 
@@ -361,8 +371,8 @@
 
 					groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
 
-					var button = game.add.button(850, 700, "okey", actionOk, this);
-					button.scale.set(0.6, 0.6);
+					var button = game.add.button(540, 640, "okey", actionOk, this);
+					button.scale.set(0.5, 0.5);
 					groupDialogDays.add(button);
 					game.world.bringToTop(groupDialogDays);
 					groupDialogDays.scale.set(0, 0);

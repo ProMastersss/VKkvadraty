@@ -85,8 +85,8 @@ function actionFullScreen()
 	buttonFullScreen.fullScreen = !buttonFullScreen.fullScreen;
 }
 
-// Нажатие по кнопки "Играть"
-function actionButtonPlay()
+// Нажатие по кнопки "Магаз"
+function actionButtonMagaz()
 {
 	if (player.sound)
 	{
@@ -94,6 +94,28 @@ function actionButtonPlay()
 		click.play();
 	}
 
+	mainDisplayGroup.visible = false;
+	game.world.bringToTop(magazGroup);
+	magazGroup.position.set(game.world.width / 2, game.world.height / 2);
+	magazGroup.alpha = 0;
+	magazGroup.visible = true;
+	game.add.tween(magazGroup.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+	game.add.tween(magazGroup).to({ x: 0, y: 0, alpha: 1 }, 500, 'Linear', true, 0);
+}
+
+// Кнопка назад из магазина
+function actionBackClickMagaz()
+{
+	if (player.sound)
+	{
+		var click = game.add.audio("click");
+		click.play();
+	}
+
+	mainDisplayGroup.visible = true;
+	game.add.tween(magazGroup.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+	game.add.tween(magazGroup).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0 }, 500, 'Linear', true, 0);
+	game.add.tween(magazGroup).to({ visible: false }, 200, 'Linear', true, 0);
 }
 
 // Нажатие по кнопки "Уровни"
