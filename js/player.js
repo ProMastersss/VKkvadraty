@@ -18,7 +18,7 @@ function Player()
 	this.urlUser = 'https://game-vk.tk/user.php';
 	this.urlSave = 'https://game-vk.tk/save.php';
 	this.urlSaveTimes = 'https://game-vk.tk/saveTimes.php';
-	this.pathLevel = "assets/Level" + this.level + "/";
+	this.pathLevel = "assets/Level";
 	this.buttonBack = null; // Хранит кнопку "Назад" игрового поля
 	this.secondClick = null; // Для двойного нажатия
 	this.maxLevel = 1; // Уровень, который открыт
@@ -124,14 +124,14 @@ function Player()
 }
 
 //Загружает изображения в память
-function loadImage()
+function loadImage(level)
 {
 	for(var i = 1; i<=player.kolKvadratov; i++)
 	{
-		game.load.image("kv" + i, player.pathLevel + "image" + i + ".png");
+		game.load.image("kv" + i, player.pathLevel +level+ "/image" + i + ".png");
 	}
-	game.load.image("razmetka", player.pathLevel + "razmetka.png");
-	game.load.image("success", player.pathLevel + "success.jpg");
+	game.load.image("razmetka", player.pathLevel +level+ "/razmetka.png");
+	game.load.image("success", player.pathLevel +level+ "/success.jpg");
 	// Загрузка подсказок
 	game.load.image("time", "img/help/time2.png");
 

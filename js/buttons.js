@@ -310,11 +310,12 @@ function upLevels()
 		var click = game.add.audio("click");
 		click.play();
 	}
-	// Сохранение данных
-	AJAX.saveData(player);
-
-	if (!player.secondClick)
+	
+	if (!player.secondClick && this.text <= player.level)
 	{
+		// Сохранение данных
+		AJAX.saveData(player);
+		
 		player.secondClick = true;
 
 		// Скрываем группу с уровнями
@@ -322,7 +323,7 @@ function upLevels()
 		game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
 		game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
 		//Получаем координаты квдратов с сервера
-		AJAX.getKoordinaty(player);
+		AJAX.getKoordinaty(player, this.text);
 	}
 	setTimeout(function ()
 		{
@@ -379,8 +380,10 @@ function nextLevels()
 		var click = game.add.audio("click");
 		click.play();
 	}
-
-	animaciaLevels(1800, -1200, 300);
+	if (game.number < 4000)
+	{
+		animaciaLevels(1800, -1200, 300);
+	}
 }
 
 // Функция инициализации всплывающих окон

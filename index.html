@@ -257,11 +257,11 @@
 					game.add.sprite(0, 0, "fon");
 
 					// Загрузка списка уровней
-					game.number = 1; // С какого уровня при анимации рисовать на оранжевых квадратах
+					game.number = parseInt(player.level/20)*20 + 1; // С какого уровня при анимации рисовать на оранжевых квадратах
 					game.naFone = 1; // levelsGroup или levelsGroup2 на фоне(на виду)
-					loadingListLevels(levelsGroup, 300, 200, 1);
-					loadingListLevels(levelsGroup2, 1800, 200, 21);
-					game.number = 21;
+					loadingListLevels(levelsGroup, 300, 200, game.number);
+					loadingListLevels(levelsGroup2, 1800, 200, game.number);
+					game.number += 20;
 
 					//Загрузка настроек
 					settingGroupAnim.add(game.add.button(0, 0, "music", actionMusicClick, this));
@@ -426,9 +426,9 @@
 					{
 						font: "80px EtoMoiFont", fill: "#ffffff", wordWrap: true, wordWrapWidth: 300, align: "center"
 					};
-					var text = game.add.text(Math.floor(x + 300 / 2), Math.floor(y + 300 / 2), number++, style);
+					var text = game.add.text(Math.floor(x + 300 / 2), Math.floor(y + 300 / 2), number, style);
 					var temp = game.add.button(x, y, "levels", upLevels, text);
-					if (number > 35)
+					if (number > player.level)
 					{
 						// Уровень игрока
 						temp.loadTexture("zamok", 0);
@@ -437,7 +437,8 @@
 					{
 						text.visible = true;
 					}
-
+					number++;
+					
 					text.stroke = '#000000';
 					text.strokeThickness = 5;
 					text.setShadow(1, 1, 'rgba(0, 0, 0, 1)', 2);
@@ -476,7 +477,7 @@
 				{
 					for (var i = 0; i < 40; i += 2)
 					{
-						if (game.number > 35) // открытый уровень
+						if (game.number > player.level) // открытый уровень
 						{
 							g.getChildAt(i).loadTexture("zamok", 0);
 							g.getChildAt(i + 1).visible = false;

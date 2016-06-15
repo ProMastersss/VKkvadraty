@@ -3,7 +3,7 @@
 */
 var AJAX =
 {
-	getKoordinaty: function (player)
+	getKoordinaty: function (player, lv)
 	{
 		jQuery.ajax(
 			{
@@ -12,7 +12,7 @@ var AJAX =
 				crossDomain: true,
 				data:
 				{
-					level: player.level
+					level: lv
 				},
 				type: "POST",
 				success: function (data, textStatus, jqXHR)
@@ -26,7 +26,7 @@ var AJAX =
 					game.world.bringToTop(progressBar);
 
 					//Загружаем изображения
-					loadImage();
+					loadImage(lv);
 				},
 			});
 	},
