@@ -335,6 +335,9 @@ function upLevels()
 	
 	if (!player.secondClick && this.text <= player.level)
 	{
+		if(player.level % 5 == 0) player.naVremya = true;
+		else player.naVremya = false;
+		
 		// Сохранение данных
 		AJAX.saveData(player);
 		
@@ -409,9 +412,9 @@ function nextLevels()
 }
 
 // Функция инициализации всплывающих окон
-function tiptoolShow(group, text)
+function tiptoolShow(group, text, key)
 {
-	group.add(game.add.sprite(0, 0, "tiptool"));
+	group.add(game.add.sprite(0, 0, key));
 	group.add(game.add.text(30, 30, text, { font: "bold 50px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
 	group.visible = true;
 }
@@ -424,7 +427,7 @@ function tiptoolHide(group)
 
 function actionHelpTimeOver()
 {
-	tiptoolShow(this.groupTipTool, "Время");
+	tiptoolShow(this.groupTipTool, "Время", "tiptool");
 }
 
 function actionHelpTimeOut()
@@ -434,7 +437,7 @@ function actionHelpTimeOut()
 
 function actionHelpMoveOver()
 {
-	tiptoolShow(this.groupTipTool, "Переместить");
+	tiptoolShow(this.groupTipTool, "Переместить", "tiptool");
 }
 
 function actionHelpMoveOut()
@@ -444,10 +447,18 @@ function actionHelpMoveOut()
 
 function actionHelpShowOver()
 {
-	tiptoolShow(this.groupTipTool, "Показать\nкартинку");
+	tiptoolShow(this.groupTipTool, "Показать\nкартинку", "tiptool");
 }
 
 function actionHelpShowOut()
 {
+	tiptoolHide(this.groupTipTool);
+}
+
+function actionButtonProgressOver(){
+	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры", "tiptoolProgress");
+}
+
+function actionButtonProgressOut(){
 	tiptoolHide(this.groupTipTool);
 }

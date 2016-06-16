@@ -21,7 +21,8 @@ function Player()
 	this.pathLevel = "assets/Level";
 	this.buttonBack = null; // Хранит кнопку "Назад" игрового поля
 	this.secondClick = null; // Для двойного нажатия
-	this.maxLevel = 1; // Уровень, который открыт
+	this.naVremya = false; // Уровень на время или нет
+	this.progressLevelBar = null; // Прогресс бар подсказка на игровом поле
 	this.sound = true; // включен звук
 	this.music = false; // Включена музыка
 	this.initGameKvadraty = function()
@@ -101,25 +102,51 @@ function Player()
 			}, this);
 		//После перемешки отображаем кнопку назад и подсказки
 		player.buttonBack.visible = true;
-		buttonHelpTime.visible = true;
 		buttonHelpMove.visible = true;
 		buttonHelpShow.visible = true;
 
 		// Добавляем время
-		var timer = game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
-		playGroup.timer = timer;
-		playGroup.timer.timer.start();
-		playGroup.timeLevel = 1 * 60;
-		playGroup.textTimer = game.add.text(600, -130, "1:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
-		playGroup.add(playGroup.textTimer);
+		if(player.naVremya)
+		{
+			buttonHelpTime.visible = true;
+
+			var timer = game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
+			playGroup.timer = timer;
+			playGroup.timer.timer.start();
+			playGroup.timeLevel = 3 * 60;
+			playGroup.textTimer = game.add.text(600, -130, "3:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
+			playGroup.add(playGroup.textTimer);
+		}
 
 		// Добавляем прогресс бар для уровня
-		playGroup.add(game.add.sprite(-190, 0, "progresLevelFon"));
-		playGroup.progres = game.add.sprite(-190, 0, "progresLevel");
-		playGroup.progres.crop(new Phaser.Rectangle(0, 0, playGroup.progres.width, 0), true);
-		playGroup.add(playGroup.progres);
-		playGroup.textProgres = game.add.text(-220, 770, "0%\nЗавершено", { font: "bold 40px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" });
-		playGroup.add(playGroup.textProgres);
+		player.progressLevelBar = game.add.group();
+		player.progressLevelBar.add(game.add.sprite(-190, 0, "progresLevelFon"));
+		player.progressLevelBar.progres = game.add.sprite(-190, 0, "progresLevel");
+		player.progressLevelBar.progres.crop(new Phaser.Rectangle(0, 0, player.progressLevelBar.progres.width, 0), true);
+		player.progressLevelBar.add(player.progressLevelBar.progres);
+		player.progressLevelBar.textProgres = game.add.text(-220, 770, "0%\nЗавершено", { font: "bold 40px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" });
+		player.progressLevelBar.add(player.progressLevelBar.textProgres);
+
+		if(player.level == 1) player.progressLevelBar.visible = true;
+		else
+		{
+			player.progressLevelBar.visible = false;
+			// Кнопка для прогресс бара подсказки
+			var buttonProgress = game.add.button(-205, 770, "progress", showProgressLevel, buttonProgress);
+			buttonProgress.events.onInputOver.add(actionButtonProgressOver, buttonProgress);
+			buttonProgress.events.onInputOut.add(actionButtonProgressOut, buttonProgress);
+			buttonProgress.groupTipTool = game.add.group();
+			buttonProgress.groupTipTool.position.set(180, 920);
+			playGroup.add(buttonProgress);
+		}
+
+		playGroup.add(player.progressLevelBar);
+
+		function showProgressLevel()
+		{
+			this.visible = false;
+			player.progressLevelBar.visible = true;
+		}
 	}
 }
 
@@ -137,7 +164,7 @@ function loadImage(level)
 	game.load.image("progress", "img/help/progress.png");
 	game.load.image("move", "img/help/move.png");
 	game.load.image("show", "img/help/show.png");
-	
+
 	//Загрузка прогресс бара для уровня
 	game.load.image("progresLevel", "img/progresLevel.png");
 	game.load.image("progresLevelFon", "img/progresLevelFon.png");
@@ -168,6 +195,7 @@ function addImage()
 	player.buttonBack = game.add.button(-210, 900, "back", actionButtonBackPlay, this);
 	player.buttonBack.visible = false;
 	playGroup.add(player.buttonBack);
+
 	//Загрузка подсказок
 	buttonHelpTime = game.add.button(890, -165, "time", actionHelpTime, this);
 	buttonHelpTime.visible = false;
@@ -175,21 +203,21 @@ function addImage()
 	buttonHelpTime.events.onInputOut.add(actionHelpTimeOut, buttonHelpTime);
 	buttonHelpTime.groupTipTool = game.add.group();
 	buttonHelpTime.groupTipTool.position.set(1015, 160);
-	
+
 	buttonHelpMove = game.add.button(1020, -165, "move", actionHelpMove, this);
 	buttonHelpMove.visible = false;
 	buttonHelpMove.events.onInputOver.add(actionHelpMoveOver, buttonHelpMove);
 	buttonHelpMove.events.onInputOut.add(actionHelpMoveOut, buttonHelpMove);
 	buttonHelpMove.groupTipTool = game.add.group();
 	buttonHelpMove.groupTipTool.position.set(1145, 160);
-	
+
 	buttonHelpShow = game.add.button(1150, -165, "show", actionHelpShow, this, actionHelpShowOver, actionHelpShowOut);
 	buttonHelpShow.visible = false;
 	buttonHelpShow.events.onInputOver.add(actionHelpShowOver, buttonHelpShow);
 	buttonHelpShow.events.onInputOut.add(actionHelpShowOut, buttonHelpShow);
 	buttonHelpShow.groupTipTool = game.add.group();
 	buttonHelpShow.groupTipTool.position.set(1275, 160);
-	
+
 	playGroup.add(buttonHelpTime);
 	playGroup.add(buttonHelpMove);
 	playGroup.add(buttonHelpShow);
@@ -354,13 +382,13 @@ function moveAnimKvadraty(kv1, kv2)
 		buttonHelpTime.visible = false;
 		buttonHelpMove.visible = false;
 		buttonHelpShow.visible = false;
-		
+
 		// Активность друзей в ВК
 		VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
-		
+
 		// Сохранение данных
 		AJAX.saveData(player);
-		
+
 		playGroup.timer.timer.stop();
 	}
 }
