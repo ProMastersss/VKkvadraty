@@ -335,10 +335,10 @@ function moveAnimKvadraty(kv1, kv2)
 		if (player.gameKvadraty[i] == player.koordinaty[i] && player.gameKvadraty[i + 1] == player.koordinaty[i + 1])
 		totalProgres++;
 	}
-	playGroup.textProgres.setText(parseInt(totalProgres / player.kolKvadratov * 100) + "%\nЗавершено");
-	playGroup.progres.cropRect.setTo(0, 791 - parseInt(791 / player.kolKvadratov * totalProgres), playGroup.progres.width, parseInt(791 / player.kolKvadratov * totalProgres));
-	playGroup.progres.y = 791 - parseInt(791 / player.kolKvadratov * totalProgres);
-	playGroup.progres.updateCrop();
+	player.progressLevelBar.textProgres.setText(parseInt(totalProgres / player.kolKvadratov * 100) + "%\nЗавершено");
+	player.progressLevelBar.progres.cropRect.setTo(0, 791 - parseInt(791 / player.kolKvadratov * totalProgres), player.progressLevelBar.progres.width, parseInt(791 / player.kolKvadratov * totalProgres));
+	player.progressLevelBar.progres.y = 791 - parseInt(791 / player.kolKvadratov * totalProgres);
+	player.progressLevelBar.progres.updateCrop();
 
 	// Проверка на собранную картинку
 	if (player.proverka())
