@@ -361,7 +361,7 @@ function backLevels()
 {
 	if (player.sound)
 	{
-		var click = game.add.audio("click");
+		var click = game.add.audio("listat");
 		click.play();
 	}
 
@@ -402,7 +402,7 @@ function nextLevels()
 {
 	if (player.sound)
 	{
-		var click = game.add.audio("click");
+		var click = game.add.audio("listat");
 		click.play();
 	}
 	if (game.number < 4000)
