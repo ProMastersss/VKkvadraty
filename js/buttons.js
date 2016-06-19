@@ -1,4 +1,4 @@
-﻿// Нажатие по подсказке "Время"
+// Нажатие по подсказке "Время"
 function actionHelpTime()
 {
 	if (player.sound)
@@ -212,10 +212,11 @@ function actionButtonReiting()
 			textGroup.visibleStroki--;
 		}
 	}
-	
-	function downStrelka(){
+
+	function downStrelka()
+	{
 		var kolStrok = 8; // Количество видимых строк
-		
+
 		if (textGroup.visibleStroki + kolStrok - 1 < textGroup.vsegoStrok - 1)
 		{
 			// < всего - 1
@@ -332,21 +333,24 @@ function upLevels()
 		var click = game.add.audio("click");
 		click.play();
 	}
-	
+
 	if (!player.secondClick && this.text <= player.level)
 	{
 		if(player.level % 5 == 0) player.naVremya = true;
 		else player.naVremya = false;
-		
+
 		// Сохранение данных
 		AJAX.saveData(player);
-		
+
 		player.secondClick = true;
 
 		// Скрываем группу с уровнями
 		game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
 		game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
 		game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
+		
+		player.vybranLevel = this.text;
+		
 		//Получаем координаты квдратов с сервера
 		AJAX.getKoordinaty(player, this.text);
 	}
@@ -381,7 +385,16 @@ function actionButtonBackPlay()
 		click.play();
 	}
 
-	playGroup.timer.timer.stop();
+	if(player.naVremya)
+	{
+		playGroup.timer.timer.stop();
+	}
+	
+	levelsGroup.destroy();
+	levelsGroup2.destroy();
+	
+	initLevelsGroup();
+	
 	game.add.tween(playGroup).to({ x: 2030 }, 200, 'Linear', true, 0);
 	game.add.tween(listLevelsGroup).to({ visible: true }, 200, 'Linear', true, 0);
 	game.add.tween(listLevelsGroup.scale).to({ x: 1, y: 1 }, 200, 'Linear', true, 0);
@@ -417,6 +430,23 @@ function tiptoolShow(group, text, key)
 	group.add(game.add.sprite(0, 0, key));
 	group.add(game.add.text(30, 30, text, { font: "bold 50px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
 	group.visible = true;
+}
+
+// Рисуем список уровней
+function initLevelsGroup()
+{
+	levelsGroup = game.add.group(), levelsGroup2 = game.add.group();
+
+	// Загрузка списка уровней
+	game.number = parseInt(player.level/20)*20 + 1; // С какого уровня при анимации рисовать на оранжевых квадратах
+	game.naFone = 1; // levelsGroup или levelsGroup2 на фоне(на виду)
+	loadingListLevels(levelsGroup, 300, 200, game.number);
+	loadingListLevels(levelsGroup2, 1800, 200, game.number);
+	game.number += 20;
+
+	// Добавляем в основную группу listLevelsGroup
+	listLevelsGroup.add(levelsGroup);
+	listLevelsGroup.add(levelsGroup2);
 }
 
 //Функция скрытия всплывающего окна
@@ -455,10 +485,12 @@ function actionHelpShowOut()
 	tiptoolHide(this.groupTipTool);
 }
 
-function actionButtonProgressOver(){
+function actionButtonProgressOver()
+{
 	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры", "tiptoolProgress");
 }
 
-function actionButtonProgressOut(){
+function actionButtonProgressOut()
+{
 	tiptoolHide(this.groupTipTool);
 }

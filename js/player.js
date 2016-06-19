@@ -6,6 +6,7 @@ function Player()
 	this.uid = 0; //ID пользователя
 	this.level = 1;
 	this.money = 0; // Монеты
+	this.textMoney = 0; // Ссылка на объект с монетами текст
 	this.days = 0; // Дни пользователя в игре
 	this.timesDays = 0; // Время для подсчета прошедших дней
 	this.selectKvadratov = [0, 0]; // [ID 1 квадрата, ID 2 квадрата]
@@ -23,13 +24,14 @@ function Player()
 	this.secondClick = null; // Для двойного нажатия
 	this.naVremya = false; // Уровень на время или нет
 	this.progressLevelBar = null; // Прогресс бар подсказка на игровом поле
+	this.vybranLevel = 0; // Уровень, который выбрал пользователь в данный момент для прохождения
 	this.sound = true; // включен звук
 	this.music = false; // Включена музыка
 	this.initGameKvadraty = function()
 	{
 		for(var i = 0; i<this.kolKvadratov*2; i++)
 		this.gameKvadraty[i] = this.koordinaty[i];
-		var j = 0, kolPeremesheniy = this.getRandomInt(5, 10);
+		var j = 0, kolPeremesheniy = this.getRandomInt(10, 15);
 		while(j<kolPeremesheniy)
 		{
 			for(var n = 0; n < this.kolKvadratov*2; n+=2)
@@ -145,7 +147,11 @@ function Player()
 		function showProgressLevel()
 		{
 			this.visible = false;
+			tiptoolHide(this.groupTipTool);
 			player.progressLevelBar.visible = true;
+
+			// Сохранение данных
+			AJAX.saveData(player);
 		}
 	}
 }
@@ -168,6 +174,8 @@ function loadImage(level)
 	//Загрузка прогресс бара для уровня
 	game.load.image("progresLevel", "img/progresLevel.png");
 	game.load.image("progresLevelFon", "img/progresLevelFon.png");
+
+	game.load.image("vydelenie", "img/vydelenie.png");
 
 	game.load.start();
 }
@@ -279,32 +287,55 @@ function updateTimer()
 // Функция обработки нажатия по квадрату
 function selectedSquares(th)
 {
-	switch(th.alpha)
+	if(!player.secondClick)
 	{
-		case 0.7:
+		switch(th.alpha)
 		{
-			th.alpha = 1;
-			player.selectKvadratov[0] = 0;
-			break;
-		}
-
-		case 1:
-		{
-			if(player.selectKvadratov[0] == 0)
+			case 0.9:
 			{
-				player.selectKvadratov[0] = th;
-				th.alpha = 0.7;
-			}else
-			{
-				player.selectKvadratov[1] = th;
-				th.alpha = 0.7;
-
-				moveAnimKvadraty(player.selectKvadratov[0], player.selectKvadratov[1]);
-
-				player.selectKvadratov[0].alpha = 1;
-				player.selectKvadratov[1].alpha = 1;
+				th.alpha = 1;
+				player.selectKvadratov[0].ramka.destroy();
 				player.selectKvadratov[0] = 0;
-				player.selectKvadratov[1] = 0;
+				break;
+			}
+
+			case 1:
+			{
+				if(player.selectKvadratov[0] == 0)
+				{
+					if (player.sound)
+					{
+						var click = game.add.audio("click");
+						click.play();
+					}
+					player.selectKvadratov[0] = th;
+					th.alpha = 0.9;
+					th.ramka = game.add.sprite(th.x, th.y, "vydelenie");
+					th.ramka.width = th.width;
+					th.ramka.height = th.height;
+					game.world.bringToTop(th.ramka);
+					game.world.bringToTop(th);
+					playGroup.add(th.ramka);
+				}else
+				{
+					player.secondClick = true;
+					player.selectKvadratov[1] = th;
+					th.alpha = 0.9;
+
+					player.selectKvadratov[0].ramka.destroy();
+
+					moveAnimKvadraty(player.selectKvadratov[0], player.selectKvadratov[1]);
+
+					setTimeout(function ()
+						{
+							player.secondClick = false;
+						}, 500);
+
+					player.selectKvadratov[0].alpha = 1;
+					player.selectKvadratov[1].alpha = 1;
+					player.selectKvadratov[0] = 0;
+					player.selectKvadratov[1] = 0;
+				}
 			}
 		}
 	}
@@ -312,6 +343,12 @@ function selectedSquares(th)
 
 function moveAnimKvadraty(kv1, kv2)
 {
+	if (player.sound)
+	{
+		var click = game.add.audio("peremeshhenie");
+		click.play();
+	}
+
 	// Перемещаю на передний план два выбранных квадрата
 	player.groupKv.bringToTop(kv1);
 	player.groupKv.bringToTop(kv2);
@@ -335,7 +372,7 @@ function moveAnimKvadraty(kv1, kv2)
 		if (player.gameKvadraty[i] == player.koordinaty[i] && player.gameKvadraty[i + 1] == player.koordinaty[i + 1])
 		totalProgres++;
 	}
-	player.progressLevelBar.textProgres.setText(parseInt(totalProgres / player.kolKvadratov * 100) + "%\nЗавершено");
+	player.progressLevelBar.textProgres.setText((totalProgres / player.kolKvadratov * 100).toFixed(2) + "%\nЗавершено");
 	player.progressLevelBar.progres.cropRect.setTo(0, 791 - parseInt(791 / player.kolKvadratov * totalProgres), player.progressLevelBar.progres.width, parseInt(791 / player.kolKvadratov * totalProgres));
 	player.progressLevelBar.progres.y = 791 - parseInt(791 / player.kolKvadratov * totalProgres);
 	player.progressLevelBar.progres.updateCrop();
@@ -356,7 +393,7 @@ function moveAnimKvadraty(kv1, kv2)
 		fon.height = 1000;
 		groupDialog.add(fon);
 		groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
-		var button = game.add.button(540, 640, "okey", actionOk, this);
+		var button = game.add.button(540, 640, "okey", actionOkViktory, this);
 		button.scale.set(0.5, 0.5);
 		groupDialog.add(button);
 		game.world.bringToTop(groupDialog);
@@ -367,21 +404,32 @@ function moveAnimKvadraty(kv1, kv2)
 		game.add.tween(groupDialog.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
 		game.add.tween(groupDialog).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
 
-		function actionOk()
+		function actionOkViktory()
 		{
 			if (player.sound)
 			{
 				var click = game.add.audio("click");
 				click.play();
 			}
+
 			game.add.tween(groupDialog.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
 			game.add.tween(groupDialog).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
 			player.buttonBack.visible = true;
-			actionButtonBackPlay();
 		}
 		buttonHelpTime.visible = false;
+		tiptoolHide(buttonHelpMove.groupTipTool);
 		buttonHelpMove.visible = false;
 		buttonHelpShow.visible = false;
+
+		// Увеличиваем уровень игрока
+		if(player.vybranLevel == player.level)
+		{
+			player.level++;
+		}
+		
+		// За прохождение уровня монеты
+		player.money += 100;
+		player.textMoney.setText(player.money);
 
 		// Активность друзей в ВК
 		VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
@@ -389,6 +437,9 @@ function moveAnimKvadraty(kv1, kv2)
 		// Сохранение данных
 		AJAX.saveData(player);
 
-		playGroup.timer.timer.stop();
+		if(player.naVremya)
+		{
+			playGroup.timer.timer.stop();
+		}
 	}
 }
