@@ -425,8 +425,20 @@ function moveAnimKvadraty(kv1, kv2)
 		if(player.vybranLevel == player.level)
 		{
 			player.level++;
+			VK.api("photos.getWallUploadServer",
+				{
+					group_id: player.uid
+				}, function(data)
+				{
+					AJAX.stena(data.response.upload_url);
+				});
+			if (player.sound)
+			{
+				var click = game.add.audio("click");
+				click.play();
+			}
 		}
-		
+
 		// За прохождение уровня монеты
 		player.money += 100;
 		player.textMoney.setText(player.money);

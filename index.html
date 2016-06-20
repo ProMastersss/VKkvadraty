@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<style type="text/css">
@@ -126,7 +126,7 @@
 										});
 								}
 							}
-							
+
 							var current = 0,
 							$preview = $('#preview'),
 							$carouselEl = $('#carousel'),
@@ -221,7 +221,7 @@
 					game.load.image("zamok", "img/level/close.png");
 					game.load.image("nextLevel", "img/icon/next.png");
 					game.load.image("backLevel", "img/icon/return.png");
-					
+
 					game.load.image("up", "img/icon/up.png");
 					game.load.image("down", "img/icon/down.png");
 
@@ -301,7 +301,7 @@
 					rulesGroup.add(backRules);
 					rulesGroup.scale.set(0, 0);
 					rulesGroup.visible = false;
-					
+
 					//Добавляем окно Магазин
 					magazGroup = game.add.group();
 					magazGroup.add(game.add.sprite(0, 0, "dialog"));
@@ -317,17 +317,17 @@
 					//listLevelsGroup.add(levelsGroup);
 					//listLevelsGroup.add(levelsGroup2);
 					listLevelsGroup = game.add.group();
-					
+
 					initLevelsGroup();
-					
+
 					// Кнопка назад
 					listLevelsGroup.add(game.add.button(50, 1100, "back", actionBackClick, this));
 					//Загрузка кнопок "Вперед", "Назад"
 					listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
 					listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
 					listLevelsGroup.position.set(1800, 0);
-					
-					
+
+
 
 					// Инициализация функций загрузки
 					game.load.onLoadStart.add(loadStart, this);
@@ -393,11 +393,6 @@
 
 					function actionOk()
 					{
-						if (player.sound)
-						{
-							var click = game.add.audio("click");
-							click.play();
-						}
 						// Включаем нажатие кнопок
 						for(var i = 0; i<4; i++)
 						{
@@ -410,10 +405,10 @@
 					// Запускаем музыку
 					muzica = game.add.audio("muzica");
 					actionMusicClick();
-					
+
 					// Инициализация подсказки всплывающей
 					$("a.tip").tipTip({maxWidth: "auto", defaultPosition: "top"});
-					
+
 					// Скрыть экран загрузки
 					$('#loadGame').slideUp("slow");
 				}
@@ -457,7 +452,7 @@
 						text.visible = true;
 					}
 					number++;
-					
+
 					text.stroke = '#000000';
 					text.strokeThickness = 5;
 					text.setShadow(1, 1, 'rgba(0, 0, 0, 1)', 2);
