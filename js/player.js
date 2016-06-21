@@ -115,8 +115,8 @@ function Player()
 			var timer = game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
 			playGroup.timer = timer;
 			playGroup.timer.timer.start();
-			playGroup.timeLevel = 3 * 60;
-			playGroup.textTimer = game.add.text(600, -130, "3:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
+			playGroup.timeLevel = 5 * 60;
+			playGroup.textTimer = game.add.text(600, -130, "5:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
 			playGroup.add(playGroup.textTimer);
 		}
 
@@ -146,12 +146,22 @@ function Player()
 
 		function showProgressLevel()
 		{
-			this.visible = false;
-			tiptoolHide(this.groupTipTool);
-			player.progressLevelBar.visible = true;
+			if(player.money - 1000 >= 0)
+			{
+				if (player.sound)
+				{
+					var click = game.add.audio("click");
+					click.play();
+				}
+				this.visible = false;
+				tiptoolHide(this.groupTipTool);
+				player.progressLevelBar.visible = true;
 
-			// Сохранение данных
-			AJAX.saveData(player);
+				player.money -= 1000;
+				player.textMoney.setText(player.money);
+				// Сохранение данных
+				AJAX.saveData(player);
+			}
 		}
 	}
 }
@@ -240,6 +250,12 @@ function updateTimer()
 {
 	if (playGroup.timeLevel-- == 0)
 	{
+		// Включаем тикание
+		if(playGroup.timeLevel == 10)
+		{
+			playGroup.audioTik = game.add.audio("tik");
+			playGroup.audioTik.play();
+		}
 		playGroup.timer.timer.stop();
 		player.buttonBack.visible = false;
 

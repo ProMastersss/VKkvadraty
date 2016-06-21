@@ -15,7 +15,7 @@ if($_POST['priglasil'] != $_POST['uid'])
 	if($resurs)
 	{
 		$row = mysql_fetch_assoc($resurs);
-		$row = (int)$row['money'] + 1500;
+		$row = (int)$row['money'] + 2000;
 		$id = $_POST['priglasil'];
 		mysql_query("UPDATE `users` SET `money`='$row' WHERE `id`='$id'");
 	}

@@ -1,67 +1,87 @@
 // Нажатие по подсказке "Время"
 function actionHelpTime()
 {
-	if (player.sound)
+	if(player.money - 500 >= 0)
 	{
-		var click = game.add.audio("click");
-		click.play();
+		if (player.sound)
+		{
+			var click = game.add.audio("click");
+			click.play();
+		}
+
+		// Выключаем тикание
+		if(playGroup.audioTik)
+		playGroup.audioTik.stop();
+
+		playGroup.timeLevel += 300;
+		player.money -= 500;
+		player.textMoney.setText(player.money);
+
+		// Сохранение данных
+		AJAX.saveData(player);
 	}
-
-	playGroup.timeLevel += 60;
-
-	// Сохранение данных
-	AJAX.saveData(player);
 }
 
 // Нажатие по подсказке "Переместить"
 function actionHelpMove()
 {
-	if (player.sound)
+	if(player.money - 400 >= 0)
 	{
-		var click = game.add.audio("click");
-		click.play();
-	}
-
-	var index = (player.getRandomInt(0, player.kolKvadratov - 1)) * 2;
-	while (player.gameKvadraty[index] == player.koordinaty[index] && player.gameKvadraty[index + 1] == player.koordinaty[index + 1])
-	{
-		index = (player.getRandomInt(0, player.kolKvadratov - 1)) * 2;
-	}
-
-	var kv1, kv2;
-	player.groupKv.forEach(function (child)
+		if (player.sound)
 		{
-			if (child.x == player.gameKvadraty[index] && child.y == player.gameKvadraty[index + 1])
-			kv1 = child;
-			if (child.x == player.koordinaty[index] && child.y == player.koordinaty[index + 1])
-			kv2 = child;
-		}, this, true);
+			var click = game.add.audio("click");
+			click.play();
+		}
 
-	moveAnimKvadraty(kv1, kv2);
+		var index = (player.getRandomInt(0, player.kolKvadratov - 1)) * 2;
+		while (player.gameKvadraty[index] == player.koordinaty[index] && player.gameKvadraty[index + 1] == player.koordinaty[index + 1])
+		{
+			index = (player.getRandomInt(0, player.kolKvadratov - 1)) * 2;
+		}
 
-	// Сохранение данных
-	AJAX.saveData(player);
+		var kv1, kv2;
+		player.groupKv.forEach(function (child)
+			{
+				if (child.x == player.gameKvadraty[index] && child.y == player.gameKvadraty[index + 1])
+				kv1 = child;
+				if (child.x == player.koordinaty[index] && child.y == player.koordinaty[index + 1])
+				kv2 = child;
+			}, this, true);
+
+		moveAnimKvadraty(kv1, kv2);
+
+		player.money -= 400;
+		player.textMoney.setText(player.money);
+
+		// Сохранение данных
+		AJAX.saveData(player);
+	}
 }
 
 // Нажатие по подсказке "Показать"
 function actionHelpShow()
 {
-	if (player.sound)
+	if(player.money - 200 >= 0)
 	{
-		var click = game.add.audio("click");
-		click.play();
-	}
-
-	var succes = game.add.sprite(0, 0, "success");
-	playGroup.add(succes);
-	game.time.events.add(5000, function ()
+		if (player.sound)
 		{
-			succes.visible = false;
-			playGroup.removeChild(succes);
-		});
+			var click = game.add.audio("click");
+			click.play();
+		}
 
-	// Сохранение данных
-	AJAX.saveData(player);
+		var succes = game.add.sprite(0, 0, "success");
+		playGroup.add(succes);
+		game.time.events.add(5000, function ()
+			{
+				succes.visible = false;
+				playGroup.removeChild(succes);
+			});
+
+		player.money -= 200;
+		player.textMoney.setText(player.money);
+		// Сохранение данных
+		AJAX.saveData(player);
+	}
 }
 
 // Нажатие по кнопки "FullScreen"
@@ -339,18 +359,15 @@ function upLevels()
 		if(player.level % 5 == 0) player.naVremya = true;
 		else player.naVremya = false;
 
-		// Сохранение данных
-		AJAX.saveData(player);
-
 		player.secondClick = true;
 
 		// Скрываем группу с уровнями
 		game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
 		game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
 		game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
-		
+
 		player.vybranLevel = this.text;
-		
+
 		//Получаем координаты квдратов с сервера
 		AJAX.getKoordinaty(player, this.text);
 	}
@@ -389,12 +406,12 @@ function actionButtonBackPlay()
 	{
 		playGroup.timer.timer.stop();
 	}
-	
+
 	levelsGroup.destroy();
 	levelsGroup2.destroy();
-	
+
 	initLevelsGroup();
-	
+
 	game.add.tween(playGroup).to({ x: 2030 }, 200, 'Linear', true, 0);
 	game.add.tween(listLevelsGroup).to({ visible: true }, 200, 'Linear', true, 0);
 	game.add.tween(listLevelsGroup.scale).to({ x: 1, y: 1 }, 200, 'Linear', true, 0);
@@ -405,9 +422,6 @@ function actionButtonBackPlay()
 		game.load.cache.removeImage("kv" + i);
 	}
 	game.load.cache.removeImage("razmetka");
-
-	// Сохранение данных
-	AJAX.saveData(player);
 }
 
 // Клик по кнопке со стрелочкой вперед, для прокрутки списка вперед
@@ -457,7 +471,7 @@ function tiptoolHide(group)
 
 function actionHelpTimeOver()
 {
-	tiptoolShow(this.groupTipTool, "Время", "tiptool");
+	tiptoolShow(this.groupTipTool, "Добавить время\nСтоимость: 500", "tiptool");
 }
 
 function actionHelpTimeOut()
@@ -467,7 +481,7 @@ function actionHelpTimeOut()
 
 function actionHelpMoveOver()
 {
-	tiptoolShow(this.groupTipTool, "Переместить", "tiptool");
+	tiptoolShow(this.groupTipTool, "Переместить\nслучайный пазл\nСтоимость: 400", "tiptool");
 }
 
 function actionHelpMoveOut()
@@ -477,7 +491,7 @@ function actionHelpMoveOut()
 
 function actionHelpShowOver()
 {
-	tiptoolShow(this.groupTipTool, "Показать\nкартинку", "tiptool");
+	tiptoolShow(this.groupTipTool, "Показать готовую\nкартинку\nСтоимость: 200", "tiptool");
 }
 
 function actionHelpShowOut()
@@ -487,7 +501,7 @@ function actionHelpShowOut()
 
 function actionButtonProgressOver()
 {
-	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры", "tiptoolProgress");
+	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры\nСтоимость: 1000", "tiptoolProgress");
 }
 
 function actionButtonProgressOut()

@@ -247,6 +247,7 @@
 					game.load.audio("muzica", "sound/muzica.mp3");
 					game.load.audio("listat", "sound/listat.mp3");
 					game.load.audio("peremeshhenie", "sound/peremeshhenie.mp3");
+					game.load.audio("tik", "sound/tikanie.mp3");
 				}
 
 				//Функция создания
@@ -258,13 +259,6 @@
 					settingGroupAnim.hidden = true;
 					settingGroup.position.set(1610, 820);
 					game.add.sprite(0, 0, "fon");
-
-					// Загрузка списка уровней
-					//game.number = parseInt(player.level/20)*20 + 1; // С какого уровня при анимации рисовать на оранжевых квадратах
-					//game.naFone = 1; // levelsGroup или levelsGroup2 на фоне(на виду)
-					//loadingListLevels(levelsGroup, 300, 200, game.number);
-					//loadingListLevels(levelsGroup2, 1800, 200, game.number);
-					//game.number += 20;
 
 					//Загрузка настроек
 					settingGroupAnim.add(game.add.button(0, 0, "music", actionMusicClick, this));
@@ -313,9 +307,6 @@
 					magazGroup.visible = false;
 
 					// Добавляем в основную группу listLevelsGroup
-					//listLevelsGroup = game.add.group();
-					//listLevelsGroup.add(levelsGroup);
-					//listLevelsGroup.add(levelsGroup2);
 					listLevelsGroup = game.add.group();
 
 					initLevelsGroup();
@@ -326,8 +317,6 @@
 					listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
 					listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
 					listLevelsGroup.position.set(1800, 0);
-
-
 
 					// Инициализация функций загрузки
 					game.load.onLoadStart.add(loadStart, this);
@@ -348,19 +337,6 @@
 					mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
 					mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
 
-					// Отключаем нажатие кнопок
-					for(var i = 0; i<4; i++)
-					{
-						mainDisplayGroup.children[i].inputEnabled = false;
-					}
-
-					// Отобразить диалог дней прихода
-					var groupDialogDays = game.add.group();
-					var fon = game.add.sprite(0, 0, "dialog");
-					fon.width = 1200;
-					fon.height = 1000;
-					groupDialogDays.add(fon);
-
 					// Подсчет дней в игре
 					var vremya = new Date();
 					if((vremya.getTime() - player.timesDays) > 172800000)
@@ -368,38 +344,91 @@
 						player.days = 1;
 						player.timesDays = vremya.getTime();
 						AJAX.saveTimes(player);
+						diologPrivetstviya();
 					}
 
-					if(vremya.getTime() - player.timesDays >= 86400000 && vremya.getTime() - player.timesDays <= 2*86400000 || player.timesDays == 0)
+					if((vremya.getTime() - player.timesDays >= 86400000 && vremya.getTime() - player.timesDays <= 2*86400000) || player.days == 0)
 					{
-						if(player.days < 5)
+						if(player.days <= 5)
 						player.days++;
 						player.timesDays = vremya.getTime();
 						AJAX.saveTimes(player);
+						diologPrivetstviya();
 					}
 
-					groupDialogDays.add(game.add.text(330, 350, "Вы у нас " + player.days + "-й день!\nПолучите 1000 монет", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
-
-					var button = game.add.button(540, 640, "okey", actionOk, this);
-					button.scale.set(0.5, 0.5);
-					groupDialogDays.add(button);
-					game.world.bringToTop(groupDialogDays);
-					groupDialogDays.scale.set(0, 0);
-					groupDialogDays.position.set(game.world.width / 2, game.world.height / 2);
-					groupDialogDays.alpha = 0;
-
-					game.add.tween(groupDialogDays.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
-					game.add.tween(groupDialogDays).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
-
-					function actionOk()
+					function diologPrivetstviya()
 					{
-						// Включаем нажатие кнопок
+						// Отключаем нажатие кнопок
 						for(var i = 0; i<4; i++)
 						{
-							mainDisplayGroup.children[i].inputEnabled = true;
+							mainDisplayGroup.children[i].inputEnabled = false;
 						}
-						game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
-						game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+						// Отобразить диалог дней прихода
+						var groupDialogDays = game.add.group();
+						var fon = game.add.sprite(0, 0, "dialog");
+						fon.width = 1200;
+						fon.height = 1000;
+						groupDialogDays.add(fon);
+
+						var opoveshhenie = "";
+						var width = 220;
+						switch(player.days)
+						{
+							case 1: opoveshhenie = "Вы зашли 1й день!\nПолучите от нас 100 монет!\nЗаходите чаще и\nполучайте больше!!!";
+							player.money += 100;
+							break;
+
+							case 2: opoveshhenie = "Вы зашли 2й день!\nТак держать!\nПолучите от нас 200 монет!";
+							player.money += 200;
+							break;
+
+							case 3: opoveshhenie = "Вы зашли 3й день!\nЕще один день\nна едине с природой!\nПолучите от нас 400 монет!";
+							player.money += 400;
+							break;
+
+							case 4: opoveshhenie = "Вы зашли 4й день!\nВидим Вам понравилось!\nПолучите от нас 800 монет!";
+							player.money += 800;
+							break;
+
+							case 5: opoveshhenie = "Вы зашли 5й день!\nПолучайте удовольствие\nот природы\nВот Вам 1500 монет!";
+							player.money += 1500;
+							width = 300;
+							break;
+
+							case 6: opoveshhenie = "За хорошее посещение\nВам монетки от заведения\nВот Вам 1500 монет!";
+							player.money += 1500;
+							width = 260;
+							break;
+						}
+						player.textMoney.setText(player.money);
+						// Сохранение данных
+						AJAX.saveData(player);
+
+						groupDialogDays.add(game.add.text(width, 280, opoveshhenie, { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 , align: "center"}));
+
+						groupDialogDays.add(game.add.text(410, 100, "Приветствие", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+
+						var button = game.add.button(540, 640, "okey", actionOk, this);
+						button.scale.set(0.5, 0.5);
+						groupDialogDays.add(button);
+						game.world.bringToTop(groupDialogDays);
+						groupDialogDays.scale.set(0, 0);
+						groupDialogDays.position.set(game.world.width / 2, game.world.height / 2);
+						groupDialogDays.alpha = 0;
+
+						game.add.tween(groupDialogDays.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+						game.add.tween(groupDialogDays).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
+
+						function actionOk()
+						{
+							// Включаем нажатие кнопок
+							for(var i = 0; i<4; i++)
+							{
+								mainDisplayGroup.children[i].inputEnabled = true;
+							}
+							game.add.tween(groupDialogDays.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+							game.add.tween(groupDialogDays).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+						}
 					}
 
 					// Запускаем музыку
