@@ -265,6 +265,7 @@ function updateTimer()
 		fon.height = 1000;
 		groupDialog.add(fon);
 		groupDialog.add(game.add.text(330, 350, "Увы, время вышло :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
+		groupDialog.add(game.add.text(510, 100, "Конец", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 		var button = game.add.button(540, 640, "okey", actionOk, this);
 		button.scale.set(0.5, 0.5);
 		groupDialog.add(button);
@@ -409,6 +410,7 @@ function moveAnimKvadraty(kv1, kv2)
 		fon.height = 1000;
 		groupDialog.add(fon);
 		groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
+		groupDialog.add(game.add.text(490, 100, "Победа", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 		var button = game.add.button(540, 640, "okey", actionOkViktory, this);
 		button.scale.set(0.5, 0.5);
 		groupDialog.add(button);
