@@ -259,6 +259,34 @@ function actionButtonRules()
 		var click = game.add.audio("click");
 		click.play();
 	}
+	
+	// Добавляем стрелки
+	var massivGroup = new Array();
+	var upButton = game.add.button(1300, 350, "up", upStrel, this);
+	var downButton = game.add.button(1300, 990, "down", downStrel, this);
+	rulesGroup.add(upButton);
+	rulesGroup.add(downButton);
+	//Добавляем текст правил
+	massivGroup[0] = game.add.text(350, 350, "Игра с расслабляющей музыкой и красивыми видами\nприроды поможет Вам расслабиться, получить\nудовольствие от пейзажей и окунутся в реальный мир,\nпро который мы порой забываем... Примите расслабляющую\nпозу, устройтесь поудобнее, наслажайтесь звуками природы\nи попробуйте собрать картины с изображениями, на которых\nизображены красивые уголки нашей природы из разным мест\nи стран. Теперь о самой игре и что Вас в ней ждет:\n1. Многообразие уровней и разновидность сложности;\n2. Рейтинговая таблица;\n3. Ваши друзья и их данные в игре;\n4. Подсказки;\n5. И конечно же приятная атмосфера!", { font: "bold 40px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 8 });
+	massivGroup[1] = game.add.group();
+	massivGroup[1].add(game.add.text(350, 350, "Цель игры: собрать пейзажи природы, окунутся в\nэту картину и получить приятные эмоции!\nВам предстоит переставить блоки, на которые\nподелена картина, в правильном порядке. Каждый блок имеет\nразличный фиксированный размер, но при перестановке блоков,\nони менятся своими размерами. Для достижения\nположительного результата Вам помогут подсказки!\n        Подсказка 'Переметить случайный пазл'. Выбирается\n        случайный пазл иставиться в правильное место,\nа другой пазл перемещаетсяна его место, соответственно.\n        Подсказка 'Показать готовую картинку'. Отображает\n        собранный пазл на некоторое время, чтобы\nвы могли понять, куда пазл нужно переставлять!", { font: "bold 40px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 8 }));
+	massivGroup[1].add(game.add.sprite(400, 730, "move"));
+	massivGroup[1].add(game.add.sprite(400, 910, "show"));
+	
+	massivGroup[2] = game.add.group();
+	massivGroup[2].add(game.add.text(350, 350, "        Подсказка 'Добавить время'. Уровень,\n        который нужно будет пройти на время, и\nесли Вам не хватит времени, то это подсказка поможет\nВам его прибавить!\n        Подсказка 'Показать прогресс игры'. Индикатор\n        с полоской и процентов, показывающий процент\n        собранности картинки данного уровня. Вы можете пригласить друзей в игру и за это получить бонус! Для этого нужно прислать приглашение, кликнув плюсик, либо поделиться вашей персональной ссылкой с другом)
+
+Дополнительная информация, помощь и конкурсы в нашей группе: http://vk.com/
+
+Хорошего Вам наслаждения!", { font: "bold 40px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 8 }));
+	massivGroup[2].add(game.add.sprite(400, 350, "time"));
+	massivGroup[2].add(game.add.sprite(400, 450, "helpProgress"));
+	
+	massivGroup[0].visible = false;
+	massivGroup[1].visible = false;
+	rulesGroup.add(massivGroup[0]);
+	rulesGroup.add(massivGroup[1]);
+	rulesGroup.add(massivGroup[2]);
 
 	mainDisplayGroup.visible = false;
 	game.world.bringToTop(rulesGroup);
@@ -267,6 +295,16 @@ function actionButtonRules()
 	rulesGroup.visible = true;
 	game.add.tween(rulesGroup.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
 	game.add.tween(rulesGroup).to({ x: 0, y: 0, alpha: 1 }, 500, 'Linear', true, 0);
+	
+	function upStrel()
+	{
+		
+	}
+	
+	function downStrel()
+	{
+		
+	}
 }
 
 // Кнопка "Назад" в группе rulesGroup

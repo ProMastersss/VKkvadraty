@@ -175,11 +175,6 @@ function loadImage(level)
 	}
 	game.load.image("razmetka", player.pathLevel +level+ "/razmetka.png");
 	game.load.image("success", player.pathLevel +level+ "/success.jpg");
-	// Загрузка подсказок
-	game.load.image("time", "img/help/time2.png");
-	game.load.image("progress", "img/help/progress.png");
-	game.load.image("move", "img/help/move.png");
-	game.load.image("show", "img/help/show.png");
 
 	//Загрузка прогресс бара для уровня
 	game.load.image("progresLevel", "img/progresLevel.png");
