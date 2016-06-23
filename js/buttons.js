@@ -508,3 +508,27 @@ function actionButtonProgressOut()
 {
 	tiptoolHide(this.groupTipTool);
 }
+
+//По нажатию кнопки "Купить" в магазе
+function actionButtonKupit()
+{
+	var params =
+	{
+		type: 'item',
+		item: '1000monet'
+	};
+	VK.callMethod('showOrderBox', params);
+
+	VK.addCallback('onOrderSuccess', function(order_id)
+		{
+			console.log("Успешный платеж");
+		});
+	VK.addCallback('onOrderFail', function()
+		{
+			console.log("Ошибка платежа");
+		});
+	VK.addCallback('onOrderCancel', function()
+		{
+			console.log("Платеж отменен");
+		});
+}

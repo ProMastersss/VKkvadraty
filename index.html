@@ -240,6 +240,7 @@
 					game.load.image("tiptool", "img/tooltip.png");
 					game.load.image("tiptoolProgress", "img/tooltipProgress.png");
 					game.load.image("helpProgress", "img/helpProgress.png");
+					game.load.image("kupit", "img/kupit.png");
 
 					// Загрузка звуков и музыки
 					game.load.audio("click", "sound/click.mp3");
@@ -364,6 +365,7 @@
 					magazGroup.add(game.add.sprite(0, 0, "dialog"));
 					magazGroup.add(game.add.text(750, 150, "Магаз", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
 					magazGroup.add(game.add.text(350, 350, "Цены", { font: "bold 40px EtoMoiFont", fill: "#000" }));
+					magazGroup.add(game.add.button(500, 700, "kupit", actionButtonKupit, this));
 					var backMagaz = game.add.button(50, 1100, "back", actionBackClickMagaz, backMagaz);
 					magazGroup.add(backMagaz);
 					magazGroup.scale.set(0, 0);
