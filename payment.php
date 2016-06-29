@@ -32,21 +32,21 @@ else
 		// Получение информации о товаре
 		$item = $input['item']; // наименование товара
 
-		if($item == 'item1')
+		if($item == 'coins1')
 		{
 			$response['response'] = array(
 				'item_id'  => 25,
-				'title'    => '300 золотых монет',
-				'photo_url'=> 'http://somesite/images/coin.jpg',
+				'title'    => '1000 золотых монет',
+				'photo_url'=> 'https://game-vk.tk/img/coins1.png',
 				'price'    => 5
 			);
 		}
-		elseif($item == 'item2')
+		elseif($item == 'coins2')
 		{
 			$response['response'] = array(
 				'item_id'  => 27,
-				'title'    => '500 золотых монет',
-				'photo_url'=> 'http://somesite/images/coin.jpg',
+				'title'    => '2000 золотых монет',
+				'photo_url'=> 'https://game-vk.tk/img/coins2.png',
 				'price'    => 10
 			);
 		}
@@ -68,16 +68,16 @@ else
 			$response['response'] = array(
 				'item_id'  => 125,
 				'title'    => '1000 золотых монет (тестовый режим)',
-				'photo_url'=> 'http://somesite/images/coin.jpg',
-				'price'    => 7
+				'photo_url'=> 'https://game-vk.tk/img/coins1.png',
+				'price'    => 5
 			);
 		}
-		elseif($item == 'item2')
+		elseif($item == '2000monet')
 		{
 			$response['response'] = array(
 				'item_id'  => 127,
-				'title'    => '500 золотых монет (тестовый режим)',
-				'photo_url'=> 'http://somesite/images/coin.jpg',
+				'title'    => '2000 золотых монет (тестовый режим)',
+				'photo_url'=> 'https://game-vk.tk/img/coins2.png',
 				'price'    => 10
 			);
 		}
