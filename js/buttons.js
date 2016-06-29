@@ -380,14 +380,13 @@ function upLevels()
 // Клик по кнопке со стрелочкой назад, для прокрутки списка назад
 function backLevels()
 {
-	if (player.sound)
-	{
-		var click = game.add.audio("listat");
-		click.play();
-	}
-
 	if (game.number - 40 > 0)
 	{
+		if (player.sound)
+		{
+			var click = game.add.audio("listat");
+			click.play();
+		}
 		game.number -= 40;
 		animaciaLevels(-1200, 1800, 300);
 	}
@@ -427,13 +426,14 @@ function actionButtonBackPlay()
 // Клик по кнопке со стрелочкой вперед, для прокрутки списка вперед
 function nextLevels()
 {
-	if (player.sound)
+
+	if (game.number < 1001)
 	{
-		var click = game.add.audio("listat");
-		click.play();
-	}
-	if (game.number < 4000)
-	{
+		if (player.sound)
+		{
+			var click = game.add.audio("listat");
+			click.play();
+		}
 		animaciaLevels(1800, -1200, 300);
 	}
 }

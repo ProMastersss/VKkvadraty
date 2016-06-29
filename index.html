@@ -7,6 +7,104 @@
 				margin: 0;
 				background-color: black;
 			}
+
+			/* Всплывающее окно */
+
+			.parent_popup, .parent_popup_click
+			{
+				background-color: rgba(0, 0, 0, 0.8);
+				display: none;
+				position: fixed;
+				z-index: 99999;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+			}
+			.popup, .popup_click
+			{
+				background: rgba(117, 195, 241, 1);
+				max-width: 600px;
+				width: 70%;
+				margin: 5% auto;
+				padding: 5px 20px 13px 20px;
+				border: 10px solid #fff;
+				position: relative;
+				/*--CSS3 CSS3 Тени для Блока--*/
+				-webkit-box-shadow: 0px 0px 20px #000;
+				-moz-box-shadow: 0px 0px 20px #000;
+				box-shadow: 0px 0px 20px #000;
+				/*--CSS3 Закругленные углы--*/
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				font-size: 22px;
+			}
+
+
+			.popup h2, .popup_click h2
+			{
+				font: 28px EtoMoiFont;
+				font-weight: bold;
+				text-align: center;
+				color: #ECB42A;
+				text-shadow: 1px 1px 10px rgba(0,0,0,1.0);
+			}
+
+			.popup_click button
+			{
+				font: 26px EtoMoiFont;
+				color: #ECB42A;
+				border: 3px solid #fff;
+				background-color: rgba(116, 195, 241, 1);
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				padding: 5px 10px;
+				text-shadow: 1px 1px 5px rgba(0,0,0,1.0);
+				margin-top: 30px;
+			}
+			
+			.popup_click button:hover
+			{
+				background: #a6d9f7;
+			}
+			
+			.popup_click button:active
+			{
+				background: rgba(78, 117, 241, 0.5);
+			}
+			/* кнопка закрытия */
+			.close
+			{
+				background-color: rgba(0, 0, 0, 0.8);
+				border: 2px solid #ccc;
+				height: 24px;
+				line-height: 24px;
+				position: absolute;
+				right: -24px;
+				cursor: pointer;
+				text-align: center;
+				text-decoration: none;
+				color: rgba(255, 255, 255, 0.9);
+				font-size: 14px;
+				font-family: helvetica, arial;
+				text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
+				top: -24px;
+				width: 24px;
+				-webkit-border-radius: 15px;
+				-moz-border-radius: 15px;
+				-ms-border-radius: 15px;
+				-o-border-radius: 15px;
+				border-radius: 15px;
+				-moz-box-shadow: 1px 1px 3px #000;
+				-webkit-box-shadow: 1px 1px 3px #000;
+				box-shadow: 1px 1px 3px #000;
+			}
+			.close:hover
+			{
+				background-color: rgba(255, 69, 0, 0.8);
+			}
 		</style>
 		<meta charset="UTF-8" />
 		<meta http-equiv="Cache-Control" content="no-cache">
@@ -42,6 +140,23 @@
 		</div>
 		<div id="game" style="max-width: 810px; max-height: 585px; margin-bottom: 5px;">
 		</div>
+
+		<div id="parent_popup_click1" class="parent_popup_click">
+			<div class="popup_click">
+				<h2>
+					Позови друзей и получи бонус!
+				</h2>
+				<center id="text">
+					Тут может быть абсолютно любой html или даже скрипты
+				</center>
+				<a class="close" title="Закрыть" onclick="document.getElementById('parent_popup_click1').style.display='none';">
+					X
+				</a>
+				<center><button onclick="addUserVk();">
+					Позвать друзей
+				</button></center>
+			</div>
+		</div>
 		<!--Слайдер друзей-->
 		<div class="container demo-4">
 
@@ -52,7 +167,7 @@
 					<!-- Elastislide Carousel -->
 					<ul id="carousel" class="elastislide-list">
 						<li data-preview="img/plus.png">
-							<a href="#" class="tip" title="Позови друзей и получи бонус!" onclick="addUserVk();">
+							<a href="#" onclick="document.getElementById('parent_popup_click1').style.display='block';" class="tip" title="Позови друзей и получи бонус!">
 								<img src="img/plus.png" alt="Добавить" />
 							</a>
 						</li>
@@ -102,6 +217,7 @@
 							player = new Player();
 							AJAX.getDataUser(player, viewer_id, priglasil);
 							player.uid = viewer_id;
+							$('div.popup_click > #text').html('<br>Отправьте приглашение в игру друзьями или поделитесь с ними вот этой ссылкой: <b><em>https://vk.com/app5314962_' + player.uid + '</em></b><br />и получите от нас бонус!!! ;)<br>');
 
 						}, function ()
 						{
@@ -213,7 +329,7 @@
 					game.load.image("settingFon", "img/fonSetting.jpg");
 					game.load.image("music", "img/icon/music.png");
 					game.load.image("sound", "img/icon/sound.png");
-					game.load.image("back", "img/icon/back.png");
+					game.load.spritesheet("back", "img/icon/back.png", 126, 126);
 					game.load.image("money", "img/coins.png");
 
 					//Загрузка блоков уровней
@@ -300,7 +416,7 @@
 					rulesGroup = game.add.group();
 					rulesGroup.add(game.add.sprite(0, 0, "dialog"));
 					rulesGroup.add(game.add.text(720, 150, "Правила", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
-					var backRules = game.add.button(50, 1100, "back", actionBackClickRules, backRules);
+					var backRules = game.add.button(50, 1100, "back", actionBackClickRules, backRules, 1, 0, 2, 0);
 					rulesGroup.add(backRules);
 					rulesGroup.scale.set(0, 0);
 					rulesGroup.visible = false;
@@ -368,7 +484,7 @@
 					magazGroup.add(game.add.text(750, 150, "Магаз", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
 					magazGroup.add(game.add.sprite(300, 350, "magazFull"));
 					magazGroup.add(game.add.button(1150, 1060, "button125", actionButtonKupit, this, 1, 0, 2, 0)); //1 - Наведен, 2 - отведен, 3 нажат 4 отжат
-					var backMagaz = game.add.button(50, 1100, "back", actionBackClickMagaz, backMagaz);
+					var backMagaz = game.add.button(50, 1100, "back", actionBackClickMagaz, backMagaz, 1, 0, 2, 0);
 					magazGroup.add(backMagaz);
 					magazGroup.scale.set(0, 0);
 					magazGroup.visible = false;
@@ -379,7 +495,7 @@
 					initLevelsGroup();
 
 					// Кнопка назад
-					listLevelsGroup.add(game.add.button(50, 1100, "back", actionBackClick, this));
+					listLevelsGroup.add(game.add.button(50, 1100, "back", actionBackClick, this, 1, 0, 2, 0));
 					//Загрузка кнопок "Вперед", "Назад"
 					listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
 					listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
