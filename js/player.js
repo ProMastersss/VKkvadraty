@@ -134,7 +134,7 @@ function Player()
 		{
 			player.progressLevelBar.visible = false;
 			// Кнопка для прогресс бара подсказки
-			var buttonProgress = game.add.button(-205, 770, "progress", showProgressLevel, buttonProgress);
+			var buttonProgress = game.add.button(-205, 770, "progress", showProgressLevel, buttonProgress, 1, 0, 2, 0);
 			buttonProgress.events.onInputOver.add(actionButtonProgressOver, buttonProgress);
 			buttonProgress.events.onInputOut.add(actionButtonProgressOut, buttonProgress);
 			buttonProgress.groupTipTool = game.add.group();
@@ -205,26 +205,26 @@ function addImage()
 	}
 	playGroup.add(player.groupKv);
 	playGroup.add(game.add.sprite(-80, -65, "ramka"));
-	player.buttonBack = game.add.button(-210, 900, "back", actionButtonBackPlay, this);
+	player.buttonBack = game.add.button(-210, 900, "back", actionButtonBackPlay, this, 1, 0, 2, 0);
 	player.buttonBack.visible = false;
 	playGroup.add(player.buttonBack);
 
 	//Загрузка подсказок
-	buttonHelpTime = game.add.button(890, -165, "time", actionHelpTime, this);
+	buttonHelpTime = game.add.button(890, -165, "time", actionHelpTime, this, 1, 0, 2, 0);
 	buttonHelpTime.visible = false;
 	buttonHelpTime.events.onInputOver.add(actionHelpTimeOver, buttonHelpTime);
 	buttonHelpTime.events.onInputOut.add(actionHelpTimeOut, buttonHelpTime);
 	buttonHelpTime.groupTipTool = game.add.group();
 	buttonHelpTime.groupTipTool.position.set(1015, 160);
 
-	buttonHelpMove = game.add.button(1020, -165, "move", actionHelpMove, this);
+	buttonHelpMove = game.add.button(1020, -165, "move", actionHelpMove, this, 1, 0, 2, 0);
 	buttonHelpMove.visible = false;
 	buttonHelpMove.events.onInputOver.add(actionHelpMoveOver, buttonHelpMove);
 	buttonHelpMove.events.onInputOut.add(actionHelpMoveOut, buttonHelpMove);
 	buttonHelpMove.groupTipTool = game.add.group();
 	buttonHelpMove.groupTipTool.position.set(1145, 160);
 
-	buttonHelpShow = game.add.button(1150, -165, "show", actionHelpShow, this, actionHelpShowOver, actionHelpShowOut);
+	buttonHelpShow = game.add.button(1150, -165, "show", actionHelpShow, this, 1,0,2,0);
 	buttonHelpShow.visible = false;
 	buttonHelpShow.events.onInputOver.add(actionHelpShowOver, buttonHelpShow);
 	buttonHelpShow.events.onInputOut.add(actionHelpShowOut, buttonHelpShow);
@@ -261,7 +261,7 @@ function updateTimer()
 		groupDialog.add(fon);
 		groupDialog.add(game.add.text(330, 350, "Увы, время вышло :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 		groupDialog.add(game.add.text(510, 100, "Конец", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
-		var button = game.add.button(540, 640, "okey", actionOk, this);
+		var button = game.add.button(540, 640, "okey", actionOk, this, 1, 0, 2, 0);
 		button.scale.set(0.5, 0.5);
 		groupDialog.add(button);
 		game.world.bringToTop(groupDialog);
@@ -406,7 +406,7 @@ function moveAnimKvadraty(kv1, kv2)
 		groupDialog.add(fon);
 		groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 		groupDialog.add(game.add.text(490, 100, "Победа", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
-		var button = game.add.button(540, 640, "okey", actionOkViktory, this);
+		var button = game.add.button(540, 640, "okey", actionOkViktory, this, 1, 0, 2, 0);
 		button.scale.set(0.5, 0.5);
 		groupDialog.add(button);
 		game.world.bringToTop(groupDialog);

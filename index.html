@@ -333,26 +333,26 @@
 					game.load.image("money", "img/coins.png");
 
 					//Загрузка блоков уровней
-					game.load.image("levels", "img/level/lvl.png");
+					game.load.spritesheet("levels", "img/level/lvl.png", 196, 197);
 					game.load.image("zamok", "img/level/close.png");
-					game.load.image("nextLevel", "img/icon/next.png");
-					game.load.image("backLevel", "img/icon/return.png");
+					game.load.spritesheet("nextLevel", "img/icon/next.png", 126, 126);
+					game.load.spritesheet("backLevel", "img/icon/return.png", 126, 126);
 
-					game.load.image("up", "img/icon/up.png");
-					game.load.image("down", "img/icon/down.png");
+					game.load.spritesheet("up", "img/icon/up.png", 126, 126);
+					game.load.spritesheet("down", "img/icon/down.png", 126, 126);
 
 					// Кнопки основного экрана
-					game.load.image("magazButton", "img/magaz.png");
-					game.load.image("levelsButton", "img/levels.png");
-					game.load.image("rulesButton", "img/rules.png");
-					game.load.image("reitingButton", "img/reiting.png");
-					game.load.image("fullScreen", "img/fullScreen.png");
-					game.load.image("outFullScreen", "img/outFullScreen.png");
+					game.load.spritesheet("magazButton", "img/magaz.png", 482, 136);
+					game.load.spritesheet("levelsButton", "img/levels.png", 482, 136);
+					game.load.spritesheet("rulesButton", "img/rules.png", 482, 136);
+					game.load.spritesheet("reitingButton", "img/reiting.png", 482, 136);
+					game.load.spritesheet("fullScreen", "img/fullScreen.png",254,212);
+					game.load.spritesheet("outFullScreen", "img/outFullScreen.png",254,212);
 
 					//Диалоговое окно
 					game.load.image("dialog", "img/dialog.png");
 					game.load.image("plus", "img/plus.png");
-					game.load.image("okey", "img/ok.png");
+					game.load.spritesheet("okey", "img/ok.png", 216, 216);
 					game.load.image("tiptool", "img/tooltip.png");
 					game.load.image("tiptoolProgress", "img/tooltipProgress.png");
 					game.load.image("helpProgress", "img/helpProgress.png");
@@ -370,10 +370,10 @@
 					game.load.audio("tik", "sound/tikanie.mp3");
 
 					// Загрузка подсказок
-					game.load.image("time", "img/help/time2.png");
-					game.load.image("progress", "img/help/progress.png");
-					game.load.image("move", "img/help/move.png");
-					game.load.image("show", "img/help/show.png");
+					game.load.spritesheet("time", "img/help/time2.png", 112, 112);
+					game.load.spritesheet("progress", "img/help/progress.png", 112, 112);
+					game.load.spritesheet("move", "img/help/move.png", 112, 112);
+					game.load.spritesheet("show", "img/help/show.png", 112, 112);
 				}
 
 				//Функция создания
@@ -383,7 +383,7 @@
 					settingGroupAnim = game.add.group(); //Группа для анимации открытия настроек
 					//levelsGroup = game.add.group(), levelsGroup2 = game.add.group();
 					settingGroupAnim.hidden = true;
-					settingGroup.position.set(1610, 820);
+					settingGroup.position.set(1640, 850);
 					game.add.sprite(0, 0, "fon");
 
 					//Загрузка настроек
@@ -391,7 +391,7 @@
 					settingGroupAnim.add(game.add.button(-20, 116, "sound", actionSoundClick, this, 1,0,2,0));
 					settingGroupAnim.position.set(0, 330);
 					settingGroup.add(settingGroupAnim);
-					settingGroup.add(game.add.sprite(-20, 342, "settingFon"));
+					settingGroup.add(game.add.sprite(-50, 312, "settingFon"));
 					var but = game.add.button(-20, 256, "setting", actionSettingClick, settingGroupAnim, 1,0,2,0);
 					settingGroup.add(but);
 					game.world.bringToTop(settingGroup);
@@ -405,7 +405,7 @@
 					var t = game.add.text(300, 60, player.money, { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
 					player.textMoney = t;
 					// Добавляем кнопку "FullScreen"
-					buttonFullScreen = game.add.button(1650, 50, 'fullScreen', actionFullScreen, this);
+					buttonFullScreen = game.add.button(1650, 50, 'fullScreen', actionFullScreen, this, 1, 0, 2, 0);
 					buttonFullScreen.fullScreen = false;
 					buttonFullScreen.width = 100;
 					buttonFullScreen.height = 100;
@@ -441,8 +441,8 @@
 					rulesGroup.add(massivGroup[2]);
 
 					// Добавляем стрелки
-					var upButton = game.add.button(1300, 350, "up", upStrel, massivGroup);
-					var downButton = game.add.button(1300, 990, "down", downStrel, massivGroup);
+					var upButton = game.add.button(1300, 350, "up", upStrel, massivGroup, 1,0,2,0);
+					var downButton = game.add.button(1300, 990, "down", downStrel, massivGroup, 1,0,2,0);
 					rulesGroup.add(upButton);
 					rulesGroup.add(downButton);
 
@@ -495,8 +495,8 @@
 					// Кнопка назад
 					listLevelsGroup.add(game.add.button(50, 1100, "back", actionBackClick, this, 1, 0, 2, 0));
 					//Загрузка кнопок "Вперед", "Назад"
-					listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this));
-					listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this));
+					listLevelsGroup.add(game.add.button(50, 620, "backLevel", backLevels, this, 1,0,2,0));
+					listLevelsGroup.add(game.add.button(1610, 620, "nextLevel", nextLevels, this, 1,0,2,0));
 					listLevelsGroup.position.set(1800, 0);
 
 					// Инициализация функций загрузки
@@ -513,10 +513,10 @@
 
 					// Загрузка основного экрана
 					mainDisplayGroup = game.add.group();
-					mainDisplayGroup.add(game.add.button(660, 500, "magazButton", actionButtonMagaz, this));
-					mainDisplayGroup.add(game.add.button(660, 350, "levelsButton", actionButtonLevels, this));
-					mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this));
-					mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this));
+					mainDisplayGroup.add(game.add.button(660, 500, "magazButton", actionButtonMagaz, this, 1,0,2,0));
+					mainDisplayGroup.add(game.add.button(660, 350, "levelsButton", actionButtonLevels, this, 1,0,2,0));
+					mainDisplayGroup.add(game.add.button(660, 650, "reitingButton", actionButtonReiting, this, 1,0,2,0));
+					mainDisplayGroup.add(game.add.button(660, 800, "rulesButton", actionButtonRules, this, 1,0,2,0));
 
 					// Подсчет дней в игре
 					var vremya = new Date();
@@ -589,7 +589,7 @@
 
 						groupDialogDays.add(game.add.text(410, 100, "Приветствие", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
 
-						var button = game.add.button(540, 640, "okey", actionOk, this);
+						var button = game.add.button(540, 640, "okey", actionOk, this, 1, 0, 2, 0);
 						button.scale.set(0.5, 0.5);
 						groupDialogDays.add(button);
 						game.world.bringToTop(groupDialogDays);
@@ -643,7 +643,7 @@
 						font: "80px EtoMoiFont", fill: "#ffffff", wordWrap: true, wordWrapWidth: 300, align: "center"
 					};
 					var text = game.add.text(Math.floor(x + 300 / 2), Math.floor(y + 300 / 2), number, style);
-					var temp = game.add.button(x, y, "levels", upLevels, text);
+					var temp = game.add.button(x+56, y+56, "levels", upLevels, text, 1, 0, 2, 0);
 					if (number > player.level)
 					{
 						// Уровень игрока

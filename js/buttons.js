@@ -191,7 +191,7 @@ function actionButtonReiting()
 	reitingGroup.add(upButton);
 	reitingGroup.add(downButton);
 
-	var backRules = game.add.button(50, 1100, "back", actionBackClickReiting, this);
+	var backRules = game.add.button(50, 1100, "back", actionBackClickReiting, this, 1, 0, 2, 0);
 	reitingGroup.add(backRules);
 	reitingGroup.scale.set(0, 0);
 	reitingGroup.visible = false;
@@ -354,9 +354,11 @@ function upLevels()
 		click.play();
 	}
 
+    player.vybranLevel = this.text;
+    
 	if (!player.secondClick && this.text <= player.level)
 	{
-		if(player.level % 5 == 0) player.naVremya = true;
+		if(player.vybranLevel % 5 == 0) player.naVremya = true;
 		else player.naVremya = false;
 
 		player.secondClick = true;
@@ -365,8 +367,6 @@ function upLevels()
 		game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
 		game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
 		game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
-
-		player.vybranLevel = this.text;
 
 		//Получаем координаты квдратов с сервера
 		AJAX.getKoordinaty(player, this.text);
@@ -512,6 +512,10 @@ function actionButtonProgressOut()
 //По нажатию кнопки "Купить" в магазе
 function actionButtonKupit()
 {
+	if (buttonFullScreen.fullScreen){
+		actionFullScreen();	
+	}
+	
 	var params =
 	{
 		type: 'item',
