@@ -439,10 +439,10 @@ function nextLevels()
 }
 
 // Функция инициализации всплывающих окон
-function tiptoolShow(group, text, key)
+function tiptoolShow(group, text, key, x, y)
 {
 	group.add(game.add.sprite(0, 0, key));
-	group.add(game.add.text(30, 30, text, { font: "bold 50px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
+	group.add(game.add.text(x, y, text, { font: "bold 50px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 }));
 	group.visible = true;
 }
 
@@ -471,7 +471,7 @@ function tiptoolHide(group)
 
 function actionHelpTimeOver()
 {
-	tiptoolShow(this.groupTipTool, "Добавить время\nСтоимость: 500", "tiptool");
+	tiptoolShow(this.groupTipTool, "Добавить время\nСтоимость: 500", "tiptool", 30, 35);
 }
 
 function actionHelpTimeOut()
@@ -481,7 +481,7 @@ function actionHelpTimeOut()
 
 function actionHelpMoveOver()
 {
-	tiptoolShow(this.groupTipTool, "Переместить\nслучайный пазл\nСтоимость: 400", "tiptool");
+	tiptoolShow(this.groupTipTool, "Переместить\nслучайный пазл\nСтоимость: 400", "tiptool", 30, 35);
 }
 
 function actionHelpMoveOut()
@@ -491,7 +491,7 @@ function actionHelpMoveOut()
 
 function actionHelpShowOver()
 {
-	tiptoolShow(this.groupTipTool, "Показать готовую\nкартинку\nСтоимость: 200", "tiptool");
+	tiptoolShow(this.groupTipTool, "Показать готовую\nкартинку\nСтоимость: 200", "tiptool", 30, 35);
 }
 
 function actionHelpShowOut()
@@ -501,7 +501,7 @@ function actionHelpShowOut()
 
 function actionButtonProgressOver()
 {
-	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры\nСтоимость: 1000", "tiptoolProgress");
+	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры\nСтоимость: 1000", "tiptoolProgress", 50, 20);
 }
 
 function actionButtonProgressOut()
