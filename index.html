@@ -358,7 +358,11 @@
 					game.load.image("helpProgress", "img/helpProgress.png");
 					game.load.image("kupit", "img/kupit.png");
 					game.load.image("magazFull", "img/magazFull.png");
-					game.load.spritesheet("button125", "img/buttonMagaz/button125.png", 283, 146);
+					game.load.spritesheet("button5", "img/buttonMagaz/5.png", 291, 155);
+					game.load.spritesheet("button9", "img/buttonMagaz/9.png", 291, 155);
+					game.load.spritesheet("button21", "img/buttonMagaz/21.png", 291, 155);
+					game.load.spritesheet("button38", "img/buttonMagaz/38.png", 291, 155);
+					game.load.spritesheet("button125", "img/buttonMagaz/125.png", 291, 155);
 
 					// Загрузка звуков и музыки
 					game.load.audio("click", "sound/click.mp3");
@@ -481,7 +485,11 @@
 					magazGroup.add(game.add.sprite(0, 0, "dialog"));
 					magazGroup.add(game.add.text(750, 150, "Магаз", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
 					magazGroup.add(game.add.sprite(300, 350, "magazFull"));
-					magazGroup.add(game.add.button(1150, 1060, "button125", actionButtonKupit, '1000monet', 1, 0, 2, 0)); //1 - Наведен, 2 - отведен, 3 нажат 4 отжат
+					magazGroup.add(game.add.button(1150, 375, "button5", actionButtonKupit, '1000monet', 1, 0, 2, 0));
+					magazGroup.add(game.add.button(1150, 545, "button9", actionButtonKupit, '2000monet', 1, 0, 2, 0));
+					magazGroup.add(game.add.button(1150, 715, "button21", actionButtonKupit, '5000monet', 1, 0, 2, 0));
+					magazGroup.add(game.add.button(1150, 885, "button38", actionButtonKupit, '10000monet', 1, 0, 2, 0));
+					magazGroup.add(game.add.button(1150, 1055, "button125", actionButtonKupit, '50000monet', 1, 0, 2, 0)); //1 - Наведен, 2 - отведен, 3 нажат 4 отжат
 					var backMagaz = game.add.button(50, 1100, "back", actionBackClickMagaz, backMagaz, 1, 0, 2, 0);
 					magazGroup.add(backMagaz);
 					magazGroup.scale.set(0, 0);
