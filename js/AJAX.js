@@ -205,6 +205,27 @@ var AJAX =
 				},
 			});
 	},
+	
+	//Платеж
+	platezh: function (id)
+	{
+		jQuery.ajax(
+			{
+				url: 'https://game-vk.tk/platezh.php',
+				async: true,
+				crossDomain: true,
+				data:
+				{
+					uid: player.uid, order_id: id, money: player.money
+				},
+				type: "POST",
+				success: function (data, textStatus, jqXHR)
+				{
+					player.money = data;
+					player.textMoney.setText(player.money);
+				},
+			});
+	},
 }
 
 function forEach(data, callback)

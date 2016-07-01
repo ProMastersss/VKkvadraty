@@ -519,13 +519,13 @@ function actionButtonKupit()
 	var params =
 	{
 		type: 'item',
-		item: '1000monet'
+		item: this
 	};
 	VK.callMethod('showOrderBox', params);
 
 	VK.addCallback('onOrderSuccess', function(order_id)
 		{
-			console.log("Успешный платеж");
+			AJAX.platezh(params.item);
 		});
 	VK.addCallback('onOrderFail', function()
 		{

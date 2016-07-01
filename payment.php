@@ -32,22 +32,49 @@ else
 		// Получение информации о товаре
 		$item = $input['item']; // наименование товара
 
-		if($item == 'coins1')
+		if($item == '1000monet')
 		{
 			$response['response'] = array(
-				'item_id'  => 25,
+				'item_id'  => 125,
 				'title'    => '1000 золотых монет',
 				'photo_url'=> 'https://game-vk.tk/img/coins1.png',
 				'price'    => 5
 			);
 		}
-		elseif($item == 'coins2')
+		elseif($item == '2000monet')
 		{
 			$response['response'] = array(
-				'item_id'  => 27,
+				'item_id'  => 127,
 				'title'    => '2000 золотых монет',
 				'photo_url'=> 'https://game-vk.tk/img/coins2.png',
-				'price'    => 10
+				'price'    => 9
+			);
+		}
+		elseif($item == '5000monet')
+		{
+			$response['response'] = array(
+				'item_id'  => 127,
+				'title'    => '5000 золотых монет',
+				'photo_url'=> 'https://game-vk.tk/img/coins3.png',
+				'price'    => 21
+			);
+		}
+		elseif($item == '10000monet')
+		{
+			$response['response'] = array(
+				'item_id'  => 127,
+				'title'    => '10000 золотых монет',
+				'photo_url'=> 'https://game-vk.tk/img/coins4.png',
+				'price'    => 38
+			);
+		}
+		elseif($item == '50000monet')
+		{
+			$response['response'] = array(
+				'item_id'  => 127,
+				'title'    => '50000 золотых монет',
+				'photo_url'=> 'https://game-vk.tk/img/coins5.png',
+				'price'    => 125
 			);
 		}
 		else
@@ -59,7 +86,11 @@ else
 			);
 		}
 		break;
-
+/**
+* 
+* Тестовый режим
+* 
+*/
 		case 'get_item_test':
 		// Получение информации о товаре в тестовом режиме
 		$item = $input['item'];
@@ -78,7 +109,34 @@ else
 				'item_id'  => 127,
 				'title'    => '2000 золотых монет (тестовый режим)',
 				'photo_url'=> 'https://game-vk.tk/img/coins2.png',
-				'price'    => 10
+				'price'    => 9
+			);
+		}
+		elseif($item == '5000monet')
+		{
+			$response['response'] = array(
+				'item_id'  => 127,
+				'title'    => '5000 золотых монет (тестовый режим)',
+				'photo_url'=> 'https://game-vk.tk/img/coins3.png',
+				'price'    => 21
+			);
+		}
+		elseif($item == '10000monet')
+		{
+			$response['response'] = array(
+				'item_id'  => 127,
+				'title'    => '10000 золотых монет (тестовый режим)',
+				'photo_url'=> 'https://game-vk.tk/img/coins4.png',
+				'price'    => 38
+			);
+		}
+		elseif($item == '50000monet')
+		{
+			$response['response'] = array(
+				'item_id'  => 127,
+				'title'    => '50000 золотых монет (тестовый режим)',
+				'photo_url'=> 'https://game-vk.tk/img/coins5.png',
+				'price'    => 125
 			);
 		}
 		else
