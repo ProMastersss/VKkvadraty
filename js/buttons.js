@@ -186,8 +186,8 @@ function actionButtonReiting()
 	AJAX.getReyting(textGroup, textLoading, textGroupFIO);
 
 	// Добавляем кнопки вверх вниз
-	var upButton = game.add.button(1300, 350, "up", upStrelka, this);
-	var downButton = game.add.button(1300, 990, "down", downStrelka, this);
+	var upButton = game.add.button(1300, 350, "up", upStrelka, this, 1, 0, 2, 0);
+	var downButton = game.add.button(1300, 990, "down", downStrelka, this, 1, 0, 2, 0);
 	reitingGroup.add(upButton);
 	reitingGroup.add(downButton);
 
