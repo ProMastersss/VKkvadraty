@@ -11,33 +11,37 @@ mysql_select_db($db); /*Подключение к базе данных на с�
 // Проверяем приглашение
 if($_POST['priglasil'] != $_POST['uid'])
 {
-	$resurs = mysql_query(" SELECT `money` FROM `users` WHERE `id` = ".$_POST['priglasil']);
+	$resurs = mysql_query(" SELECT `priglashenie` FROM `users` WHERE `id` = ".$_POST['priglasil']);
 	if($resurs)
 	{
 		$row = mysql_fetch_assoc($resurs);
-		$row = (int)$row['money'] + 2000;
+		$row = (int)$row['priglashenie'] + 1;
 		$id = $_POST['priglasil'];
-		mysql_query("UPDATE `users` SET `money`='$row' WHERE `id`='$id'");
+		mysql_query("UPDATE `users` SET `priglashenie`='$row' WHERE `id`='$id'");
 	}
 }
 // Получаем данные пользователя
 $res = mysql_query(" SELECT * FROM `users` WHERE `id` = ".$_POST['uid']);
 $row = mysql_fetch_assoc($res);
-if($row)
+if($row){
 echo json_encode($row);
+$res = mysql_query("UPDATE `users` SET `priglashenie`='0' WHERE `id`='$id'");
+}
 else
 {
 	$times = 0;
 	$days  = 0;
 	$level = 1;
+	$priglashenie = 0;
 	$id    = $_POST['uid'];
 	$money = 1500;
-	$res   = mysql_query("INSERT INTO `users` (id, level, money, days, times) VALUES ('$id', '$level', '$money', '$days', '$times')");
+	$res   = mysql_query("INSERT INTO `users` (id, level, money, days, times) VALUES ('$id', '$level', '$money', '$days', '$times', '$priglashenie')");
 	$row['id'] = $id;
 	$row['days'] = $days;
 	$row['level'] = $level;
 	$row['money'] = $money;
 	$row['times'] = $times;
+	$row['priglashenie'] = $priglashenie;
 	echo json_encode($row);
 }
 
