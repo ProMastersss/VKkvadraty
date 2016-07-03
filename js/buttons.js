@@ -348,28 +348,66 @@ function actionBackClick()
 // Нажатие на оранжевом блоке(уровне), который далее нужно пройти
 function upLevels()
 {
-	if (player.sound)
+	if(player.money < 50)
 	{
-		var click = game.add.audio("click");
-		click.play();
-	}
+		var groupDialog = game.add.group();
+		var fon = game.add.sprite(0, 0, "dialog");
+		fon.width = 1200;
+		fon.height = 1000;
+		groupDialog.add(fon);
+		groupDialog.add(game.add.text(330, 350, "Кончались монеты... :(", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
+		groupDialog.add(game.add.text(510, 100, "Конец", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
+		var button = game.add.button(540, 640, "okey", actionOk, this, 1, 0, 2, 0);
+		button.scale.set(0.5, 0.5);
+		groupDialog.add(button);
+		game.world.bringToTop(groupDialog);
+		groupDialog.scale.set(0, 0);
+		groupDialog.position.set(game.world.width / 2, game.world.height / 2);
+		groupDialog.alpha = 0;
 
-    player.vybranLevel = this.text;
-    
-	if (!player.secondClick && this.text <= player.level)
+		game.add.tween(groupDialog.scale).to({ x: 1, y: 1 }, 500, 'Linear', true, 0);
+		game.add.tween(groupDialog).to({ x: game.world.width / 2 - 600, y: game.world.height / 2 - 500, alpha: 1 }, 500, 'Linear', true, 0);
+
+		function actionOk()
+		{
+			if (player.sound)
+			{
+				var click = game.add.audio("click");
+				click.play();
+			}
+			game.add.tween(groupDialog.scale).to({ x: 0, y: 0 }, 500, 'Linear', true, 0);
+			game.add.tween(groupDialog).to({ x: game.world.width / 2, y: game.world.height / 2, alpha: 0, visible: false }, 500, 'Linear', true, 0);
+			player.buttonBack.visible = true;
+			actionButtonBackPlay();
+		}
+	}else
 	{
-		if(player.vybranLevel % 5 == 0) player.naVremya = true;
-		else player.naVremya = false;
+		if (player.sound)
+		{
+			var click = game.add.audio("click");
+			click.play();
+		}
 
-		player.secondClick = true;
+		player.vybranLevel = this.text;
 
-		// Скрываем группу с уровнями
-		game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
-		game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
-		game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
+		if (!player.secondClick && this.text <= player.level)
+		{
+			if(player.vybranLevel % 5 == 0) player.naVremya = true;
+			else player.naVremya = false;
 
-		//Получаем координаты квдратов с сервера
-		AJAX.getKoordinaty(player, this.text);
+			player.secondClick = true;
+			
+			player.money -= 50;
+			player.textMoney.setText(player.money);
+
+			// Скрываем группу с уровнями
+			game.add.tween(listLevelsGroup.scale).to({ x: 0, y: 0 }, 200, 'Linear', true, 0);
+			game.add.tween(listLevelsGroup).to({ x: 1800 / 2, y: 1500 / 2 }, 200, 'Linear', true, 0);
+			game.add.tween(listLevelsGroup).to({ visible: false }, 200, 'Linear', true, 0);
+
+			//Получаем координаты квдратов с сервера
+			AJAX.getKoordinaty(player, this.text);
+		}
 	}
 	setTimeout(function ()
 		{
@@ -512,10 +550,11 @@ function actionButtonProgressOut()
 //По нажатию кнопки "Купить" в магазе
 function actionButtonKupit()
 {
-	if (buttonFullScreen.fullScreen){
-		actionFullScreen();	
+	if (buttonFullScreen.fullScreen)
+	{
+		actionFullScreen();
 	}
-	
+
 	var params =
 	{
 		type: 'item',
