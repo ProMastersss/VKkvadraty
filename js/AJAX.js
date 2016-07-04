@@ -51,7 +51,7 @@ var AJAX =
 					p.days = parseInt(data.days);
 					p.timesDays = parseInt(data.times);
 					if(data.priglashenie > 0){
-						p.money = data.priglashenie * 2000;
+						p.money += data.priglashenie * 2000;
 						AJAX.saveData(p);
 					}
 					createText();
