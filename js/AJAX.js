@@ -46,7 +46,6 @@ var AJAX =
 				success: function (data, textStatus, jqXHR)
 				{
 					data = JSON.parse(data);
-					console.log(data);
 					p.level = parseInt(data.level);
 					p.money = parseInt(data.money);
 					p.days = parseInt(data.days);

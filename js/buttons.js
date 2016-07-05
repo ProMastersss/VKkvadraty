@@ -311,10 +311,12 @@ function actionMusicClick()
 	// Музыка
 	if (player.music)
 	{
-		muzica.play();
+		muzica.pause();
+		buttonMusic.loadTexture('notmusic');
 	}else
 	{
-		muzica.stop();
+		muzica.resume();
+		buttonMusic.loadTexture('music');
 	}
 }
 
@@ -322,6 +324,10 @@ function actionMusicClick()
 function actionSoundClick()
 {
 	player.sound = !player.sound;
+	if(player.sound)
+		buttonSound.loadTexture("sound");
+	else
+		buttonSound.loadTexture("notsound");
 }
 
 // Клик по кнопке "Назад", вернуть на предыдущий экран

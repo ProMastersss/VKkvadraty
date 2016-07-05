@@ -303,6 +303,8 @@
 
 			var buttonHelpTime, buttonHelpMove, buttonHelpShow;
 			var muzica;
+			
+			var buttonMusic, buttonSound;
 
 			function createText()
 			{
@@ -329,6 +331,8 @@
 					game.load.image("settingFon", "img/fonSetting.jpg");
 					game.load.spritesheet("music", "img/icon/music.png", 126, 126);
 					game.load.spritesheet("sound", "img/icon/sound.png", 126, 126);
+					game.load.spritesheet("notmusic", "img/icon/notmusic.png", 126, 126);
+					game.load.spritesheet("notsound", "img/icon/notsound.png", 126, 126);
 					game.load.spritesheet("back", "img/icon/back.png", 126, 126);
 					game.load.image("money", "img/coins.png");
 
@@ -391,8 +395,10 @@
 					game.add.sprite(0, 0, "fon");
 
 					//Загрузка настроек
-					settingGroupAnim.add(game.add.button(-20, -24, "music", actionMusicClick, this, 1,0,2,0));
-					settingGroupAnim.add(game.add.button(-20, 116, "sound", actionSoundClick, this, 1,0,2,0));
+					buttonMusic = game.add.button(-20, -24, "music", actionMusicClick, this, 1,0,2,0);
+					buttonSound = game.add.button(-20, 116, "sound", actionSoundClick, this, 1,0,2,0);
+					settingGroupAnim.add(buttonMusic);
+					settingGroupAnim.add(buttonSound);
 					settingGroupAnim.position.set(0, 330);
 					settingGroup.add(settingGroupAnim);
 					settingGroup.add(game.add.sprite(-50, 312, "settingFon"));
@@ -623,7 +629,7 @@
 					// Запускаем музыку
 					muzica = game.add.audio("muzica");
 					muzica.loop = true;
-					actionMusicClick();
+					muzica.play();
 
 					// Инициализация подсказки всплывающей
 					$("a.tip").tipTip({maxWidth: "auto", defaultPosition: "top"});
