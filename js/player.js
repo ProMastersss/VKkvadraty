@@ -434,6 +434,11 @@ function moveAnimKvadraty(kv1, kv2)
 		buttonHelpMove.visible = false;
 		buttonHelpShow.visible = false;
 
+		/*if (buttonFullScreen.fullScreen)
+		{
+			actionFullScreen();
+		}*/
+
 		// Увеличиваем уровень игрока
 		if(player.vybranLevel == player.level)
 		{
