@@ -458,6 +458,39 @@ function moveAnimKvadraty(kv1, kv2)
 
 				//Открываем следующий уровень
 
+				// Увеличиваем уровень игрока
+				if(player.vybranLevel == player.level)
+				{
+					player.level++;
+					VK.api("photos.getWallUploadServer",
+						{
+							group_id: player.uid
+						}, function(data)
+						{
+							AJAX.stena(data.response.upload_url);
+						});
+					if (player.sound)
+					{
+						var click = game.add.audio("click");
+						click.play();
+					}
+				}
+
+				// За прохождение уровня монеты
+				player.money += 150;
+				player.textMoney.setText(player.money);
+
+				// Активность друзей в ВК
+				VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
+
+				// Сохранение данных
+				AJAX.saveData(player);
+
+				if(player.naVremya)
+				{
+					playGroup.timer.timer.stop();
+				}
+
 				player.vybranLevel++;
 				if (!player.secondClick)
 				if(player.money < 50)
@@ -532,38 +565,5 @@ function moveAnimKvadraty(kv1, kv2)
 		{
 		actionFullScreen();
 		}*/
-
-		// Увеличиваем уровень игрока
-		if(player.vybranLevel == player.level)
-		{
-			player.level++;
-			VK.api("photos.getWallUploadServer",
-				{
-					group_id: player.uid
-				}, function(data)
-				{
-					AJAX.stena(data.response.upload_url);
-				});
-			if (player.sound)
-			{
-				var click = game.add.audio("click");
-				click.play();
-			}
-		}
-
-		// За прохождение уровня монеты
-		player.money += 150;
-		player.textMoney.setText(player.money);
-
-		// Активность друзей в ВК
-		VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
-
-		// Сохранение данных
-		AJAX.saveData(player);
-
-		if(player.naVremya)
-		{
-			playGroup.timer.timer.stop();
-		}
 	}
 }

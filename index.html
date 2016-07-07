@@ -64,12 +64,12 @@
 				text-shadow: 1px 1px 5px rgba(0,0,0,1.0);
 				margin-top: 30px;
 			}
-			
+
 			.popup_click button:hover
 			{
 				background: #a6d9f7;
 			}
-			
+
 			.popup_click button:active
 			{
 				background: rgba(78, 117, 241, 0.5);
@@ -107,7 +107,7 @@
 			}
 		</style>
 		<meta charset="UTF-8" />
-		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-store">
 		<title>
 			Phaser - Making your first game, part 1
 		</title>
@@ -137,7 +137,7 @@
 	</head>
 	<body>
 		<div id="loadGame" style="max-width: 810px; max-height: 717px; height: 717px; background-image: url(/img/nachaloZagruzki.png);">
-		<img width="60px" height="60px" src="/img/preloadLoad.gif" style="position: relative; top: 530px; left: 390px;"/>
+			<img width="60px" height="60px" src="/img/preloadLoad.gif" style="position: relative; top: 530px; left: 390px;"/>
 		</div>
 		<div id="game" style="max-width: 810px; max-height: 585px; margin-bottom: 5px;">
 		</div>
@@ -153,9 +153,11 @@
 				<a class="close" title="Закрыть" onclick="document.getElementById('parent_popup_click1').style.display='none';">
 					X
 				</a>
-				<center><button onclick="addUserVk();">
-					Позвать друзей
-				</button></center>
+				<center>
+					<button onclick="addUserVk();">
+						Позвать друзей
+					</button>
+				</center>
 			</div>
 		</div>
 		<!--Слайдер друзей-->
@@ -304,7 +306,7 @@
 
 			var buttonHelpTime, buttonHelpMove, buttonHelpShow;
 			var muzica;
-			
+
 			var buttonMusic, buttonSound;
 			var knopkaDalee;
 
@@ -638,6 +640,16 @@
 
 					// Скрыть экран загрузки
 					$('#loadGame').slideUp("slow");
+
+					//Обработка нажатия escape
+					game.input.keyboard.addCallbacks(this, function()
+						{
+							if(game.input.keyboard.isDown(Phaser.KeyCode.ESC) && buttonFullScreen.fullScreen)
+							{
+								game.scale.stopFullScreen();
+								buttonFullScreen.loadTexture("fullScreen", 0);
+							}
+						});
 				}
 
 				//Функция обновления (каждый шаг)

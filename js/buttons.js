@@ -13,7 +13,7 @@ function actionHelpTime()
 		if(playGroup.audioTik)
 		playGroup.audioTik.stop();
 
-		playGroup.timeLevel += 300;
+		playGroup.timeLevel += 60;
 		player.money -= 500;
 		player.textMoney.setText(player.money);
 
