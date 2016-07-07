@@ -552,7 +552,7 @@ function moveAnimKvadraty(kv1, kv2)
 		}
 
 		// За прохождение уровня монеты
-		player.money += 200;
+		player.money += 150;
 		player.textMoney.setText(player.money);
 
 		// Активность друзей в ВК
