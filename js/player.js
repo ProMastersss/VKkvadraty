@@ -134,7 +134,7 @@ function Player()
 		{
 			player.progressLevelBar.visible = false;
 			// Кнопка для прогресс бара подсказки
-			var buttonProgress = game.add.button(-205, 770, "progress", showProgressLevel, buttonProgress, 1, 0, 2, 0);
+			buttonProgress = game.add.button(-205, 770, "progress", showProgressLevel, buttonProgress, 1, 0, 2, 0);
 			buttonProgress.events.onInputOver.add(actionButtonProgressOver, buttonProgress);
 			buttonProgress.events.onInputOut.add(actionButtonProgressOut, buttonProgress);
 			buttonProgress.groupTipTool = game.add.group();
@@ -392,6 +392,48 @@ function moveAnimKvadraty(kv1, kv2)
 	// Проверка на собранную картинку
 	if (player.proverka())
 	{
+		// Увеличиваем уровень игрока
+		if(player.vybranLevel == player.level)
+		{
+			// За прохождение уровня монеты
+			player.money += 150;
+			player.textMoney.setText(player.money);
+			player.level++;
+
+			if (buttonFullScreen.fullScreen)
+			{
+				actionFullScreen();
+			}
+
+			VK.api("photos.getWallUploadServer",
+				{
+					group_id: player.uid
+				}, function(data)
+				{
+					AJAX.stena(data.response.upload_url);
+				});
+			if (player.sound)
+			{
+				var click = game.add.audio("click");
+				click.play();
+			}
+		}else
+		{
+			player.money += 50;
+			player.textMoney.setText(player.money);
+		}
+
+		// Активность друзей в ВК
+		VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
+
+		// Сохранение данных
+		AJAX.saveData(player);
+
+		if(player.naVremya)
+		{
+			playGroup.timer.timer.stop();
+		}
+
 		var win = game.add.audio("win");
 		win.play();
 
@@ -457,40 +499,6 @@ function moveAnimKvadraty(kv1, kv2)
 				knopkaDalee.visible = true;
 
 				//Открываем следующий уровень
-
-				// Увеличиваем уровень игрока
-				if(player.vybranLevel == player.level)
-				{
-					player.level++;
-					VK.api("photos.getWallUploadServer",
-						{
-							group_id: player.uid
-						}, function(data)
-						{
-							AJAX.stena(data.response.upload_url);
-						});
-					if (player.sound)
-					{
-						var click = game.add.audio("click");
-						click.play();
-					}
-				}
-
-				// За прохождение уровня монеты
-				player.money += 150;
-				player.textMoney.setText(player.money);
-
-				// Активность друзей в ВК
-				VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
-
-				// Сохранение данных
-				AJAX.saveData(player);
-
-				if(player.naVremya)
-				{
-					playGroup.timer.timer.stop();
-				}
-
 				player.vybranLevel++;
 				if (!player.secondClick)
 				if(player.money < 50)
@@ -556,14 +564,11 @@ function moveAnimKvadraty(kv1, kv2)
 					}, 300);
 			}
 		}
+		if(buttonProgress)
+		buttonProgress.visible = false;
 		buttonHelpTime.visible = false;
 		tiptoolHide(buttonHelpMove.groupTipTool);
 		buttonHelpMove.visible = false;
 		buttonHelpShow.visible = false;
-
-		/*if (buttonFullScreen.fullScreen)
-		{
-		actionFullScreen();
-		}*/
 	}
 }
