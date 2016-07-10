@@ -126,8 +126,6 @@
 		</script>
 		<script src="js/modernizr.custom.17475.js">
 		</script>
-		<script type="text/javascript" src="js/jquerypp.custom.js">
-		</script>
 		<script type="text/javascript" src="js/jquery.elastislide.js">
 		</script>
 		<link href="css/tipTip.css" rel="stylesheet" type="text/css">
@@ -165,11 +163,10 @@
 
 			<div class="main">
 
-
 				<div class="gallery">
 					<!-- Elastislide Carousel -->
 					<ul id="carousel" class="elastislide-list">
-						<li data-preview="img/plus.png">
+						<li>
 							<a href="#" onclick="document.getElementById('parent_popup_click1').style.display='block';" class="tip" title="Позови друзей и получи бонус!">
 								<img src="img/plus.png" alt="Добавить" />
 							</a>
@@ -183,8 +180,6 @@
 		</div>
 
 		<!-- Загрузка -->
-		<script src="js/jquery-ui.js">
-		</script>
 		<script src="//vk.com/js/api/xd_connection.js?2" type="text/javascript">
 		</script>
 		<script>
@@ -241,42 +236,9 @@
 											user_ids: idFriend, fields: 'photo_100'
 										},function(data2)
 										{
-											AJAX.getDataFriends(data2.response[0]['id'], data2.response[0]['photo_100']);
+											AJAX.getDataFriends(data2.response[0]['id'], data2.response[0]['photo_100'], data.response.length);
 										});
 								}
-							}
-
-							var current = 0,
-							$preview = $('#preview'),
-							$carouselEl = $('#carousel'),
-							$carouselItems = $carouselEl.children(),
-							carousel = $carouselEl.elastislide(
-								{
-									current: current,
-									minItems: 5,
-									onClick: function (el, pos, evt)
-									{
-
-										changeImage(el, pos);
-										evt.preventDefault();
-
-									},
-									onReady: function ()
-									{
-
-										changeImage($carouselItems.eq(current), current);
-
-									}
-								});
-
-							function changeImage(el, pos)
-							{
-
-								$preview.attr('src', el.data('preview'));
-								$carouselItems.removeClass('current-img');
-								el.addClass('current-img');
-								carousel.setCurrent(pos);
-
 							}
 						});
 				},
@@ -585,17 +547,17 @@
 							player.money += 400;
 							break;
 
-							case 4: opoveshhenie = "Вы зашли 4й день!\nВидим Вам понравилось!\nПолучите от нас 800 монет!";
-							player.money += 800;
+							case 4: opoveshhenie = "Вы зашли 4й день!\nВидим Вам понравилось!\nПолучите от нас 750 монет!";
+							player.money += 750;
 							break;
 
-							case 5: opoveshhenie = "Вы зашли 5й день!\nПолучайте удовольствие\nот природы\nВот Вам 1500 монет!";
-							player.money += 1500;
+							case 5: opoveshhenie = "Вы зашли 5й день!\nПолучайте удовольствие\nот природы\nВот Вам 1000 монет!";
+							player.money += 1000;
 							width = 300;
 							break;
 
-							case 6: opoveshhenie = "За хорошее посещение\nВам монетки от заведения\nВот Вам 1500 монет!";
-							player.money += 1500;
+							case 6: opoveshhenie = "За хорошее посещение\nВам монетки от заведения\nВот Вам 1000 монет!";
+							player.money += 1000;
 							width = 260;
 							break;
 						}
@@ -769,6 +731,8 @@
 			}
 		</script>
 		<script type="text/javascript" src="js/buttons.js">
+		</script>
+		<script type="text/javascript" src="js/jquerypp.custom.js">
 		</script>
 	</body>
 </html>

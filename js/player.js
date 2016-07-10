@@ -446,7 +446,7 @@ function moveAnimKvadraty(kv1, kv2)
 		fon.width = 1200;
 		fon.height = 1000;
 		groupDialog.add(fon);
-		groupDialog.add(game.add.text(330, 350, "Подздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
+		groupDialog.add(game.add.text(330, 350, "Поздравляем! \nВы собрали картинку \nи прошли уровень!!!", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 		groupDialog.add(game.add.text(490, 100, "Победа", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 		var button = game.add.button(540, 640, "okey", actionOkViktory, this, 1, 0, 2, 0);
 		button.scale.set(0.5, 0.5);
@@ -511,7 +511,7 @@ function moveAnimKvadraty(kv1, kv2)
 						fon.width = 1200;
 						fon.height = 1000;
 						groupDialog.add(fon);
-						groupDialog.add(game.add.text(250, 350, "Кончились монеты... :(\nДополнительные монеты Вы\nприобрести в магазине :)", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
+						groupDialog.add(game.add.text(250, 350, "Кончились монеты... :(\nДополнительные монеты Вы\можете приобрести в магазине :)", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 						groupDialog.add(game.add.text(510, 100, "Конец", { font: "bold 80px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10, align: "center" }));
 						var button = game.add.button(540, 640, "okey", actionOk, this, 1, 0, 2, 0);
 						button.scale.set(0.5, 0.5);

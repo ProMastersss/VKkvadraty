@@ -30,7 +30,7 @@ html { height: 100%; }
 
 body {
     font-family: 'Lato', Calibri, Arial, sans-serif;
-    background: #ddd url(../images/bg.jpg) repeat top left;
+    background: rgb(91, 219, 246);
     font-weight: 300;
     font-size: 15px;
     color: #333;
@@ -183,7 +183,7 @@ a {
 	margin: 0 auto;
 	border-radius: 20px;
 	position: relative;
-	background: #31c4f3;
+	background: #000 url(../images/black_denim.png);
 	box-shadow: 0 2px 1px rgba(255,255,255,0.9), 0 -2px 1px rgba(255,255,255,0.9);
 }
 

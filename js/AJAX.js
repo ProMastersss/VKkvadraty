@@ -3,6 +3,7 @@
 */
 var AJAX =
 {
+	loadImageSlide: 0,
 	getKoordinaty: function (player, lv)
 	{
 		jQuery.ajax(
@@ -50,7 +51,8 @@ var AJAX =
 					p.money = parseInt(data.money);
 					p.days = parseInt(data.days);
 					p.timesDays = parseInt(data.times);
-					if(data.priglashenie > 0){
+					if(data.priglashenie > 0)
+					{
 						p.money += data.priglashenie * 2000;
 						AJAX.saveData(p);
 					}
@@ -97,7 +99,7 @@ var AJAX =
 			});
 	},
 
-	getDataFriends: function (uid, foto)
+	getDataFriends: function (uid, foto, kol)
 	{
 		jQuery.ajax(
 			{
@@ -112,8 +114,44 @@ var AJAX =
 				success: function (data, textStatus, jqXHR)
 				{
 					data = JSON.parse(data);
-					var html = $('#carousel').html();
-					$('#carousel').html('<li class="current-img" data-preview="'+foto+'"><a href="#" class="tip" title="Уровень '+data.level+'; Монет '+data.money+'"><img src="'+foto+'"/></a></li>' + html);
+					$('#carousel').append('<li><a href="#" class="tip" title="Уровень '+data.level+'; Монет '+data.money+'"><img src="'+foto+'"/></a></li>');
+					$('#carousel').add();
+					AJAX.loadImageSlide++;
+					if(AJAX.loadImageSlide == kol)
+					{
+						var current = 0,
+						$preview = $('#preview'),
+						$carouselEl = $('#carousel'),
+						$carouselItems = $carouselEl.children(),
+						carousel = $carouselEl.elastislide(
+							{
+								current: current,
+								minItems: 2,
+								onClick: function (el, pos, evt)
+								{
+
+									changeImage(el, pos);
+									evt.preventDefault();
+
+								},
+								onReady: function ()
+								{
+
+									changeImage($carouselItems.eq(current), current);
+
+								}
+							});
+
+						function changeImage(el, pos)
+						{
+
+							$preview.attr('src', el.data('preview'));
+							$carouselItems.removeClass('current-img');
+							el.addClass('current-img');
+							carousel.setCurrent(pos);
+
+						}
+					}
 				},
 			});
 	},
@@ -185,7 +223,7 @@ var AJAX =
 				},
 			});
 	},
-	
+
 	stena: function (d)
 	{
 		jQuery.ajax(
@@ -202,14 +240,18 @@ var AJAX =
 				{
 					data = JSON.parse(data);
 					console.log(data);
-					VK.api("photos.saveWallPhoto", {user_id: player.uid, group_id: player.uid, photo: data.photo, server: data.server, hash: data.hash}, function(dat){
-						console.log(dat);
-						VK.api("wall.post", {owner_id: player.uid, friends_only: 0, message: "Я прошел уровень " + (player.level-1)+ ", и вот что у меня получилось собрать :) Попробуй и ты!!!\n https://vk.com/app5314962", attachments: "photo" + dat.response[0].owner_id + "_" + dat.response[0].id});
-					});
+					VK.api("photos.saveWallPhoto",
+						{
+							user_id: player.uid, group_id: player.uid, photo: data.photo, server: data.server, hash: data.hash
+						}, function(dat)
+						{
+							console.log(dat);
+							VK.api("wall.post", {owner_id: player.uid, friends_only: 0, message: "Я прошел уровень " + (player.level-1)+ ", и вот что у меня получилось собрать :) Попробуй и ты!!!\n https://vk.com/app5314962", attachments: "photo" + dat.response[0].owner_id + "_" + dat.response[0].id});
+						});
 				},
 			});
 	},
-	
+
 	//Платеж
 	platezh: function (id)
 	{
