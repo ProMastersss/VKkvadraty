@@ -398,6 +398,8 @@ function moveAnimKvadraty(kv1, kv2)
 			// За прохождение уровня монеты
 			player.money += 150;
 			player.textMoney.setText(player.money);
+			// Активность друзей в ВК
+			VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
 			player.level++;
 
 			if (buttonFullScreen.fullScreen)
@@ -422,9 +424,6 @@ function moveAnimKvadraty(kv1, kv2)
 			player.money += 50;
 			player.textMoney.setText(player.money);
 		}
-
-		// Активность друзей в ВК
-		VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level});
 
 		// Сохранение данных
 		AJAX.saveData(player);
