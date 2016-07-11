@@ -223,12 +223,19 @@ function actionButtonReiting()
 
 		if (textGroup.visibleStroki > 0)
 		{
+			if (player.sound)
+			{
+				var click = game.add.audio("click");
+				click.play();
+			}
 			textGroup.y += 100;
 			textGroup.children[textGroup.visibleStroki - 1].visible = true;
-			textGroup.children[textGroup.visibleStroki + kolStrok - 1].visible = false;
+			textGroup.children[textGroup.visibleStroki - 1 + kolStrok].visible = false;
 			textGroupFIO.y += 100;
 			textGroupFIO.children[textGroup.visibleStroki - 1].visible = true;
-			textGroupFIO.children[textGroup.visibleStroki + kolStrok - 1].visible = false;
+			textGroupFIO.children[textGroup.visibleStroki - 1 + kolStrok*2].visible = false;
+			textGroupFIO.children[textGroup.visibleStroki].visible = true;
+			textGroupFIO.children[textGroup.visibleStroki + kolStrok*2].visible = false;
 			textGroup.visibleStroki--;
 		}
 	}
@@ -239,13 +246,20 @@ function actionButtonReiting()
 
 		if (textGroup.visibleStroki + kolStrok - 1 < textGroup.vsegoStrok - 1)
 		{
+			if (player.sound)
+			{
+				var click = game.add.audio("click");
+				click.play();
+			}
 			// < всего - 1
 			textGroup.y -= 100;
 			textGroup.children[textGroup.visibleStroki].visible = false;
 			textGroup.children[textGroup.visibleStroki + kolStrok].visible = true;
 			textGroupFIO.y -= 100;
 			textGroupFIO.children[textGroup.visibleStroki].visible = false;
-			textGroupFIO.children[textGroup.visibleStroki + kolStrok].visible = true;
+			textGroupFIO.children[textGroup.visibleStroki + kolStrok*2].visible = true;
+			textGroupFIO.children[textGroup.visibleStroki+1].visible = false;
+			textGroupFIO.children[textGroup.visibleStroki + kolStrok*2+1].visible = true;
 			textGroup.visibleStroki++;
 		}
 	}
@@ -325,9 +339,9 @@ function actionSoundClick()
 {
 	player.sound = !player.sound;
 	if(player.sound)
-		buttonSound.loadTexture("sound");
+	buttonSound.loadTexture("sound");
 	else
-		buttonSound.loadTexture("notsound");
+	buttonSound.loadTexture("notsound");
 }
 
 // Клик по кнопке "Назад", вернуть на предыдущий экран
@@ -406,7 +420,7 @@ function upLevels()
 
 		player.money -= 50;
 		player.textMoney.setText(player.money);
-		
+
 		// Сохранение данных
 		AJAX.saveData(player);
 
