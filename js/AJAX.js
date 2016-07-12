@@ -182,7 +182,6 @@ var AJAX =
 						}, function(data)
 						{
 							textGroup.visibleStroki = 0;
-							console.log(data.response);
 							var loader = new Phaser.Loader(game);
 							loader.crossOrigin = 'anonymous';
 							loader.onLoadComplete.add(function()
@@ -206,8 +205,6 @@ var AJAX =
 											textGroupFIO.children[i*2+1].visible = false;
 										}
 									}
-									console.log(textGroup.children);
-									console.log(textGroupFIO.children);
 									textGroup.position.set(350, 350);
 									textGroupFIO.position.set(350, 350);
 									textGroup.vsegoStrok = p;
@@ -247,13 +244,11 @@ var AJAX =
 				success: function (data, textStatus, jqXHR)
 				{
 					data = JSON.parse(data);
-					console.log(data);
 					VK.api("photos.saveWallPhoto",
 						{
 							user_id: player.uid, group_id: player.uid, photo: data.photo, server: data.server, hash: data.hash
 						}, function(dat)
 						{
-							console.log(dat);
 							VK.api("wall.post", {owner_id: player.uid, friends_only: 0, message: "Я прошел уровень " + (player.level-1)+ ", и вот что у меня получилось собрать :) Попробуй и ты!!!\n https://vk.com/app5314962", attachments: "photo" + dat.response[0].owner_id + "_" + dat.response[0].id});
 						});
 				},
