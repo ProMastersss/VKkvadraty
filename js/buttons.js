@@ -1,7 +1,21 @@
 // Нажатие по подсказке "Время"
 function actionHelpTime()
 {
-	if(player.money - 500 >= 0)
+	var stoimost = 0;
+	if(player.level >= 1)
+	{
+		stoimost = 500;
+		if(player.level >= 200)
+		{
+			stoimost = 750;
+			if(player.level >= 500)
+			{
+				stoimost = 1000;
+			}
+		}
+	}
+
+	if(player.money - stoimost >= 0)
 	{
 		if (player.sound)
 		{
@@ -14,7 +28,7 @@ function actionHelpTime()
 		playGroup.audioTik.stop();
 
 		playGroup.timeLevel += 60;
-		player.money -= 500;
+		player.money -= stoimost;
 		player.textMoney.setText(player.money);
 
 		// Сохранение данных
@@ -25,7 +39,33 @@ function actionHelpTime()
 // Нажатие по подсказке "Переместить"
 function actionHelpMove()
 {
-	if(player.money - 400 >= 0)
+	var stoimost = 0;
+	if(player.level >= 1)
+	{
+		stoimost = 400;
+		if(player.level >= 100)
+		{
+			stoimost = 500;
+			if(player.level >= 200)
+			{
+				stoimost = 600;
+				if(player.level >= 300)
+				{
+					stoimost = 700;
+					if(player.level >= 400)
+					{
+						stoimost = 800;
+						if(player.level >= 500)
+						{
+							stoimost = 1000;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if(player.money - stoimost >= 0)
 	{
 		if (player.sound)
 		{
@@ -50,7 +90,7 @@ function actionHelpMove()
 
 		moveAnimKvadraty(kv1, kv2);
 
-		player.money -= 400;
+		player.money -= stoimost;
 		player.textMoney.setText(player.money);
 
 		// Сохранение данных
@@ -61,7 +101,49 @@ function actionHelpMove()
 // Нажатие по подсказке "Показать"
 function actionHelpShow()
 {
-	if(player.money - 200 >= 0)
+	var stoimost = 0;
+	if(player.level >= 1)
+	{
+		stoimost = 200;
+		if(player.level >= 100)
+		{
+			stoimost = 400;
+			if(player.level >= 200)
+			{
+				stoimost = 600;
+				if(player.level >= 300)
+				{
+					stoimost = 800;
+					if(player.level >= 400)
+					{
+						stoimost = 1000;
+						if(player.level >= 500)
+						{
+							stoimost = 1500;
+							if(player.level >= 600)
+							{
+								stoimost = 2000;
+								if(player.level >= 700)
+								{
+									stoimost = 3000;
+									if(player.level >= 800)
+									{
+										stoimost = 4000;
+										if(player.level >= 900)
+										{
+											stoimost = 5000;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if(player.money - stoimost >= 0)
 	{
 		if (player.sound)
 		{
@@ -77,7 +159,7 @@ function actionHelpShow()
 				playGroup.removeChild(succes);
 			});
 
-		player.money -= 200;
+		player.money -= stoimost;
 		player.textMoney.setText(player.money);
 		// Сохранение данных
 		AJAX.saveData(player);
@@ -232,10 +314,10 @@ function actionButtonReiting()
 			textGroup.children[textGroup.visibleStroki - 1].visible = true;
 			textGroup.children[textGroup.visibleStroki - 1 + kolStrok].visible = false;
 			textGroupFIO.y += 100;
-			textGroupFIO.children[textGroup.visibleStroki - 1].visible = true;
-			textGroupFIO.children[textGroup.visibleStroki - 1 + kolStrok*2].visible = false;
-			textGroupFIO.children[textGroup.visibleStroki].visible = true;
-			textGroupFIO.children[textGroup.visibleStroki + kolStrok*2].visible = false;
+			textGroupFIO.children[textGroup.visibleStroki*2 - 2].visible = true;
+			textGroupFIO.children[textGroup.visibleStroki*2 + kolStrok*2 - 2].visible = false;
+			textGroupFIO.children[textGroup.visibleStroki*2-1].visible = true;
+			textGroupFIO.children[textGroup.visibleStroki*2 + kolStrok*2-1].visible = false;
 			textGroup.visibleStroki--;
 		}
 	}
@@ -256,10 +338,10 @@ function actionButtonReiting()
 			textGroup.children[textGroup.visibleStroki].visible = false;
 			textGroup.children[textGroup.visibleStroki + kolStrok].visible = true;
 			textGroupFIO.y -= 100;
-			textGroupFIO.children[textGroup.visibleStroki].visible = false;
-			textGroupFIO.children[textGroup.visibleStroki + kolStrok*2].visible = true;
-			textGroupFIO.children[textGroup.visibleStroki+1].visible = false;
-			textGroupFIO.children[textGroup.visibleStroki + kolStrok*2+1].visible = true;
+			textGroupFIO.children[textGroup.visibleStroki*2].visible = false;
+			textGroupFIO.children[textGroup.visibleStroki*2 + kolStrok*2].visible = true;
+			textGroupFIO.children[textGroup.visibleStroki*2+1].visible = false;
+			textGroupFIO.children[textGroup.visibleStroki*2 + kolStrok*2+1].visible = true;
 			textGroup.visibleStroki++;
 		}
 	}
@@ -532,7 +614,21 @@ function tiptoolHide(group)
 
 function actionHelpTimeOver()
 {
-	tiptoolShow(this.groupTipTool, "Добавить время\nСтоимость: 500", "tiptool", 30, 35);
+	var stoimost = 0;
+	if(player.level >= 1)
+	{
+		stoimost = 500;
+		if(player.level >= 200)
+		{
+			stoimost = 750;
+			if(player.level >= 500)
+			{
+				stoimost = 1000;
+			}
+		}
+	}
+
+	tiptoolShow(this.groupTipTool, "Добавить время\nСтоимость: " + stoimost, "tiptool", 30, 35);
 }
 
 function actionHelpTimeOut()
@@ -542,7 +638,32 @@ function actionHelpTimeOut()
 
 function actionHelpMoveOver()
 {
-	tiptoolShow(this.groupTipTool, "Переместить\nслучайный пазл\nСтоимость: 400", "tiptool", 30, 35);
+	var stoimost = 0;
+	if(player.level >= 1)
+	{
+		stoimost = 400;
+		if(player.level >= 100)
+		{
+			stoimost = 500;
+			if(player.level >= 200)
+			{
+				stoimost = 600;
+				if(player.level >= 300)
+				{
+					stoimost = 700;
+					if(player.level >= 400)
+					{
+						stoimost = 800;
+						if(player.level >= 500)
+						{
+							stoimost = 1000;
+						}
+					}
+				}
+			}
+		}
+	}
+	tiptoolShow(this.groupTipTool, "Переместить\nслучайный пазл\nСтоимость: " + stoimost, "tiptool", 30, 35);
 }
 
 function actionHelpMoveOut()
@@ -552,7 +673,48 @@ function actionHelpMoveOut()
 
 function actionHelpShowOver()
 {
-	tiptoolShow(this.groupTipTool, "Показать готовую\nкартинку\nСтоимость: 200", "tiptool", 30, 35);
+	var stoimost = 0;
+	if(player.level >= 1)
+	{
+		stoimost = 200;
+		if(player.level >= 100)
+		{
+			stoimost = 400;
+			if(player.level >= 200)
+			{
+				stoimost = 600;
+				if(player.level >= 300)
+				{
+					stoimost = 800;
+					if(player.level >= 400)
+					{
+						stoimost = 1000;
+						if(player.level >= 500)
+						{
+							stoimost = 1500;
+							if(player.level >= 600)
+							{
+								stoimost = 2000;
+								if(player.level >= 700)
+								{
+									stoimost = 3000;
+									if(player.level >= 800)
+									{
+										stoimost = 4000;
+										if(player.level >= 900)
+										{
+											stoimost = 5000;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	tiptoolShow(this.groupTipTool, "Показать готовую\nкартинку\nСтоимость: " + stoimost, "tiptool", 30, 35);
 }
 
 function actionHelpShowOut()
@@ -562,7 +724,28 @@ function actionHelpShowOut()
 
 function actionButtonProgressOver()
 {
-	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры\nСтоимость: 1000", "tiptoolProgress", 50, 20);
+	var stoimost = 0;
+			if(player.level >= 1)
+			{
+				stoimost = 1000;
+				if(player.level >= 100)
+				{
+					stoimost = 1200;
+					if(player.level >= 200)
+					{
+						stoimost = 1500;
+						if(player.level >= 500)
+						{
+							stoimost = 2000;
+							if(player.level >= 800)
+							{
+								stoimost = 3000;
+							}
+						}
+					}
+				}
+			}
+	tiptoolShow(this.groupTipTool, "Показать\nпрогресс игры\nСтоимость: " + stoimost, "tiptoolProgress", 50, 20);
 }
 
 function actionButtonProgressOut()

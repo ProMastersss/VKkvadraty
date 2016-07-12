@@ -1,5 +1,5 @@
 /* General Demo Style */
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 
 html { height: 100%; }
 
@@ -33,7 +33,7 @@ body {
     background: rgb(91, 219, 246);
     font-weight: 300;
     font-size: 15px;
-    color: #333;
+    color: #000;
     -webkit-font-smoothing: antialiased;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -41,7 +41,7 @@ body {
 }
 
 a {
-	color: #555;
+	color: #000;
 	text-decoration: none;
 }
 

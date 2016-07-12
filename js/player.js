@@ -146,7 +146,28 @@ function Player()
 
 		function showProgressLevel()
 		{
-			if(player.money - 1000 >= 0)
+			var stoimost = 0;
+			if(player.level >= 1)
+			{
+				stoimost = 1000;
+				if(player.level >= 100)
+				{
+					stoimost = 1200;
+					if(player.level >= 200)
+					{
+						stoimost = 1500;
+						if(player.level >= 500)
+						{
+							stoimost = 2000;
+							if(player.level >= 800)
+							{
+								stoimost = 3000;
+							}
+						}
+					}
+				}
+			}
+			if(player.money - stoimost >= 0)
 			{
 				if (player.sound)
 				{
@@ -157,7 +178,7 @@ function Player()
 				tiptoolHide(this.groupTipTool);
 				player.progressLevelBar.visible = true;
 
-				player.money -= 1000;
+				player.money -= stoimost;
 				player.textMoney.setText(player.money);
 				// Сохранение данных
 				AJAX.saveData(player);
@@ -471,8 +492,11 @@ function moveAnimKvadraty(kv1, kv2)
 			player.buttonBack.visible = true;
 
 			//Добавляем кнопку далее
-			knopkaDalee = game.add.button(1360, 450, "nextLevel", daleePlay, this, 1,0,2,0);
-			playGroup.add(knopkaDalee);
+			if(player.level <= 1000)
+			{
+				knopkaDalee = game.add.button(1360, 450, "nextLevel", daleePlay, this, 1,0,2,0);
+				playGroup.add(knopkaDalee);
+			}
 
 			function daleePlay()
 			{
