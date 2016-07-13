@@ -132,6 +132,7 @@
 		<link href="css/footer.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript" src="js/jquery.tipTip.js">
 		</script>
+		<script type="text/javascript" src="//vk.com/js/api/openapi.js?122"></script>
 	</head>
 	<body>
 		<div id="loadGame" style="max-width: 810px; max-height: 717px; height: 717px; background-image: url(/img/nachaloZagruzki.png);">
@@ -158,15 +159,27 @@
 				</center>
 			</div>
 		</div>
-		
+
 		<div id="parent_popup_click2" class="parent_popup_click">
 			<div class="popup_click">
 				<h2>
 					Конкурсы!!!
 				</h2>
 				<center>
-					У нас скоро будет конкурс! Будем разыгрывать монеты и призы! Подписывайтесь и следите за новостями! Подробности в нашей группе <b><em><a href="https://new.vk.com/naturalrelax">Пазл: Природный калейдоскоп</a></em></b>.<br><br>
-					Если у Вас отображается или работает что-то не так, то нажмите комбинацию клавиш <b><em>Ctrl+F5</em></b> для обновления игры). 
+					У нас скоро будет конкурс! Будем разыгрывать монеты и призы! Подписывайтесь и следите за новостями! Подробности в нашей группе
+					<b>
+						<em>
+							<a href="https://new.vk.com/naturalrelax">
+								Пазл: Природный калейдоскоп
+							</a>
+						</em>
+					</b>.<br><br>
+					Если у Вас отображается или работает что-то не так, то нажмите комбинацию клавиш
+					<b>
+						<em>
+							Ctrl+F5
+						</em>
+					</b> для обновления игры).
 				</center>
 				<a class="close" title="Закрыть" onclick="document.getElementById('parent_popup_click2').style.display='none';">
 					X
@@ -193,6 +206,15 @@
 
 			</div>
 		</div>
+		
+		<div style="overflow-y:auto; height: 280px" >
+		<div id="vk_comments" style="margin-top: 10px;">
+		</div>
+		</div>
+		<script type="text/javascript">
+			VK.init({apiId: 5314962, onlyWidgets: true});
+			VK.Widgets.Comments("vk_comments", {limit: 10, width: "792", attach: "*"});
+		</script>
 
 		<!-- Загрузка -->
 		<script src="//vk.com/js/api/xd_connection.js?2" type="text/javascript">
@@ -617,10 +639,10 @@
 
 					// Скрыть экран загрузки
 					$('#loadGame').slideUp("slow");
-					
+
 					//Отобразить диалог
 					document.getElementById('parent_popup_click2').style.display='block';
-					
+
 					//Обработка нажатия escape
 					game.input.keyboard.addCallbacks(this, function()
 						{
@@ -629,6 +651,14 @@
 								game.scale.stopFullScreen();
 								buttonFullScreen.loadTexture("fullScreen", 0);
 							}
+						});
+
+					VK.api("secure.addAppEvent",
+						{
+							user_id: player.uid, activity_id: 1, value:player.level
+						}, function(data)
+						{
+							console.log(data);
 						});
 				}
 
