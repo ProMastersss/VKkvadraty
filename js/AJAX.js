@@ -4,23 +4,34 @@
 var AJAX =
 {
 	loadImageSlide: 0,
-	auth: function(){
+	auth: function()
+	{
 		jQuery.ajax(
 			{
 				url: 'https://game-vk.tk/auth.php',
 				async: true,
 				type: "POST",
-				data:
-				{
-					token: player.access_token
-				},
 				success: function (data)
 				{
 					console.log(data);
+					/*data = JSON.parse(data);
+					jQuery.ajax(
+					{
+					url: 'https://game-vk.tk/aktivnostFriends.php',
+					async: true,
+					type: "POST",
+					data:
+					{
+					token: data.access_token
+					},
+					success: function (d){
+					console.log(d);
+					}
+					});*/
 				},
 			});
 	},
-	
+
 	getKoordinaty: function (player, lv)
 	{
 		jQuery.ajax(
@@ -209,12 +220,14 @@ var AJAX =
 										var img = game.add.sprite(0, 100 * i, "img" + i);
 										img.scale.set(0.9, 0.9);
 										textGroupFIO.add(img);
-										if(i % 2 == 0){
+										if(i % 2 == 0)
+										{
 											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#000", stroke: "#FFD300", strokeThickness: 10 }));
-										}else{
+										}else
+										{
 											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#000", stroke: "#FFD300", strokeThickness: 10, backgroundColor: "#000" }));
 										}
-										
+
 										if (i > 7)
 										{
 											textGroup.children[i].visible = false;

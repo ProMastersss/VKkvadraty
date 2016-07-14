@@ -248,13 +248,11 @@
 							}
 
 							// получаем viewer_id из полученных переменных
-							console.log(flashVars);
 							var viewer_id = flashVars['viewer_id'];
 							var priglasil = flashVars['user_id'] // Ид пригласившего
 							player = new Player();
 							AJAX.getDataUser(player, viewer_id, priglasil);
 							player.uid = viewer_id;
-							player.access_token = flashVars['access_token'];
 							$('#parent_popup_click1 > div.popup_click > #text').html('<br>Отправьте приглашение в игру друзьями или поделитесь с ними вот этой ссылкой: <b><em>https://vk.com/app5314962_' + player.uid + '</em></b><br />и получите от нас бонус!!! ;)<br>');
 
 						}, function ()
@@ -656,14 +654,7 @@
 							}
 						});
 
-					//AJAX.auth();
-					VK.api("secure.addAppEvent",
-						{
-							user_id: player.uid, activity_id: 1, value:player.level, access_token: player.access_token
-						}, function(data)
-						{
-							console.log(data);
-						});
+					AJAX.auth();
 				}
 
 				//Функция обновления (каждый шаг)
