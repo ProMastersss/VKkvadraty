@@ -652,14 +652,16 @@
 								buttonFullScreen.loadTexture("fullScreen", 0);
 							}
 						});
-
-					VK.api("secure.addAppEvent",
+					VK.api("secure.addAppEvent", function(d){
+						VK.api("secure.addAppEvent",
 						{
-							user_id: player.uid, activity_id: 1, value:player.level
+							user_id: player.uid, activity_id: 1, value:player.level, timestamp: d.response
 						}, function(data)
 						{
 							console.log(data);
 						});
+					});
+					
 				}
 
 				//Функция обновления (каждый шаг)
