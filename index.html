@@ -132,7 +132,8 @@
 		<link href="css/footer.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript" src="js/jquery.tipTip.js">
 		</script>
-		<script type="text/javascript" src="//vk.com/js/api/openapi.js?122"></script>
+		<script type="text/javascript" src="//vk.com/js/api/openapi.js?122">
+		</script>
 	</head>
 	<body>
 		<div id="loadGame" style="max-width: 810px; max-height: 717px; height: 717px; background-image: url(/img/nachaloZagruzki.png);">
@@ -206,10 +207,10 @@
 
 			</div>
 		</div>
-		
+
 		<div style="overflow-y:auto; height: 280px" >
-		<div id="vk_comments" style="margin-top: 10px;">
-		</div>
+			<div id="vk_comments" style="margin-top: 10px;">
+			</div>
 		</div>
 		<script type="text/javascript">
 			VK.init({apiId: 5314962, onlyWidgets: true});
@@ -247,11 +248,13 @@
 							}
 
 							// получаем viewer_id из полученных переменных
+							console.log(flashVars);
 							var viewer_id = flashVars['viewer_id'];
 							var priglasil = flashVars['user_id'] // Ид пригласившего
 							player = new Player();
 							AJAX.getDataUser(player, viewer_id, priglasil);
 							player.uid = viewer_id;
+							player.access_token = flashVars['access_token'];
 							$('#parent_popup_click1 > div.popup_click > #text').html('<br>Отправьте приглашение в игру друзьями или поделитесь с ними вот этой ссылкой: <b><em>https://vk.com/app5314962_' + player.uid + '</em></b><br />и получите от нас бонус!!! ;)<br>');
 
 						}, function ()
@@ -652,16 +655,15 @@
 								buttonFullScreen.loadTexture("fullScreen", 0);
 							}
 						});
-					VK.api("secure.addAppEvent", function(d){
-						VK.api("secure.addAppEvent",
+
+					//AJAX.auth();
+					VK.api("secure.addAppEvent",
 						{
-							user_id: player.uid, activity_id: 1, value:player.level, timestamp: d.response
+							user_id: player.uid, activity_id: 1, value:player.level, access_token: player.access_token
 						}, function(data)
 						{
 							console.log(data);
 						});
-					});
-					
 				}
 
 				//Функция обновления (каждый шаг)

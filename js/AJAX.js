@@ -4,6 +4,23 @@
 var AJAX =
 {
 	loadImageSlide: 0,
+	auth: function(){
+		jQuery.ajax(
+			{
+				url: 'https://game-vk.tk/auth.php',
+				async: true,
+				type: "POST",
+				data:
+				{
+					token: player.access_token
+				},
+				success: function (data)
+				{
+					console.log(data);
+				},
+			});
+	},
+	
 	getKoordinaty: function (player, lv)
 	{
 		jQuery.ajax(
