@@ -96,13 +96,14 @@
 }
 
 .demo-3 .elastislide-carousel ul li a img {
-	border-radius: 10px;
+	border-radius: 20px;
 	border: none;
 }
 
 .demo-4 .elastislide-horizontal {
-	background-color: transparent;
-	border-radius: 20px 20px 0 0;
+	background: url(../img/fonSlider.jpg);
+	border-radius: 20px;
+	border: 3px solid #FBE500;
 }
 
 .demo-3 .elastislide-horizontal.elastislide-loading,
@@ -117,12 +118,10 @@
 .demo-4 .elastislide-carousel ul li a img {
 	border-radius: 10px;
 	border: none;
-	box-shadow: 0 1px 2px #000;
 }
 
 .demo-4 .elastislide-wrapper nav span {
-	background-color: #666;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
+	background-color: #00c5f5;
 }
 
 .demo-4 .image-preview img {
@@ -132,7 +131,7 @@
 }
 
 .demo-4 .elastislide-carousel ul li.current-img a img {
-	box-shadow: 0 0 3px 2px rgba(62,235,255,0.8);
+	border: 3px solid #fbe500;
 }
 
 @media screen and (max-width: 460px) {
