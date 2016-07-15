@@ -11,23 +11,12 @@ var AJAX =
 				url: 'https://game-vk.tk/auth.php',
 				async: true,
 				type: "POST",
+				data:{
+					id: player.uid, level: player.level
+				}
 				success: function (data)
 				{
 					console.log(data);
-					/*data = JSON.parse(data);
-					jQuery.ajax(
-					{
-					url: 'https://game-vk.tk/aktivnostFriends.php',
-					async: true,
-					type: "POST",
-					data:
-					{
-					token: data.access_token
-					},
-					success: function (d){
-					console.log(d);
-					}
-					});*/
 				},
 			});
 	},

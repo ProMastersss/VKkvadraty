@@ -421,9 +421,7 @@ function moveAnimKvadraty(kv1, kv2)
 			player.textMoney.setText(player.money);
 			player.level++;
 			// Активность друзей в ВК
-			VK.api("secure.addAppEvent", {user_id: player.uid, activity_id: 1, value:player.level}, function(data){
-				console.log(data);
-			});
+			AJAX.auth();
 			
 			if (buttonFullScreen.fullScreen)
 			{
