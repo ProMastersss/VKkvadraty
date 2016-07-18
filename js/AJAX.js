@@ -201,6 +201,7 @@ var AJAX =
 							textGroup.visibleStroki = 0;
 							var loader = new Phaser.Loader(game);
 							loader.crossOrigin = 'anonymous';
+							loader.headers = {"json":"application/json","xml":"application/xml", "Access-Control-Allow-Origin":"*"};
 							loader.onLoadComplete.add(function()
 								{
 									for (var i = 0; i < p; i++)
@@ -209,13 +210,7 @@ var AJAX =
 										var img = game.add.sprite(0, 100 * i, "img" + i);
 										img.scale.set(0.9, 0.9);
 										textGroupFIO.add(img);
-										if(i % 2 == 0)
-										{
-											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#fff"}));
-										}else
-										{
-											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#fff", backgroundColor: "#000" }));
-										}
+										textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#fff"}));
 
 										if (i > 7)
 										{

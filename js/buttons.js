@@ -256,7 +256,7 @@ function actionButtonReiting()
 	reitingGroup = game.add.group();
 	
 	reitingGroup.add(game.add.sprite(226, 204, "dialogReyting"));
-	reitingGroup.add(game.add.text(740, 230, "Рейтинг", { font: "bold 100px EtoMoiFont", fill: "#fff"}));
+	reitingGroup.add(game.add.text(550, 230, "Рейтинг топ 50", { font: "bold 100px EtoMoiFont", fill: "#fff"}));
 
 	// Добавление строк в рейтинг
 	var textGroup = game.add.group();

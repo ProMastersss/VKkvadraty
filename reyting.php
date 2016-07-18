@@ -13,7 +13,7 @@ $k             = 1; //Счетчик позиций
 $user_position = 0;
 while(($row = mysql_fetch_assoc($res)) && $k <= 50)
 {
-	if($row['id'] == 31254554/*$_POST['id']*/)
+	if($row['id'] == $_POST['id'])
 		$user_position = $k;
 	$mas[$k]['id'] = $row['id'];
 	$mas[$k]['level'] = $row['level'];
