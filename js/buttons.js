@@ -254,14 +254,14 @@ function actionButtonReiting()
 	mainDisplayGroup.visible = false;
 
 	reitingGroup = game.add.group();
-
-	reitingGroup.add(game.add.sprite(0, 0, "dialog"));
-	reitingGroup.add(game.add.text(720, 150, "Рейтинг", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10 }));
+	
+	reitingGroup.add(game.add.sprite(226, 204, "dialogReyting"));
+	reitingGroup.add(game.add.text(740, 230, "Рейтинг", { font: "bold 100px EtoMoiFont", fill: "#fff"}));
 
 	// Добавление строк в рейтинг
 	var textGroup = game.add.group();
 	var textGroupFIO = game.add.group();
-	var textLoading = game.add.text(650, 630, "Загрузка...", { font: "bold 120px EtoMoiFont", fill: "#FFD300", stroke: "#000000", strokeThickness: 10});
+	var textLoading = game.add.text(650, 630, "Загрузка...", { font: "bold 120px EtoMoiFont", fill: "#fff"});
 	reitingGroup.add(textLoading);
 
 	// получаем рейтинг

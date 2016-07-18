@@ -205,16 +205,16 @@ var AJAX =
 								{
 									for (var i = 0; i < p; i++)
 									{
-										textGroupFIO.add(game.add.text(110, 100 * i, (i+1)+"."+data.response[i]['last_name']+" "+data.response[i]['first_name'][0]+".", { font: "bold 70px EtoMoiFont", fill: "#000", stroke: "#FFD300", strokeThickness: 10 }));
+										textGroupFIO.add(game.add.text(110, 100 * i, (i+1)+"."+data.response[i]['last_name']+" "+data.response[i]['first_name'][0]+".", { font: "bold 70px EtoMoiFont", fill: "#fff"}));
 										var img = game.add.sprite(0, 100 * i, "img" + i);
 										img.scale.set(0.9, 0.9);
 										textGroupFIO.add(img);
 										if(i % 2 == 0)
 										{
-											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#000", stroke: "#FFD300", strokeThickness: 10 }));
+											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#fff"}));
 										}else
 										{
-											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#000", stroke: "#FFD300", strokeThickness: 10, backgroundColor: "#000" }));
+											textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#fff", backgroundColor: "#000" }));
 										}
 
 										if (i > 7)
@@ -231,8 +231,8 @@ var AJAX =
 									reitingGroup.add(textGroupFIO);
 
 									// Результат игрока
-									reitingGroup.add(game.add.text(350, 1150, "Ваша позиция: "+data_serv[p+1]['position']+".", { font: "bold 60px EtoMoiFont", fill: "#f00", stroke: "#FFD300", strokeThickness: 10 }));
-									reitingGroup.add(game.add.text(1050, 1150, "Уровень "+player.level+"\nМонет "+player.money, { font: "bold 40px EtoMoiFont", fill: "#000", stroke: "#FFD300", strokeThickness: 10, backgroundColor: "#f00"}));
+									reitingGroup.add(game.add.text(350, 1150, "Ваша позиция: "+data_serv[p+1]['position']+".", { font: "bold 60px EtoMoiFont", fill: "#f00"}));
+									reitingGroup.add(game.add.text(1050, 1150, "Уровень "+player.level+"\nМонет "+player.money, { font: "bold 40px EtoMoiFont", fill: "#f00"}));
 
 									textLoading.destroy();
 								}, this);
