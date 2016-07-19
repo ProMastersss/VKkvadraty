@@ -207,7 +207,10 @@ var AJAX =
 									for (var i = 0; i < p; i++)
 									{
 										textGroupFIO.add(game.add.text(110, 100 * i, (i+1)+"."+data.response[i]['last_name']+" "+data.response[i]['first_name'][0]+".", { font: "bold 70px EtoMoiFont", fill: "#fff"}));
-										var img = game.add.sprite(0, 100 * i, "img" + i);
+										
+										if(loader.cache.getImage("img" + i, true).key != "__missing")
+											var img = game.add.sprite(0, 100 * i, "img" + i);
+										else var img = game.add.sprite(0, 100 * i, "notimage");
 										img.scale.set(0.9, 0.9);
 										textGroupFIO.add(img);
 										textGroup.add(game.add.text(700, 100 * i, "Уровень "+data_serv[i+1]['level']+"\n\tМонет "+data_serv[i+1]['money'], { font: "bold 34px EtoMoiFont", fill: "#fff"}));
@@ -236,6 +239,7 @@ var AJAX =
 							{
 								loader.image("img" + i, data.response[i]['photo_100']);
 							}
+							loader.image("notimage", "../img/notimage.png");
 							loader.start();
 
 						});
