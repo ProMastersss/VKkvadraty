@@ -172,13 +172,13 @@
 								Пазл: Природный калейдоскоп
 							</a>
 						</em>
-					</b>.<br><br>
+					</b>.<!--<br><br>
 					Если у Вас отображается или работает что-то не так, то нажмите комбинацию клавиш
 					<b>
 						<em>
 							Ctrl+F5
 						</em>
-					</b> для обновления игры).
+					</b> для обновления игры).-->
 				</center>
 				<a class="close" title="Закрыть" onclick="document.getElementById('parent_popup_click2').style.display='none';">
 					X
@@ -346,6 +346,7 @@
 					game.load.spritesheet("outFullScreen", "img/outFullScreen.png",254,212);
 
 					//Диалоговое окно
+					game.load.image("dialogPravila", "img/fonPravila.png");
 					game.load.image("dialog", "img/dialog.png");
 					game.load.image("dialogReyting", "img/fonReyting.png");
 					game.load.image("plus", "img/plus.png");
@@ -415,7 +416,7 @@
 
 					//Добавляем окно с правилами
 					rulesGroup = game.add.group();
-					rulesGroup.add(game.add.sprite(226, 204, "dialogReyting"));
+					rulesGroup.add(game.add.sprite(226, 204, "dialogPravila"));
 					rulesGroup.add(game.add.text(720, 230, "Правила", { font: "bold 120px EtoMoiFont", fill: "#fff"}));
 					var backRules = game.add.button(50, 1100, "back", actionBackClickRules, backRules, 1, 0, 2, 0);
 					rulesGroup.add(backRules);
