@@ -422,11 +422,6 @@ function moveAnimKvadraty(kv1, kv2)
 			player.level++;
 			// Активность друзей в ВК
 			AJAX.auth();
-			
-			if (buttonFullScreen.fullScreen)
-			{
-				actionFullScreen();
-			}
 
 			VK.api("photos.getWallUploadServer",
 				{
