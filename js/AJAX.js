@@ -267,7 +267,7 @@ var AJAX =
 							user_id: player.uid, group_id: player.uid, photo: data.photo, server: data.server, hash: data.hash
 						}, function(dat)
 						{
-							VK.api("wall.post", {owner_id: player.uid, friends_only: 0, message: "Я прошел уровень " + (player.level-1)+ ", и вот что у меня получилось собрать :) Попробуй и ты!!!\n https://vk.com/app5314962", attachments: "photo" + dat.response[0].owner_id + "_" + dat.response[0].id});
+							VK.api("wall.post", {owner_id: player.uid, friends_only: 0, message: "Я прошел(а) уровень " + (player.level-1)+ ", и вот что у меня получилось собрать :) Попробуй и ты!!!\n https://vk.com/app5314962", attachments: "photo" + dat.response[0].owner_id + "_" + dat.response[0].id});
 						});
 				},
 			});
