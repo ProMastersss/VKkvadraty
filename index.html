@@ -254,17 +254,22 @@
 						{
 							if (data.response)
 							{
+								var idFriend = '';
 								for(var i = 0; i < data.response.length; i++)
 								{
-									var idFriend = data.response[i];
-									VK.api('users.get',
+									if(i != data.response.length-1)
+										idFriend += data.response[i] + ', ';
+									else
+										idFriend += data.response[i];
+								}
+								VK.api('users.get',
 										{
 											user_ids: idFriend, fields: 'photo_100'
 										},function(data2)
 										{
-											AJAX.getDataFriends(data2.response[0]['id'], data2.response[0]['photo_100'], data.response.length);
+											for(var i = 0; i < data.response.length; i++)
+												AJAX.getDataFriends(data2.response[i]['id'], data2.response[i]['photo_100'], data.response.length);
 										});
-								}
 							}
 						});
 				},
