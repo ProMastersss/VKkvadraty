@@ -115,7 +115,16 @@ function Player()
 			var timer = game.time.events.loop(Phaser.Timer.SECOND, updateTimer, this);
 			playGroup.timer = timer;
 			playGroup.timer.timer.start();
-			playGroup.timeLevel = 5 * 60;
+			if(player.vybranLevel < 600)
+				playGroup.timeLevel = 5 * 60;
+			if(player.vybranLevel >= 600 && player.vybranLevel < 700)
+				playGroup.timeLevel = 6 * 60;
+			if(player.vybranLevel >= 700 && player.vybranLevel < 800)
+				playGroup.timeLevel = 7 * 60;
+			if(player.vybranLevel >= 800 && player.vybranLevel < 900)
+				playGroup.timeLevel = 8 * 60;
+			if(player.vybranLevel >= 900)
+				playGroup.timeLevel = 9 * 60;
 			playGroup.textTimer = game.add.text(600, -130, "5:00", { font: "bold 60px EtoMoiFont", fill: "#FFD300", stroke: '#000000', strokeThickness: 10 });
 			playGroup.add(playGroup.textTimer);
 		}

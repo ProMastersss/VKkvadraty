@@ -495,7 +495,7 @@ function upLevels()
 		}
 	}else
 	{
-		if(player.vybranLevel % 5 == 0) player.naVremya = true;
+		if(player.vybranLevel % 5 == 0 || player.vybranLevel >= 300) player.naVremya = true;
 		else player.naVremya = false;
 
 		player.secondClick = true;
